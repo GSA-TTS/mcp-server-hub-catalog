@@ -28,7 +28,7 @@ description: |
 metadata:
   categories: Health, Research, Government
   allow-multiple: "false"
-icon: https://www.cdc.gov/places/media/images/2024/10/CDCplaces_DFE.jpg
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cdc_places.png
 repoURL: https://github.com/GSA-TTS/cdc-places-mcp-server
 runtime: remote
 remoteConfig:

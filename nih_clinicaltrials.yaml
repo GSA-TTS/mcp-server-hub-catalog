@@ -28,7 +28,7 @@ description: |
 metadata:
   categories: Health, Research, Government
   allow-multiple: "false"
-icon: https://clinicaltrials.gov/favicon.ico
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_clinicaltrials.png
 repoURL: https://github.com/GSA-TTS/mcp-server-nih-clinicaltrials
 runtime: remote
 remoteConfig:
