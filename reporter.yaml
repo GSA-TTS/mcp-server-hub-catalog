@@ -3,3 +3,6 @@ entryKey: obot-reporter
 serverUserType: singleUser
 shortDescription: Access data from the NIH RePORTER API
 repoURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
