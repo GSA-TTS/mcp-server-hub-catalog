@@ -1,0 +1,8 @@
+name: nih_clinicaltrials
+entryKey: obot-clinicaltrials
+serverUserType: singleUser
+shortDescription: Access data from the NIH ClinicalTrials API
+repoURL: https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp
