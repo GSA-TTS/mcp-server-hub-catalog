@@ -1,0 +1,8 @@
+name: ncbi_eutils
+entryKey: obot-eutils
+serverUserType: singleUser
+shortDescription: Access data from the NCBI E-Utils API
+repoURL: https://ncbi-eutils-mcp-server.app.cloud.gov/mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://ncbi-eutils-mcp-server.app.cloud.gov/mcp
