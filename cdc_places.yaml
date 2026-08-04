@@ -1,8 +1,53 @@
-name: cdc_places
+name: CDC PLACES
 entryKey: obot-places
 serverUserType: singleUser
-shortDescription: Access data from the CDC PLACES API
-repoURL: https://cdc-places-mcp-server.app.cloud.gov/mcp
+shortDescription: Access local-level health and chronic disease data from the CDC PLACES dataset
+description: |
+
+  A Model Context Protocol (MCP) server for the CDC PLACES dataset, providing
+  model-based estimates for chronic disease risk factors, health outcomes, and
+  clinical preventive service use across US geographic areas.
+
+  ## Features
+  - **Look up health measures** for states, counties, census tracts, ZCTAs, and places
+  - **Compute summary statistics** across geographic areas (count, mean, min/Q1/median/Q3/max)
+  - **45 health measures** across outcomes, risk behaviors, health status, prevention, disability, and social needs
+  - **Multiple releases** (2020-2025 PLACES; 2016-2019 500 Cities)
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public CDC PLACES API. No API key or authentication is needed.
+
+  ## Examples
+  - "What are the diabetes rates in Los Angeles County for 2023?"
+  - "Show me obesity statistics across all counties in Texas"
+  - "Compare smoking rates between Wayne County, Michigan and Cook County, Illinois"
+  - "Get summary statistics for depression across all census tracts in Worcester County, Massachusetts"
+
+  > Estimates are model-based. Verify critical health data against official CDC sources.
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://www.cdc.gov/favicon.ico
+repoURL: https://github.com/GSA-TTS/cdc-places-mcp-server
 runtime: remote
 remoteConfig:
   fixedURL: https://cdc-places-mcp-server.app.cloud.gov/mcp
+toolPreview:
+  - name: get_cdc_places_data
+    description: Fetch health data for a specific measure, location, and time period.
+    params:
+      year: "Year of the data release (e.g. '2023', '2022')"
+      measureid: "Health measure identifier (e.g. CSMOKING, DIABETES, OBESITY)"
+      geo: "Geographic level: state, county, census, zcta, or places"
+      datavaluetypeid: "CrdPrv (crude prevalence) or AgeAdjPrv (age-adjusted prevalence)"
+      locationname: "Optional location name (e.g. 'Wayne' for Wayne County)"
+  - name: area_summary_stats
+    description: Calculate summary statistics (count, mean, min, Q1, median, Q3, max) across multiple geographic areas within a scope.
+    params:
+      geo_scope: "counties_in_state, tracts_in_county, or places_in_state"
+      state_code: "Two-letter state abbreviation (e.g. CA, MI)"
+      year: "Year of the data release"
+      measureid: "Health measure identifier"
+      datavaluetypeid: "CrdPrv or AgeAdjPrv"
+      county: "Optional county name (required for tracts_in_county scope)"
