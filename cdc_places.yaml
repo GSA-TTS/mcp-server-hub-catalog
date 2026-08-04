@@ -1,0 +1,8 @@
+name: cdc_places
+entryKey: obot-places
+serverUserType: singleUser
+shortDescription: Access data from the CDC PLACES API
+repoURL: https://cdc-places-mcp-server.app.cloud.gov/mcp
+runtime: remote
+remoteConfig:
+  fixedURL: https://cdc-places-mcp-server.app.cloud.gov/mcp
