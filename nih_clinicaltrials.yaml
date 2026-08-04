@@ -1,8 +1,71 @@
-name: nih_clinicaltrials
+name: NIH ClinicalTrials
 entryKey: obot-clinicaltrials
 serverUserType: singleUser
-shortDescription: Access data from the NIH ClinicalTrials API
-repoURL: https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp
+shortDescription: Search and analyze clinical study data from the ClinicalTrials.gov v2 API
+description: |
+
+  A Model Context Protocol (MCP) server for the ClinicalTrials.gov v2 API,
+  providing search, retrieval, and analysis of the NIH/NLM registry of 570,000+
+  clinical studies conducted around the world.
+
+  ## Features
+  - **Search studies** by condition, intervention, sponsor, location, phase, and study type
+  - **Retrieve full study records** by NCT ID (all 394 fields)
+  - **Interactive results table** for browsing matching studies
+  - **Field value distributions** (e.g. study counts by phase, status, or country)
+  - **Geographic analysis** classifying studies relative to a target country
+
+  ## What you'll need to connect
+  **No setup required** — the ClinicalTrials.gov API is public. No API key or authentication is needed.
+
+  ## Examples
+  - "Find recruiting Phase 2 and Phase 3 interventional studies for breast cancer"
+  - "Find placebo-controlled drug trials for type 2 diabetes that are currently recruiting"
+  - "Show me double-blind parallel-assignment prevention trials for cardiovascular disease"
+  - "How many recruiting diabetes trials are US-only?"
+  - "Analyze the country distribution of phase 3 oncology interventional trials"
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://clinicaltrials.gov/favicon.ico
+repoURL: https://github.com/GSA-TTS/mcp-server-nih-clinicaltrials
 runtime: remote
 remoteConfig:
   fixedURL: https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp
+toolPreview:
+  - name: clinicaltrials_get_study
+    description: Retrieve a single study record by NCT ID (all 394 fields available).
+    params:
+      nct_id: "NCT identifier, e.g. NCT00000102"
+      fields: "Optional specific StudyField values to return; omit for all fields"
+      format: "Response format: json or csv (default json)"
+      markup_format: "Text markup format: markdown or legacy (default markdown)"
+  - name: clinicaltrials_search_studies
+    description: Search studies by condition, intervention, sponsor, location, and more. Returns paginated results (19 essential fields by default).
+    params:
+      query_cond: "Condition or disease (e.g. diabetes)"
+      query_intr: "Intervention or treatment name"
+      query_spons: "Sponsor or collaborator name"
+      query_locn: "Location text or AREA syntax (e.g. AREA[LocationState]MA)"
+      agg_filter_phase: "Filter by phase (e.g. [PHASE2, PHASE3])"
+      filter_overall_status: "Recruitment status (e.g. [RECRUITING])"
+      page_size: "Results per page (1-1000, default 20)"
+      page_token: "Cursor from a previous response's nextPageToken"
+  - name: clinicaltrials_search_datatable
+    description: Same search interface as clinicaltrials_search_studies, but renders all matching results as an interactive, sortable, paginated table.
+    params:
+      query_cond: "Condition or disease"
+      query_intr: "Intervention or treatment name"
+      agg_filter_phase: "Filter by phase"
+      filter_overall_status: "Recruitment status filter"
+  - name: clinicaltrials_get_field_values
+    description: Get the distribution of values across all studies for one or more fields (e.g. counts per phase, per country, per status).
+    params:
+      fields: "StudyField values to get distributions for (works best with enumerable fields)"
+  - name: clinicaltrials_analyze_study_locations
+    description: Analyze the geographic distribution of study locations, classifying each study relative to a target country.
+    params:
+      query_cond: "Condition or disease to scope the analysis"
+      filter_overall_status: "Recruitment status filter"
+      target_country: "Reference country for classification (default United States)"

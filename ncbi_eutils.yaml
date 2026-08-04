@@ -1,8 +1,106 @@
-name: ncbi_eutils
+name: NCBI E-Utils
 entryKey: obot-eutils
 serverUserType: singleUser
-shortDescription: Access data from the NCBI E-Utils API
-repoURL: https://ncbi-eutils-mcp-server.app.cloud.gov/mcp
+shortDescription: Search NCBI biomedical databases (PubMed, Gene, Protein, and more) via the Entrez E-utilities
+description: |
+
+  A Model Context Protocol (MCP) server for the NCBI Entrez E-utilities, the
+  public programmatic interface to NCBI's interconnected biomedical databases
+  (PubMed, PMC, Gene, Protein, Nucleotide, and more).
+
+  ## Features
+  - **All nine core E-utilities** exposed as MCP tools (EInfo, ESearch, EPost, ESummary, EFetch, ELink, EGQuery, ESpell, ECitMatch)
+  - **Workflow helpers** for common agent tasks (search-then-summary, search-then-fetch, find-related)
+  - **Entrez History support** — pass UIDs directly or use webenv/query_key tokens
+  - **Structured + text output**, with optional raw upstream payloads
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NCBI E-utilities API. No API key or authentication is needed.
+
+  ## Examples
+  - "Search PubMed for recent reviews on CRISPR gene editing and summarize the top results"
+  - "Find the PubMed record for this citation and return its abstract"
+  - "Given a gene, find related protein records in NCBI"
+  - "How many results match 'long COVID' across all NCBI databases?"
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://www.ncbi.nlm.nih.gov/favicon.ico
+repoURL: https://github.com/GSA-TTS/mcp-server-ncbi-eutils
 runtime: remote
 remoteConfig:
   fixedURL: https://ncbi-eutils-mcp-server.app.cloud.gov/mcp
+toolPreview:
+  # Core tools
+  - name: eutils_info
+    description: (EInfo) Discover databases, fields, links, and database metadata.
+    params:
+      db: "Optional database name; omit to list all databases"
+      version: "Optional '2.0' for richer field metadata"
+  - name: eutils_search
+    description: (ESearch) Search an Entrez database and return UIDs and optional history tokens.
+    params:
+      db: "Database to search"
+      term: "Search query"
+      retstart: "Result offset"
+      retmax: "Maximum results to return"
+      usehistory: "Store results on the Entrez History server"
+  - name: eutils_post
+    description: (EPost) Upload UID lists to the History server for downstream calls.
+    params:
+      db: "Database name"
+      ids: "List of UIDs to upload"
+  - name: eutils_summary
+    description: (ESummary) Retrieve compact document summaries for UIDs or history-backed result sets.
+    params:
+      db: "Database name"
+      ids: "List of UIDs"
+      webenv: "Entrez History environment token"
+      query_key: "Entrez History query key"
+  - name: eutils_fetch
+    description: (EFetch) Retrieve full records in supported rettype/retmode formats.
+    params:
+      db: "Database name"
+      ids: "List of UIDs"
+      rettype: "Record type to retrieve"
+      retmode: "Response format mode"
+  - name: eutils_link
+    description: (ELink) Traverse related records across or within databases.
+    params:
+      dbfrom: "Source database"
+      db: "Target database"
+      ids: "List of source UIDs"
+      linkname: "Specific link to follow"
+  - name: eutils_global_query
+    description: (EGQuery) Run a cross-database query and return counts by database.
+    params:
+      term: "Search query"
+  - name: eutils_spell
+    description: (ESpell) Retrieve spelling suggestions for a query.
+    params:
+      db: "Database name"
+      term: "Query text to correct"
+  - name: eutils_citation_match
+    description: (ECitMatch) Resolve citation strings to PubMed identifiers.
+    params:
+      citations: "Citation strings to match"
+      raw: "Return raw upstream payload"
+
+  # Workflow helpers
+  - name: eutils_search_and_summary
+    description: Search a database and immediately summarize the matching records.
+    params:
+      db: "Database to search"
+      term: "Search query"
+  - name: eutils_search_and_fetch
+    description: Search a database and immediately fetch the matching records.
+    params:
+      db: "Database to search"
+      term: "Search query"
+  - name: eutils_find_related
+    description: Search or summarize a source set, then follow links to related records in a target database.
+    params:
+      dbfrom: "Source database"
+      db: "Target database"
+      term: "Search query for the source set"
