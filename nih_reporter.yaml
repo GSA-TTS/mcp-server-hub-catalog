@@ -1,8 +1,84 @@
-name: nih_reporter
+name: NIH RePORTER
 entryKey: obot-reporter
 serverUserType: singleUser
-shortDescription: Access data from the NIH RePORTER API
-repoURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
+shortDescription: Search and analyze NIH grant funding data from the RePORTER API
+description: |
+
+  A Model Context Protocol (MCP) server for the NIH RePORTER grant database,
+  providing search and analysis of federally funded biomedical research projects.
+
+  ## Features
+  - **Search NIH-funded projects** by topic, PI, organization, fiscal year, award type, and spending category
+  - **Summarize funding portfolios** with fast sampled previews or exact, complete statistics
+  - **Rank top-funded PIs and institutions** by total funding and project count
+  - **Cross-tabulate** grant counts and funding across any two project dimensions
+  - **Generate interactive dashboards and tables** for exploring results visually
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NIH RePORTER API. No API key or authentication is needed.
+
+  ## Examples
+  - "Who are the top-funded PIs in cancer research?"
+  - "Which organizations receive the most NIH funding for diabetes grants?"
+  - "Total NIH funding for aging grants in FY2023"
+  - "Show me a table of R01 grants for Stanford University"
+  - "Build a dashboard for opioid-related research funding"
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://reporter.nih.gov/favicon.ico
+repoURL: https://github.com/GSA-TTS/mcp-server-nih-reporter
 runtime: remote
 remoteConfig:
   fixedURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
+toolPreview:
+  # Search & discovery
+  - name: find_project_ids
+    description: Primary search tool. Returns a paginated page of matching project IDs plus overview statistics (fiscal year, institute, activity code) for that page.
+    params:
+      search_params: "Search criteria (term, years, agencies, organizations, pi_name, po_names, award_types, spending_categories)"
+      offset: "Zero-based result offset for pagination"
+      limit: "Number of project IDs to return for this page (max 500)"
+  - name: search_spending_categories
+    description: Search NIH spending categories by plain-English name and return matching (id, name) pairs. Use first to resolve a topic into the numeric IDs required by the spending_categories filter.
+    params:
+      query: "Plain-English category search text (partial matches supported)"
+      limit: "Maximum number of matches to return (default 10, max 50)"
+  - name: get_project_information
+    description: Retrieve specified metadata for projects by project number (award amounts, PIs, abstracts, organizations, and other details).
+    params:
+      project_ids: "List of project ID numbers (e.g. ['P50DA056408-01', '1F32AG052995-01A1'])"
+      include_fields: "List of fields to return from the API, chosen for the query"
+
+  # Analysis & summaries
+  - name: get_search_preview
+    description: Return key portfolio statistics by sampling up to 500 matching projects. Fast but approximate for large portfolios; use first to characterize a search.
+    params:
+      search_params: "Search criteria to scope the portfolio"
+  - name: get_search_summary
+    description: Fetch ALL matching projects for complete, accurate statistics. Use when exact totals are required. Auto-splits queries over 15,000 results.
+    params:
+      search_params: "Search criteria to scope the portfolio"
+  - name: get_top_awarded
+    description: Rank entities by total funding and project count for a search portfolio.
+    params:
+      search_params: "Search criteria to scope the portfolio"
+      group_by: "Dimension to rank by (pi, org_name, agency_ic_admin, activity_code, org_state, funding_mechanism)"
+      limit: "Number of top results to return (default 15)"
+  - name: get_portfolio_crosstab
+    description: Return a cross-tabulation of grant counts and total funding across any two project dimensions (e.g. fiscal year x activity code).
+    params:
+      search_params: "Search criteria to scope the portfolio"
+      row_field: "Field to use as rows (fiscal_year, activity_code, funding_mechanism, agency_ic_admin, org_name, org_state, organization_type, award_type)"
+      col_field: "Field to use as columns (same valid options as row_field)"
+
+  # Interactive UI
+  - name: create_search_dashboard
+    description: Build a comprehensive dashboard for a search, with key metrics and visualizations (award amount distribution, institute and activity-code breakdowns).
+    params:
+      search_params: "Search criteria defining the dashboard"
+  - name: get_project_table
+    description: Display matching projects as an interactive, sortable, searchable, paginated table. Performs the search internally.
+    params:
+      search_params: "Search criteria (use search_spending_categories first to resolve a category name to an ID)"
