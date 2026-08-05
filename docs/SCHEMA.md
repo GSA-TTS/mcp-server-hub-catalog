@@ -24,14 +24,44 @@ entry format so that entries render correctly in the obot MCP gateway UI.
 | `serverUserType` | enum | Who the server authenticates as. Use `singleUser` for servers scoped to an individual user. |
 | `shortDescription` | string | One-line summary shown in catalog list views. |
 | `repoURL` | string (URL) | Link users can follow for more information. For obot's own entries this points to the server's documentation; for GSA-hosted remote servers it may point to the running `/mcp` endpoint or the source repository. |
-| `runtime` | enum | How the server runs. Use `remote` for hosted HTTP/SSE endpoints. |
-| `remoteConfig` | object | Connection configuration for remote servers. See below. |
+| `runtime` | enum | How the server runs. Use `remote` for an externally hosted HTTP/SSE endpoint, or `containerized` for a server the gateway itself hosts as a Docker container. |
+| `remoteConfig` | object | Connection configuration for `remote` servers. Required when `runtime: remote`. See below. |
+| `containerizedConfig` | object | Runtime configuration for `containerized` servers. Required when `runtime: containerized`. See below. |
 
 ### `remoteConfig` (required when `runtime: remote`)
+
+A `remote` server runs somewhere outside the gateway (e.g. on cloud.gov) and is
+reachable at a fixed public URL. The gateway proxies to that URL. **Because the
+URL is public, a `remote` server is reachable independently of the gateway.**
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `fixedURL` | string (URL) | The fixed MCP endpoint the gateway connects to (e.g. `https://<app>.app.cloud.gov/mcp`). |
+
+### `containerizedConfig` (required when `runtime: containerized`)
+
+A `containerized` server is hosted **by the gateway itself**: the gateway pulls
+the image and runs it as a container, then proxies client requests to it. The
+container has **no public route** — it is reachable only through the gateway,
+which is what makes it suitable for gateway-only access, usage monitoring, and
+access control.
+
+> **Image pull:** with the gateway's Docker runtime backend, images are pulled
+> without registry authentication. The image **must be publicly pullable**
+> (e.g. a public GHCR or Docker Hub image). Private registries (including ECR)
+> require the Kubernetes backend and are not supported by the current pilot
+> deployment.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `image` | string | **Required.** Fully-qualified, publicly pullable image reference, ideally pinned (e.g. `ghcr.io/gsa-tts/mcp-server-nih-reporter:0.2.0`). |
+| `port` | integer | **Required.** Port the server listens on inside the container (e.g. `8080`). |
+| `path` | string | **Required.** HTTP path of the MCP (streamable HTTP) endpoint (e.g. `/mcp`). |
+| `healthzPath` | string | Optional. HTTP path for a readiness/health check (e.g. `/health`). If omitted, the gateway probes the MCP endpoint. |
+| `command` | string | Optional. Override the container's default command. |
+| `args` | list | Optional. Arguments passed to the command. |
+| `startupTimeoutSeconds` | integer | Optional. Seconds to wait for the server to become ready (default 60, max 600). |
+| `env` | list | Optional. Environment variables the server needs. Same item shape as documented by the upstream obot catalog (`key`, `name`, `required`, `sensitive`, `description`). Omit entirely if the server needs none. |
 
 ### Optional fields (recommended for a rich catalog listing)
 
@@ -69,6 +99,25 @@ repoURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
 runtime: remote
 remoteConfig:
   fixedURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
+```
+
+## Minimal containerized (gateway-hosted) example
+
+The gateway pulls the image and runs it; the server is reachable only through
+the gateway (no public route). The image must be publicly pullable.
+
+```yaml
+name: nih_reporter
+entryKey: obot-reporter
+serverUserType: singleUser
+shortDescription: Access data from the NIH RePORTER API
+repoURL: https://github.com/GSA-TTS/mcp-server-nih-reporter
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nih-reporter:0.2.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
 ```
 
 ## Enriched example
