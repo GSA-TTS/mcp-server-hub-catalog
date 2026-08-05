@@ -28,9 +28,12 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/ncbi_eutils.png
 repoURL: https://github.com/GSA-TTS/mcp-server-ncbi-eutils
-runtime: remote
-remoteConfig:
-  fixedURL: https://ncbi-eutils-mcp-server.app.cloud.gov/mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-ncbi-eutils:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
 toolPreview:
   # Core tools
   - name: eutils_info

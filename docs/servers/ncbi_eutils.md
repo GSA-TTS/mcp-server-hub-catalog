@@ -15,7 +15,9 @@ layer for common agent tasks such as search-then-summary and search-then-fetch.
 
 - **Data source:** [NCBI Entrez E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/)
 - **Source repository:** [GSA-TTS/mcp-server-ncbi-eutils](https://github.com/GSA-TTS/mcp-server-ncbi-eutils)
-- **Gateway endpoint:** `https://ncbi-eutils-mcp-server.app.cloud.gov/mcp`
+- **Runtime:** `containerized` — hosted by the gateway from the public image
+  `ghcr.io/gsa-tts/mcp-server-ncbi-eutils` (`:8080/mcp`, health at `/health`).
+  The container has no public route; it is reachable only through the gateway.
 - **Authentication:** None required — queries the public NCBI E-utilities API.
 
 ## Shared conventions
