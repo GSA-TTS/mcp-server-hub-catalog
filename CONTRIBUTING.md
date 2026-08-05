@@ -40,7 +40,7 @@ A server can be added in one of two runtimes:
    ```yaml
    name: my_server
    entryKey: obot-my-server
-   serverUserType: singleUser
+   serverUserType: multiUser
    shortDescription: Access data from the Example API
    repoURL: https://github.com/GSA-TTS/mcp-server-my-server
    runtime: remote
@@ -71,7 +71,7 @@ A server can be added in one of two runtimes:
    ```yaml
    name: my_server
    entryKey: obot-my-server
-   serverUserType: singleUser
+   serverUserType: multiUser
    shortDescription: Access data from the Example API
    repoURL: https://github.com/GSA-TTS/mcp-server-my-server
    runtime: containerized
@@ -105,8 +105,10 @@ A server can be added in one of two runtimes:
 - For containerized servers, `containerizedConfig.image` MUST be a publicly
   pullable, version-pinned image reference; `port` and `path` MUST match what
   the container actually serves.
-- Use `serverUserType: singleUser` unless the server is designed for
-  multi-user/shared authentication.
+- Use `serverUserType: multiUser` for servers that need no per-user
+  credentials (e.g. those querying a public, keyless API) — all users share one
+  gateway-hosted instance. Use `singleUser` only when each user must supply
+  their own upstream credentials.
 - Never commit secrets, API keys, or credentials in a catalog entry. Catalog
   entries describe **how to connect**, not **how to authenticate with private
   credentials**.

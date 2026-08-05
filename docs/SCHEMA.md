@@ -21,7 +21,7 @@ entry format so that entries render correctly in the obot MCP gateway UI.
 |-------|------|-------------|
 | `name` | string | Human-readable display name for the server (e.g. `NIH RePORTER`). Also used as the filename stem in `snake_case`. |
 | `entryKey` | string | Globally unique key for the entry, prefixed with `obot-` (e.g. `obot-reporter`). Used by the gateway to identify the entry. |
-| `serverUserType` | enum | Who the server authenticates as. Use `singleUser` for servers scoped to an individual user. |
+| `serverUserType` | enum | Whether users share one instance or each get their own. Use `multiUser` for servers that need no per-user credentials (e.g. those querying a public, keyless API) — all users share a single gateway-hosted instance. Use `singleUser` only when each user must supply their own upstream credentials, so each gets an isolated instance. |
 | `shortDescription` | string | One-line summary shown in catalog list views. |
 | `repoURL` | string (URL) | Link users can follow for more information. For obot's own entries this points to the server's documentation; for GSA-hosted remote servers it may point to the running `/mcp` endpoint or the source repository. |
 | `runtime` | enum | How the server runs. Use `remote` for an externally hosted HTTP/SSE endpoint, or `containerized` for a server the gateway itself hosts as a Docker container. |
@@ -93,7 +93,7 @@ Each entry in `toolPreview` describes a single MCP tool:
 ```yaml
 name: nih_reporter
 entryKey: obot-reporter
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Access data from the NIH RePORTER API
 repoURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
 runtime: remote
@@ -109,7 +109,7 @@ the gateway (no public route). The image must be publicly pullable.
 ```yaml
 name: nih_reporter
 entryKey: obot-reporter
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Access data from the NIH RePORTER API
 repoURL: https://github.com/GSA-TTS/mcp-server-nih-reporter
 runtime: containerized
@@ -120,12 +120,19 @@ containerizedConfig:
   healthzPath: /health
 ```
 
+> **`serverUserType` for public-data servers:** the servers in this catalog
+> query public, keyless APIs and need no per-user credentials, so they use
+> `multiUser` — all users share one gateway-hosted instance. `multiUser`
+> containerized entries are deployed once (by an admin/power user) and shared;
+> `singleUser` would instead spin up a separate container per user, which only
+> makes sense when each user supplies their own upstream credentials.
+
 ## Enriched example
 
 ```yaml
 name: NIH RePORTER
 entryKey: obot-reporter
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Search and analyze NIH grant funding data from the RePORTER API
 description: |
   A Model Context Protocol (MCP) server for the NIH RePORTER grant database.
