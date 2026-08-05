@@ -1,6 +1,6 @@
 name: CDC PLACES
 entryKey: obot-places
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Access local-level health and chronic disease data from the CDC PLACES dataset
 description: |
 
