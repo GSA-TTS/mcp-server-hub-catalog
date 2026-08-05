@@ -29,9 +29,12 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_reporter.png
 repoURL: https://github.com/GSA-TTS/mcp-server-nih-reporter
-runtime: remote
-remoteConfig:
-  fixedURL: https://nih-reporter-mcp-server.app.cloud.gov/mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nih-reporter:0.2.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
 toolPreview:
   # Search & discovery
   - name: find_project_ids

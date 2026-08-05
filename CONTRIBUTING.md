@@ -17,6 +17,18 @@ reference.
 
 ## Adding a new server
 
+A server can be added in one of two runtimes:
+
+- **`remote`** — the server runs somewhere outside the gateway (e.g. cloud.gov)
+  at a fixed public URL, and the gateway proxies to it. The URL is public, so
+  the server is reachable independently of the gateway.
+- **`containerized`** — the gateway hosts the server itself as a Docker
+  container from a published image. The container has **no public route** and is
+  reachable only through the gateway, which is the preferred model for
+  gateway-only access, usage monitoring, and access control.
+
+### Option A — remote server
+
 1. **Confirm the server is deployed and reachable.** The gateway connects to a
    fixed remote endpoint (typically a cloud.gov `/mcp` URL). Verify the endpoint
    responds before adding it to the catalog.
@@ -36,6 +48,42 @@ reference.
      fixedURL: https://my-server-mcp-server.app.cloud.gov/mcp
    ```
 
+### Option B — containerized (gateway-hosted) server
+
+1. **Publish a public image.** Build a container that serves MCP over
+   streamable HTTP on a known port and path (conventionally `:8080/mcp`) and
+   exposes a health path (conventionally `/health`). Push it to a **publicly
+   pullable** registry (public GHCR or Docker Hub) — the gateway's Docker
+   runtime backend pulls without registry authentication, so private images
+   (including ECR) are not supported by the current pilot deployment. Pin the
+   image to a version tag.
+
+2. **Verify the image runs.** Confirm the container answers on its health and
+   MCP endpoints, e.g.:
+
+   ```bash
+   docker run --rm -p 8080:8080 <image>
+   curl -s localhost:8080/health   # expect {"status":"healthy",...}
+   ```
+
+3. **Create the entry file** at the repository root:
+
+   ```yaml
+   name: my_server
+   entryKey: obot-my-server
+   serverUserType: singleUser
+   shortDescription: Access data from the Example API
+   repoURL: https://github.com/GSA-TTS/mcp-server-my-server
+   runtime: containerized
+   containerizedConfig:
+     image: ghcr.io/gsa-tts/mcp-server-my-server:1.0.0
+     port: 8080
+     path: /mcp
+     healthzPath: /health
+   ```
+
+### Both options
+
 3. **Enrich the entry (recommended).** Add `description`, `metadata`, `icon`,
    and `toolPreview` fields so the entry renders richly in the gateway. See the
    [enriched example](docs/SCHEMA.md#enriched-example) in the schema doc.
@@ -54,6 +102,9 @@ reference.
 - `name` and the filename stem SHOULD match (in `snake_case`).
 - For remote servers, `remoteConfig.fixedURL` is the endpoint the gateway
   connects to. It is often — but not required to be — identical to `repoURL`.
+- For containerized servers, `containerizedConfig.image` MUST be a publicly
+  pullable, version-pinned image reference; `port` and `path` MUST match what
+  the container actually serves.
 - Use `serverUserType: singleUser` unless the server is designed for
   multi-user/shared authentication.
 - Never commit secrets, API keys, or credentials in a catalog entry. Catalog
@@ -65,10 +116,14 @@ reference.
 Before opening a pull request, confirm:
 
 - [ ] The file is valid YAML (no tabs, correct indentation).
-- [ ] All required fields are present (`name`, `entryKey`, `serverUserType`,
-      `shortDescription`, `repoURL`, `runtime`, `remoteConfig.fixedURL`).
+- [ ] All required common fields are present (`name`, `entryKey`,
+      `serverUserType`, `shortDescription`, `repoURL`, `runtime`).
+- [ ] The runtime-specific config is present and correct:
+  - **remote:** `remoteConfig.fixedURL`, and the endpoint is deployed and reachable.
+  - **containerized:** `containerizedConfig.image` (public + pinned), `port`,
+    `path` (and `healthzPath` if the server has one), and the image has been
+    verified to run and answer on those paths.
 - [ ] `entryKey` is unique across all entries in the catalog.
-- [ ] The `fixedURL` endpoint is deployed and reachable.
 - [ ] A `docs/servers/<name>.md` page exists (for new servers).
 - [ ] The README server table is updated.
 - [ ] No secrets or credentials are included.

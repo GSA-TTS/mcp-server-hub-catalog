@@ -17,7 +17,9 @@ obot MCP gateway.
 
 - **Data source:** [NIH RePORTER API](https://api.reporter.nih.gov/)
 - **Source repository:** [GSA-TTS/mcp-server-nih-reporter](https://github.com/GSA-TTS/mcp-server-nih-reporter)
-- **Gateway endpoint:** `https://nih-reporter-mcp-server.app.cloud.gov/mcp`
+- **Runtime:** `containerized` — hosted by the gateway from the public image
+  `ghcr.io/gsa-tts/mcp-server-nih-reporter` (`:8080/mcp`, health at `/health`).
+  The container has no public route; it is reachable only through the gateway.
 - **Authentication:** None required — queries the public RePORTER API.
 
 ## Tools
