@@ -30,9 +30,12 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cdc_places.png
 repoURL: https://github.com/GSA-TTS/cdc-places-mcp-server
-runtime: remote
-remoteConfig:
-  fixedURL: https://cdc-places-mcp-server.app.cloud.gov/mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/cdc-places-mcp-server:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
 toolPreview:
   - name: get_cdc_places_data
     description: Fetch health data for a specific measure, location, and time period.
