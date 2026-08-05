@@ -1,6 +1,6 @@
 name: NCBI E-Utils
 entryKey: obot-eutils
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Search NCBI biomedical databases (PubMed, Gene, Protein, and more) via the Entrez E-utilities
 description: |
 
