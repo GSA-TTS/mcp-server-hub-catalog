@@ -1,6 +1,6 @@
 name: NIH RePORTER
 entryKey: obot-reporter
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Search and analyze NIH grant funding data from the RePORTER API
 description: |
 
