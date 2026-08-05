@@ -18,7 +18,10 @@ requests routed through the obot MCP gateway.
 
 - **Data source:** [CDC PLACES API (data.cdc.gov)](https://www.cdc.gov/places/index.html)
 - **Source repository:** [GSA-TTS/cdc-places-mcp-server](https://github.com/GSA-TTS/cdc-places-mcp-server)
-- **Gateway endpoint:** `https://cdc-places-mcp-server.app.cloud.gov/mcp`
+- **Gateway endpoint:** hosted by the gateway from the public image
+  `ghcr.io/gsa-tts/cdc-places-mcp-server` (`:8080/mcp`, health at `/health`).
+  Runtime is `containerized`; the container has no public route and is reachable
+  only through the gateway.
 - **Authentication:** None required — queries the public CDC PLACES API.
 - **Latest data:** PLACES Release 2025 (2023 BRFSS data for most measures);
   releases 2020–2025 (PLACES) and 2016–2019 (500 Cities).
