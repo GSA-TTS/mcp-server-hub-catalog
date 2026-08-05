@@ -30,9 +30,12 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_clinicaltrials.png
 repoURL: https://github.com/GSA-TTS/mcp-server-nih-clinicaltrials
-runtime: remote
-remoteConfig:
-  fixedURL: https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nih-clinicaltrials:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
 toolPreview:
   - name: clinicaltrials_get_study
     description: Retrieve a single study record by NCT ID (all 394 fields available).
