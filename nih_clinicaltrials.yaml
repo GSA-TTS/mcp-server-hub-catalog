@@ -1,6 +1,6 @@
 name: NIH ClinicalTrials
 entryKey: obot-clinicaltrials
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Search and analyze clinical study data from the ClinicalTrials.gov v2 API
 description: |
 
