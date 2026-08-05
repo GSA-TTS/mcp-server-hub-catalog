@@ -15,7 +15,10 @@ data through natural-language requests routed through the obot MCP gateway.
 
 - **Data source:** [ClinicalTrials.gov v2 API](https://clinicaltrials.gov/data-api/api) (refreshed daily)
 - **Source repository:** [GSA-TTS/mcp-server-nih-clinicaltrials](https://github.com/GSA-TTS/mcp-server-nih-clinicaltrials)
-- **Gateway endpoint:** `https://nih-clinicaltrials-mcp-server.app.cloud.gov/mcp`
+- **Gateway endpoint:** hosted by the gateway from the public image
+  `ghcr.io/gsa-tts/mcp-server-nih-clinicaltrials` (`:8080/mcp`, health at
+  `/health`). Runtime is `containerized`; the container has no public route and
+  is reachable only through the gateway.
 - **Authentication:** None required — the ClinicalTrials.gov API is public.
 
 ## Tools
