@@ -26,6 +26,7 @@ remote servers on cloud.gov.
 | **NIH ClinicalTrials** | Search clinical trial records | [ClinicalTrials.gov API](https://clinicaltrials.gov/data-api/api) | [`nih_clinicaltrials.yaml`](nih_clinicaltrials.yaml) | [docs](docs/servers/nih_clinicaltrials.md) |
 | **CDC PLACES** | Local-level health and chronic disease measures | [CDC PLACES API](https://data.cdc.gov/browse?category=500+Cities+%26+Places) | [`cdc_places.yaml`](cdc_places.yaml) | [docs](docs/servers/cdc_places.md) |
 | **NCBI E-Utils** | Search NCBI biomedical databases (PubMed, etc.) | [NCBI E-Utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) | [`ncbi_eutils.yaml`](ncbi_eutils.yaml) | [docs](docs/servers/ncbi_eutils.md) |
+| **NCI EVS** | Search and navigate NCI cancer terminology (NCIt / NCIm) | [NCI EVS API](https://api-evsrest.nci.nih.gov/) | [`nci_evs.yaml`](nci_evs.yaml) | [docs](docs/servers/nci_evs.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -42,11 +43,13 @@ remote servers on cloud.gov.
 │       ├── nih_reporter.md
 │       ├── nih_clinicaltrials.md
 │       ├── cdc_places.md
-│       └── ncbi_eutils.md
+│       ├── ncbi_eutils.md
+│       └── nci_evs.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
-└── ncbi_eutils.yaml
+├── ncbi_eutils.yaml
+└── nci_evs.yaml
 ```
 
 ## Adding a server
