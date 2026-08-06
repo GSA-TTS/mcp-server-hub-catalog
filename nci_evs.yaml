@@ -1,0 +1,76 @@
+name: NCI EVS
+entryKey: obot-nci-evs
+serverUserType: singleUser
+shortDescription: Search and navigate NCI cancer terminology (NCIt / NCIm) via the EVS API
+description: |
+
+  A Model Context Protocol (MCP) server for the National Cancer Institute (NCI)
+  Enterprise Vocabulary Services (EVS) API, providing search and hierarchy
+  navigation across NCI cancer terminology and biomedical concepts.
+
+  ## Features
+  - **Search concepts** across NCIt (NCI Thesaurus) and NCIm (NCI Metathesaurus) with flexible match types (contains, startsWith, phrase, exactMatch, fuzzy)
+  - **Filter by properties** using 70+ NCIt and 185+ NCIm property codes (semantic type, CAS registry, HGNC ID, SNOMED ID, and more)
+  - **Navigate the concept hierarchy** — direct parents, direct children, and full descendant subtrees with depth and pagination control
+  - **Retrieve concept details** by code, with configurable detail levels (minimal, summary, full, or specific aspects)
+  - **Cross-terminology mapping** between NCIt, NCIm, UMLS, and SNOMED CT
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NCI EVS REST API. No API key or authentication is needed.
+
+  ## Examples
+  - "Search NCIt for melanoma concepts"
+  - "Get full details for NCIt concept C3224"
+  - "What are the parent concepts of C3224?"
+  - "List all descendants of C3224 down to 3 levels"
+  - "Find NCIt concepts with a Semantic_Type of 'Disease or Syndrome'"
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nci_evs.png
+repoURL: https://github.com/GSA-TTS/mcp-server-nci-evs
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nci-evs:0.2.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  # Search & discovery
+  - name: search_concepts
+    description: Search for concepts across NCIt / NCIm with flexible match types, property/value filtering, definition and synonym source filters, sorting, and pagination.
+    params:
+      term: "The term, phrase, or code to search for (e.g. 'melanoma')"
+      terminology: "Terminology to search within — 'ncit', 'ncim', or a comma-separated list (default 'ncit')"
+      type: "Match type: contains, startsWith, phrase, exactMatch, or fuzzy (default contains)"
+      include: "Level of detail to return (minimal, summary, full, or specific aspects)"
+      property: "Property enum to restrict results by (see the ncit-/ncim-property-information skills)"
+      value: "Property value to match when filtering by property"
+      pageSize: "Maximum number of results to return (default 10)"
+  - name: get_concepts
+    description: Retrieve detailed information for one or more concepts by their codes, with a configurable detail level.
+    params:
+      terminology: "Terminology to query ('ncit' or 'ncim')"
+      list: "Comma-separated list of concept codes (e.g. 'C3224,C2291')"
+      include: "Level of detail to return (minimal, summary, full, or specific aspects)"
+
+  # Hierarchy navigation
+  - name: get_parents
+    description: Get the direct parent concepts (one level up) of a concept in the terminology hierarchy.
+    params:
+      terminology: "Terminology to query ('ncit' or 'ncim')"
+      code: "Concept code (e.g. 'C3224' for ncit)"
+  - name: get_children
+    description: Get the direct child concepts (one level down) of a concept in the terminology hierarchy.
+    params:
+      terminology: "Terminology to query ('ncit' or 'ncim')"
+      code: "Concept code (e.g. 'C3224' for ncit)"
+  - name: get_descendants
+    description: Get all descendant concepts (the entire subtree) of a concept, with depth and pagination control. Primarily meaningful for NCIt.
+    params:
+      terminology: "Terminology to query (primarily 'ncit')"
+      code: "Concept code (e.g. 'C3224' for ncit)"
+      fromRecord: "Zero-based start index for pagination (default 0)"
+      pageSize: "Maximum number of results per request (default 50000)"
+      maxLevel: "Maximum hierarchical depth to traverse (default 10000)"
