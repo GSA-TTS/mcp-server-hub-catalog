@@ -1,6 +1,6 @@
 name: NCI EVS
 entryKey: obot-nci-evs
-serverUserType: singleUser
+serverUserType: multiUser
 shortDescription: Search and navigate NCI cancer terminology (NCIt / NCIm) via the EVS API
 description: |
 
