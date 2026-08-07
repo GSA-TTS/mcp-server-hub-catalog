@@ -84,9 +84,38 @@ an existing entry such as [`nci_evs.yaml`](nci_evs.yaml).
 
 - Use **`multiUser`** when the server needs **no per-user credentials** (e.g. it
   queries a public, keyless API). All users share one gateway-hosted instance.
-  **Every current server in this catalog is `multiUser`** — match that default.
+  **Most current servers in this catalog are `multiUser`** — match that default
+  unless the server needs a personal credential.
 - Use **`singleUser`** only when each user must supply their **own upstream
-  credentials**, so each gets an isolated instance.
+  credentials**, so each gets an isolated instance (the **EIA** entry is the
+  worked example — see below).
+
+**Per-user credentials → top-level `env` (get this right — also a real
+correction):** when a `singleUser` server needs a personal API key, declare it
+as a **top-level `env` list** on the entry — a **sibling of `runtime` /
+`containerizedConfig`, NOT nested inside `containerizedConfig`**:
+
+```yaml
+serverUserType: singleUser
+env:                              # <-- TOP LEVEL
+  - key: EIA_API_KEY
+    name: EIA API Key
+    description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+```
+
+If `env` is nested under `containerizedConfig`, Obot does not parse it as user
+config: the UI shows only the connection URL (**no key field**), the container
+launches **without** the variable, and tool calls fail (e.g. `EIA_API_KEY is
+not set`). See [`docs/SCHEMA.md`](docs/SCHEMA.md#env-usershared-configuration)
+for the full field reference.
 
 `runtime: remote` is also valid (externally hosted at a fixed public URL via
 `remoteConfig.fixedURL`) — see `docs/SCHEMA.md`. The catalog currently uses
@@ -153,6 +182,42 @@ present; no secrets.
 - Re-sync the catalog source in the **obot admin UI** so the gateway indexes the
   new entry, then deploy the server. See the server-hub deployment notes in the
   `mcp-server-hub` repo.
+- **Config-field changes need a fresh deploy.** Obot reads the entry's `env`
+  (user-config) schema at deploy/registration time. If you add or change `env`
+  after a server is already deployed, re-sync the catalog **and re-deploy /
+  re-register** the server — an existing deployment will not retroactively gain
+  a new config field.
+
+---
+
+## Container-image build pattern (in the server's own repo)
+
+The catalog only pins a public image; the image is built in the server's repo.
+Use the **pip + `requirements.txt`** pattern shared by the GSA servers (e.g.
+`mcp-server-nci-evs`, `mcp-server-eia`), which is more robust than a
+uv/BuildKit-syntax Dockerfile:
+
+- **Base + install:** `FROM python:3.14-slim`, then `pip install` from a
+  `requirements.txt` exported from the lockfile
+  (`uv export --format requirements-txt --no-hashes --no-dev -o requirements.txt`).
+  Commit `requirements.txt` and regenerate it when dependencies change.
+- **No BuildKit-only features.** Avoid the `# syntax=docker/dockerfile:1`
+  frontend directive and `--mount=type=cache` `RUN` mounts. The frontend
+  directive makes BuildKit fetch `docker/dockerfile` at build time, which
+  **fails behind a TLS-intercepting network** (`x509: certificate signed by
+  unknown authority`). The plain pattern builds without that fetch.
+- **Serve HTTP on the container port:** set `ENV PORT=8080` and
+  `PYTHONPATH=/app/src`; the server selects the streamable-HTTP transport at
+  `/mcp` (with `/health`) when `PORT` is set.
+- **Build for the gateway's architecture.** The gateway host is **linux/amd64**;
+  a plain `docker build` on Apple Silicon produces an **arm64-only** image, which
+  makes the gateway fail to launch with a misleading `No such image ...` (it
+  means "no manifest for my architecture"). Build+push with
+  `docker buildx build --platform linux/amd64 ... --push` and verify with
+  `docker manifest inspect <image> | grep architecture` (expect `amd64`).
+
+> Worked example: [`GSA-TTS/mcp-server-eia`](https://github.com/GSA-TTS/mcp-server-eia)
+> `Dockerfile` + `scripts/build-and-push.sh`.
 
 ---
 
@@ -169,3 +234,7 @@ repo:
 - **NIH RePORTER** — [entry](nih_reporter.yaml) · [docs](docs/servers/nih_reporter.md) ·
   server repo [`GSA-TTS/mcp-server-nih-reporter`](https://github.com/GSA-TTS/mcp-server-nih-reporter)
   (the original containerized pattern).
+- **EIA Open Data** — [entry](eia.yaml) · [docs](docs/servers/eia.md) ·
+  server repo [`GSA-TTS/mcp-server-eia`](https://github.com/GSA-TTS/mcp-server-eia)
+  (the `singleUser` + top-level `env` per-user-API-key example; also the
+  pip/`requirements.txt` + `buildx --platform linux/amd64` image pattern).

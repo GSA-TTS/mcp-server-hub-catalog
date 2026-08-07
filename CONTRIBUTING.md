@@ -82,6 +82,26 @@ A server can be added in one of two runtimes:
      healthzPath: /health
    ```
 
+   If the server needs a per-user credential, set `serverUserType: singleUser`
+   and add a **top-level `env`** list (sibling of `runtime` /
+   `containerizedConfig`, **not** nested inside it):
+
+   ```yaml
+   serverUserType: singleUser
+   env:                              # <-- TOP LEVEL
+     - key: MY_API_KEY
+       name: My API Key
+       description: Your personal API key for the Example service
+       required: true
+       sensitive: true
+   runtime: containerized
+   containerizedConfig:
+     image: ghcr.io/gsa-tts/mcp-server-my-server:1.0.0
+     port: 8080
+     path: /mcp
+     healthzPath: /health
+   ```
+
 ### Both options
 
 3. **Enrich the entry (recommended).** Add `description`, `metadata`, `icon`,
@@ -109,9 +129,18 @@ A server can be added in one of two runtimes:
   credentials (e.g. those querying a public, keyless API) — all users share one
   gateway-hosted instance. Use `singleUser` only when each user must supply
   their own upstream credentials.
+- When a server needs a user-supplied value (e.g. a personal API key), declare
+  it as a **top-level `env` list** on the entry — a sibling of `runtime` /
+  `containerizedConfig`, **not** nested inside `containerizedConfig`. Obot reads
+  the top-level `env` to prompt the user and inject the value into the deployed
+  container. Nesting it under `containerizedConfig` means Obot never prompts for
+  it (the UI shows only the connection URL) and the server launches without the
+  variable. See [`docs/SCHEMA.md`](docs/SCHEMA.md#env-usershared-configuration).
+  Changing `env` after a server is deployed requires a fresh deploy/registration.
 - Never commit secrets, API keys, or credentials in a catalog entry. Catalog
   entries describe **how to connect**, not **how to authenticate with private
-  credentials**.
+  credentials**. (Declaring an `env` field like `EIA_API_KEY` is fine — that is
+  the *name* of a field the user fills in, not a secret value.)
 
 ## Validation checklist
 
@@ -126,6 +155,10 @@ Before opening a pull request, confirm:
     `path` (and `healthzPath` if the server has one), and the image has been
     verified to run and answer on those paths.
 - [ ] `entryKey` is unique across all entries in the catalog.
+- [ ] If the server needs a user-supplied value (e.g. an API key), `env` is a
+      **top-level** list (not nested under `containerizedConfig`), with each
+      item declaring `key` and, as appropriate, `name`, `description`,
+      `required`, and `sensitive`.
 - [ ] A `docs/servers/<name>.md` page exists (for new servers).
 - [ ] The README server table is updated.
 - [ ] No secrets or credentials are included.
