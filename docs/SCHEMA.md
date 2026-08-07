@@ -61,7 +61,61 @@ access control.
 | `command` | string | Optional. Override the container's default command. |
 | `args` | list | Optional. Arguments passed to the command. |
 | `startupTimeoutSeconds` | integer | Optional. Seconds to wait for the server to become ready (default 60, max 600). |
-| `env` | list | Optional. Environment variables the server needs. Same item shape as documented by the upstream obot catalog (`key`, `name`, `required`, `sensitive`, `description`). Omit entirely if the server needs none. |
+
+> **Per-user / shared configuration (API keys, etc.) does NOT go here.** It is a
+> **top-level `env` list** on the entry — a sibling of `runtime` and
+> `containerizedConfig`, not nested inside `containerizedConfig`. See
+> [`env` (user/shared configuration)](#env-usershared-configuration) below.
+
+### `env` (user/shared configuration)
+
+Declares environment variables the server needs — most importantly the fields
+Obot **prompts the user for** and injects into the deployed container. This is
+how a `singleUser` server collects a per-user API key.
+
+**This is a top-level field on the entry** (a sibling of `runtime` /
+`containerizedConfig` / `remoteConfig`), matching the upstream obot catalog
+(e.g. `firecrawl.yaml`). Do **not** nest it under `containerizedConfig`:
+
+> **Gotcha (learned the hard way):** if `env` is nested under
+> `containerizedConfig`, Obot does **not** parse it as user configuration. The
+> UI then shows only the connection URL with **no field to enter the key**, the
+> container launches **without** the variable set, and tool calls fail (e.g.
+> `EIA_API_KEY is not set`). Placing `env` at the top level fixes this.
+
+Each item has the same shape as the upstream obot catalog:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `key` | string | **Required.** The environment variable name passed to the server (e.g. `EIA_API_KEY`). |
+| `name` | string | Human-friendly label shown in the Obot config UI (e.g. `EIA API Key`). |
+| `description` | string | Help text shown under the field (e.g. where to get the key). |
+| `required` | boolean | Whether the user must supply a value before the server can be enabled. |
+| `sensitive` | boolean | Whether the value is a secret — masked in the UI and stored securely. Use `true` for API keys/tokens. |
+
+For a `singleUser` server, each user is prompted for these values and gets them
+injected into their own isolated instance. For a shared `multiUser` server, the
+values are configured once and shared by all users.
+
+Example (top-level, alongside `runtime` / `containerizedConfig`):
+
+```yaml
+env:
+  - key: EIA_API_KEY
+    name: EIA API Key
+    description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+```
+
+> Omit `env` entirely if the server needs no configuration (e.g. the keyless,
+> public-API `multiUser` servers in this catalog).
 
 ### Optional fields (recommended for a rich catalog listing)
 
@@ -126,6 +180,40 @@ containerizedConfig:
 > containerized entries are deployed once (by an admin/power user) and shared;
 > `singleUser` would instead spin up a separate container per user, which only
 > makes sense when each user supplies their own upstream credentials.
+
+## Per-user containerized example (`singleUser` + top-level `env`)
+
+When each user must supply their own credential (e.g. a personal API key), use
+`serverUserType: singleUser` and declare the credential as a **top-level `env`**
+field (a sibling of `runtime` / `containerizedConfig` — **not** nested inside
+`containerizedConfig`). Obot renders these fields in its config UI, prompts each
+user, and injects the values into that user's own container instance.
+
+```yaml
+name: EIA Open Data
+entryKey: obot-eia
+serverUserType: singleUser
+shortDescription: Query U.S. Energy Information Administration (EIA) Open Data API v2
+repoURL: https://github.com/GSA-TTS/mcp-server-eia
+env:                              # <-- TOP LEVEL, not under containerizedConfig
+  - key: EIA_API_KEY
+    name: EIA API Key
+    description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+```
+
+> If `env` is nested under `containerizedConfig`, Obot will not treat it as user
+> configuration: the UI shows only the connection URL (no key field), the
+> container launches without the variable, and tool calls fail (e.g.
+> `EIA_API_KEY is not set`). See the [`env`](#env-usershared-configuration)
+> field reference above.
 
 ## Enriched example
 
