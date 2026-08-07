@@ -15,8 +15,9 @@ described by a single YAML file at the repository root, following the
 format.
 
 The servers cataloged here are pilot/proof-of-concept MCP servers that expose
-public federal data APIs (NIH, CDC, NCBI) as MCP tools. They are hosted as
-remote servers on cloud.gov.
+federal data APIs (NIH, CDC, NCBI, EIA) as MCP tools. Most wrap public, keyless
+APIs and are hosted by the gateway as shared (`multiUser`) containers; the EIA
+server requires a personal API key and is deployed per-user (`singleUser`).
 
 ## Available servers
 
@@ -27,6 +28,7 @@ remote servers on cloud.gov.
 | **CDC PLACES** | Local-level health and chronic disease measures | [CDC PLACES API](https://data.cdc.gov/browse?category=500+Cities+%26+Places) | [`cdc_places.yaml`](cdc_places.yaml) | [docs](docs/servers/cdc_places.md) |
 | **NCBI E-Utils** | Search NCBI biomedical databases (PubMed, etc.) | [NCBI E-Utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) | [`ncbi_eutils.yaml`](ncbi_eutils.yaml) | [docs](docs/servers/ncbi_eutils.md) |
 | **NCI EVS** | Search and navigate NCI cancer terminology (NCIt / NCIm) | [NCI EVS API](https://api-evsrest.nci.nih.gov/) | [`nci_evs.yaml`](nci_evs.yaml) | [docs](docs/servers/nci_evs.md) |
+| **EIA Open Data** | Query U.S. energy statistics across all 17 EIA datasets (per-user API key) | [EIA Open Data API v2](https://www.eia.gov/opendata/) | [`eia.yaml`](eia.yaml) | [docs](docs/servers/eia.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -44,12 +46,14 @@ remote servers on cloud.gov.
 │       ├── nih_clinicaltrials.md
 │       ├── cdc_places.md
 │       ├── ncbi_eutils.md
-│       └── nci_evs.md
+│       ├── nci_evs.md
+│       └── eia.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
 ├── ncbi_eutils.yaml
-└── nci_evs.yaml
+├── nci_evs.yaml
+└── eia.yaml
 ```
 
 ## Adding a server

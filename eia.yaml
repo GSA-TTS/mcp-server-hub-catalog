@@ -1,0 +1,74 @@
+name: EIA Open Data
+entryKey: obot-eia
+serverUserType: singleUser
+shortDescription: Query U.S. Energy Information Administration (EIA) Open Data API v2 energy statistics
+description: |
+
+  A Model Context Protocol (MCP) server for the U.S. Energy Information
+  Administration (EIA) [Open Data API v2](https://www.eia.gov/opendata/),
+  giving agents full coverage of all 17 EIA datasets — electricity, natural gas,
+  petroleum, coal, nuclear outages, CO2 emissions, renewables, and the energy
+  outlooks (AEO/IEO/STEO) — through a small set of generic, composable tools
+  that mirror the API's uniform browse -> discover facets -> query data tree.
+
+  ## Features
+  - **Browse the full dataset tree** from the 17 top-level datasets down to any leaf, reading each dataset's frequencies, facet ids, valid data columns, and date coverage
+  - **Discover filters** — list a dataset's facet ids and enumerate the valid option values for each, so queries use real ids
+  - **Query time series** with column selection, facet filters, frequency, date range, sorting, and pagination
+  - **Generic, path-driven design** — four tools cover the entire API surface without hard-coding hundreds of endpoints
+
+  ## What you'll need to connect
+  A **free personal EIA API key** — register at
+  https://www.eia.gov/opendata/register.php. Because this is a per-user
+  (`singleUser`) server, you will be prompted for your own key when you enable
+  the server; it is stored securely and used only by your own isolated instance.
+
+  ## Examples
+  - "List the top-level EIA datasets, then show the columns and frequencies for electricity retail sales"
+  - "What can I filter the electricity/retail-sales dataset by?"
+  - "Get monthly residential electricity price for California from 2020 to 2023"
+  - "Show annual U.S. total energy CO2 emissions for the last 10 years"
+
+metadata:
+  categories: Energy, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/eia.png
+repoURL: https://github.com/GSA-TTS/mcp-server-eia
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+  env:
+    - key: EIA_API_KEY
+      name: EIA API Key
+      description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
+      required: true
+      sensitive: true
+toolPreview:
+  - name: eia_browse_routes
+    description: Explore the dataset tree from any path (empty = the 17 top-level datasets). At a leaf, returns dataset metadata — available frequencies, facet ids, valid data columns, and the covered date range. Primary discovery tool.
+    params:
+      route: "Dataset route path to inspect (e.g. '' for top-level datasets, then 'electricity', then 'electricity/retail-sales'). Leading/trailing slashes and a 'v2/' prefix are tolerated."
+  - name: eia_list_facets
+    description: List the facet ids a dataset can be filtered by (e.g. stateid, sectorid, fueltypeid).
+    params:
+      route: "Leaf dataset route to list facets for (e.g. 'electricity/retail-sales'). Discover routes with eia_browse_routes."
+  - name: eia_get_facet_options
+    description: List the valid option values for a single facet, so filters use real ids.
+    params:
+      route: "Leaf dataset route (e.g. 'electricity/retail-sales')"
+      facet_id: "Facet id whose values to list (e.g. 'stateid' or 'sectorid'). Discover facet ids with eia_list_facets."
+  - name: eia_get_data
+    description: Query dataset rows with column selection, facet filters, frequency, date range, sorting, and pagination. Returns structured JSON with pagination metadata.
+    params:
+      route: "Leaf dataset route to query (e.g. 'electricity/retail-sales')"
+      data: "Data columns to return (e.g. ['revenue', 'sales', 'price']); valid columns come from eia_browse_routes metadata"
+      facets: "Facet filters as {facet_id: [values]}, e.g. {'stateid': ['CA'], 'sectorid': ['RES']}"
+      frequency: "Data frequency id (e.g. 'monthly', 'annual', 'hourly')"
+      start: "Inclusive start period, format matching the frequency ('2020', '2020-01', '2020-01-01', '2020-01-01T00')"
+      end: "Inclusive end period, same format as start"
+      sort: "Sort spec, e.g. [{'column': 'period', 'direction': 'desc'}]"
+      length: "Max rows to return (page size), 1..5000"
+      offset: "Row offset for pagination; reuse next_offset from a prior call"
