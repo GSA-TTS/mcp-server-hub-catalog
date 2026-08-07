@@ -34,18 +34,18 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/eia.png
 repoURL: https://github.com/GSA-TTS/mcp-server-eia
+env:
+  - key: EIA_API_KEY
+    name: EIA API Key
+    description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
+    required: true
+    sensitive: true
 runtime: containerized
 containerizedConfig:
   image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
   port: 8080
   path: /mcp
   healthzPath: /health
-  env:
-    - key: EIA_API_KEY
-      name: EIA API Key
-      description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
-      required: true
-      sensitive: true
 toolPreview:
   - name: eia_browse_routes
     description: Explore the dataset tree from any path (empty = the 17 top-level datasets). At a leaf, returns dataset metadata — available frequencies, facet ids, valid data columns, and the covered date range. Primary discovery tool.
