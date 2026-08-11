@@ -1,0 +1,70 @@
+name: FEMA NFHL
+entryKey: obot-fema-nfhl
+serverUserType: multiUser
+shortDescription: Screen locations and geometries against FEMA National Flood Hazard Layer (NFHL) flood zones
+description: |
+
+  A Model Context Protocol (MCP) server for the Federal Emergency Management
+  Agency (FEMA) [National Flood Hazard Layer
+  (NFHL)](https://www.fema.gov/flood-maps/national-flood-hazard-layer), the
+  official source of FEMA flood hazard data. Screen a point, parcel, corridor,
+  or bounding box against mapped flood zones — no API key required.
+
+  ## Features
+  - **Screen a location for flood zones** — check whether a point or arbitrary
+    geometry intersects a FEMA Special Flood Hazard Area (SFHA), and return the
+    flood-zone designation, subtype, and base flood elevation
+  - **Accept arbitrary GeoJSON geometry** — Point, MultiPoint, LineString,
+    MultiLineString, Polygon, MultiPolygon, or a BoundingBox shorthand — so you
+    can screen a whole parcel or route, not just a single coordinate
+  - **Count intersecting features first** — a size guardrail to gauge result
+    volume before fetching full attributes
+  - **Discover NFHL layers** — enumerate the service's layers (floodways, FIRM
+    panels, LOMRs, and more) for advanced queries
+  - **Provenance on every result** — source agency, service URL, layer, CRS,
+    source citation, and UTC retrieval timestamp for a defensible record
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public FEMA NFHL ArcGIS REST
+  service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses to
+    coordinates first.
+  - A base flood elevation (BFE) or depth of `-9999` means "not applicable or
+    not mapped" for that zone.
+
+  ## Examples
+  - "Is latitude 29.9511, longitude -90.0715 in a FEMA flood zone?"
+  - "Does this parcel polygon intersect a Special Flood Hazard Area?"
+  - "How many flood features overlap this bounding box before I fetch details?"
+  - "What layers are available in the FEMA NFHL service?"
+  - "Screen this pipeline corridor for flood hazards."
+
+metadata:
+  categories: Government, Geospatial, Emergency Management
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/fema_nfhl.png
+repoURL: https://github.com/GSA-TTS/mcp-server-fema-nfhl
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-fema-nfhl:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: nfhl_screen_flood_zone
+    description: Screen a point or arbitrary geometry for FEMA NFHL flood-zone constraints. Returns a plain-language finding (SFHA status, zone, subtype), the flood-zone attributes, and full provenance. Accepts either a lat/lon pair or a GeoJSON geometry string.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon' for a quick point query; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat' for a quick point query; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+  - name: nfhl_count_flood_features
+    description: Return ONLY how many flood features intersect a point or geometry — a size guardrail to gauge result volume before fetching full attributes. Accepts either a lat/lon pair or a GeoJSON geometry string.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon' for a quick point check; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat' for a quick point check; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+  - name: nfhl_list_layers
+    description: List the layers available in the NFHL service (id, name, geometry type) for discovery — e.g. finding floodways, FIRM panels, or LOMRs beyond the default flood-hazard-zones layer.
+    params: {}
