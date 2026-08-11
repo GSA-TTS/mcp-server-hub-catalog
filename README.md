@@ -29,6 +29,7 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 | **NCBI E-Utils** | Search NCBI biomedical databases (PubMed, etc.) | [NCBI E-Utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) | [`ncbi_eutils.yaml`](ncbi_eutils.yaml) | [docs](docs/servers/ncbi_eutils.md) |
 | **NCI EVS** | Search and navigate NCI cancer terminology (NCIt / NCIm) | [NCI EVS API](https://api-evsrest.nci.nih.gov/) | [`nci_evs.yaml`](nci_evs.yaml) | [docs](docs/servers/nci_evs.md) |
 | **EIA Open Data** | Query U.S. energy statistics across all 17 EIA datasets (per-user API key) | [EIA Open Data API v2](https://www.eia.gov/opendata/) | [`eia.yaml`](eia.yaml) | [docs](docs/servers/eia.md) |
+| **FEMA NFHL** | Screen locations and geometries against FEMA National Flood Hazard Layer flood zones | [FEMA NFHL service](https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer) | [`fema_nfhl.yaml`](fema_nfhl.yaml) | [docs](docs/servers/fema_nfhl.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -47,13 +48,17 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 │       ├── cdc_places.md
 │       ├── ncbi_eutils.md
 │       ├── nci_evs.md
-│       └── eia.md
+│       ├── eia.md
+│       ├── grants_gov.md
+│       └── fema_nfhl.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
 ├── ncbi_eutils.yaml
 ├── nci_evs.yaml
-└── eia.yaml
+├── eia.yaml
+├── grants_gov.yaml
+└── fema_nfhl.yaml
 ```
 
 ## Adding a server
