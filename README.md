@@ -30,6 +30,7 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 | **NCI EVS** | Search and navigate NCI cancer terminology (NCIt / NCIm) | [NCI EVS API](https://api-evsrest.nci.nih.gov/) | [`nci_evs.yaml`](nci_evs.yaml) | [docs](docs/servers/nci_evs.md) |
 | **EIA Open Data** | Query U.S. energy statistics across all 17 EIA datasets (per-user API key) | [EIA Open Data API v2](https://www.eia.gov/opendata/) | [`eia.yaml`](eia.yaml) | [docs](docs/servers/eia.md) |
 | **FEMA NFHL** | Screen locations and geometries against FEMA National Flood Hazard Layer flood zones | [FEMA NFHL service](https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer) | [`fema_nfhl.yaml`](fema_nfhl.yaml) | [docs](docs/servers/fema_nfhl.md) |
+| **Grants.gov** | Search and retrieve federal grant opportunities across all agencies | [Grants.gov API](https://www.grants.gov/api/) | [`grants_gov.yaml`](grants_gov.yaml) | [docs](docs/servers/grants_gov.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
