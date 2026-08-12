@@ -1,0 +1,114 @@
+name: USGS NHDPlus HR
+entryKey: obot-usgs-nhdplus-hr
+serverUserType: multiUser
+shortDescription: Query USGS NHDPlus High Resolution hydrography — streams, lakes, gages, and watersheds — by point or geometry
+description: |
+
+  A Model Context Protocol (MCP) server for the U.S. Geological Survey
+  [NHDPlus High Resolution
+  (NHDPlus HR)](https://www.usgs.gov/national-hydrography/nhdplus-high-resolution),
+  the nationally seamless, routed hydrography network built from the
+  high-resolution National Hydrography Dataset, the Watershed Boundary Dataset,
+  and 3DEP elevation. Query streams, rivers, lakes, stream gages, water
+  features, and watershed boundaries for a point or arbitrary geometry — no API
+  key required.
+
+  ## Features
+  - **Find waterways** — streams, rivers, canals, and artificial paths
+    intersecting a point or geometry, with Strahler stream order, total
+    drainage area, slope, elevation, and modeled mean-annual flow (EROM) and
+    velocity
+  - **Find waterbodies** — lakes, ponds, reservoirs, and swamps, plus areal
+    water features (wide rivers, bays, rapids, dams)
+  - **Find stream gages** — NHDPlus gages with NWIS linkage and monitored
+    drainage area
+  - **Find point & line water features** — springs, waterfalls, dams/weirs,
+    gates, levees, wells, and more
+  - **Identify the watershed** — the HUC12 subwatershed a location falls in,
+    with its name and downstream HUC (for routing)
+  - **Accept arbitrary GeoJSON geometry** — Point, MultiPoint, LineString,
+    MultiLineString, Polygon, MultiPolygon, or a BoundingBox shorthand — so you
+    can query a whole parcel, corridor, or map extent, not just a coordinate
+  - **Count intersecting features first** — a size guardrail to gauge result
+    volume before fetching full attributes
+  - **Readable feature codes** — integer FType/FCode values are translated to
+    human-readable labels (e.g. `46006` → "Stream/River: Perennial")
+  - **Provenance on every result** — source agency, dataset, service URL,
+    layer, CRS, and UTC retrieval timestamp for a defensible record
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public USGS NHDPlus HR ArcGIS
+  REST service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - For point/line layers (gages, water features), pass a Polygon or BoundingBox
+    to capture nearby features — a bare point rarely coincides exactly with one.
+  - Drainage-area units differ: stream gages report drainage area in **square
+    miles**; flowlines and watersheds use **square kilometers**.
+
+  ## Examples
+  - "What river runs through latitude 30.45, longitude -91.19?"
+  - "Which HUC12 watershed contains this point, and where does it drain?"
+  - "What is the highest stream order among the flowlines crossing this bounding box?"
+  - "Are there any stream gages within this polygon, and what drainage area do they monitor?"
+  - "Name the lake at this coordinate."
+  - "Are there waterfalls or dams along this river reach?"
+
+metadata:
+  categories: Government, Geospatial, Hydrology, Environment
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/usgs_nhdplus_hr.png
+repoURL: https://github.com/GSA-TTS/mcp-server-usgs-nationalmap
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-usgs-nationalmap:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: hydro_find_waterways
+    description: Find NHD flowlines (streams, rivers, canals, artificial paths) intersecting a point or geometry, with stream order, total drainage area, slope, elevation, and modeled flow/velocity. Accepts either a lat/lon pair or a GeoJSON geometry string.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon' for a quick point query; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat' for a quick point query; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+      include_non_network: "Also query the NonNetworkNHDFlowline layer (isolated flowlines, identity attributes only). Default false."
+      verbose: "Return all ~80 flowline attributes (full EROM suite + network IDs) instead of the curated core set. Default false."
+  - name: hydro_find_waterbodies
+    description: Find NHD waterbodies (lakes, ponds, reservoirs, swamps) and areal water features (wide rivers, bays, rapids, dams) intersecting a point or geometry. Accepts either a lat/lon pair or a GeoJSON geometry string.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon'; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat'; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+      feature_class: "Which polygon layer(s) to query: 'waterbody', 'area', or 'both'. Default 'both'."
+  - name: hydro_find_gages
+    description: Find NHDPlus stream gages intersecting a geometry, with NWIS linkage (sourceid/sourceagency) and monitored drainage area (in square miles). Pass a Polygon or BoundingBox to capture nearby gages.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon'; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat'; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+  - name: hydro_find_water_features
+    description: Find NHD point and line water features (springs, waterfalls, dams/weirs, gates, levees, wells) intersecting a geometry. Pass a Polygon or BoundingBox to capture nearby features.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon'; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat'; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+      feature_class: "Which layer(s) to query: 'point', 'line', or 'both'. Default 'both'."
+  - name: hydro_identify_watershed
+    description: Identify the HUC12 watershed(s) containing or intersecting a point or geometry, returning the watershed name, 12-digit HUC code, downstream HUC (tohuc), type, area, and states.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon'; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat'; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+  - name: hydro_count_features
+    description: Return ONLY how many features of a layer intersect a point or geometry — a size guardrail to gauge result volume before fetching full attributes.
+    params:
+      layer: "Which feature layer to count: 'waterways', 'waterbodies', 'areas', 'gages', 'points', 'lines', or 'watershed'."
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon'; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat'; omit when supplying 'geometry'."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+  - name: hydro_list_layers
+    description: List the layers available in the NHDPlus HR service (id, name, geometry type) for discovery — e.g. catchments, sinks, or boundary units beyond the layers wrapped by the find_* tools.
+    params: {}
