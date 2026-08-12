@@ -32,6 +32,7 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 | **FEMA NFHL** | Screen locations and geometries against FEMA National Flood Hazard Layer flood zones | [FEMA NFHL service](https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer) | [`fema_nfhl.yaml`](fema_nfhl.yaml) | [docs](docs/servers/fema_nfhl.md) |
 | **Grants.gov** | Search and retrieve federal grant opportunities across all agencies | [Grants.gov API](https://www.grants.gov/api/) | [`grants_gov.yaml`](grants_gov.yaml) | [docs](docs/servers/grants_gov.md) |
 | **USGS NHDPlus HR** | Query USGS NHDPlus High Resolution hydrography — streams, lakes, gages, and watersheds — by point or geometry | [USGS NHDPlus HR service](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer) | [`usgs_nhdplus_hr.yaml`](usgs_nhdplus_hr.yaml) | [docs](docs/servers/usgs_nhdplus_hr.md) |
+| **BLM MLRS Geothermal Leases** | Search and retrieve BLM geothermal lease records by case number or by state, status, and date range | [BLM MLRS Geothermal Leases service](https://gis.blm.gov/nlsdb/rest/services/HUB/BLM_Natl_MLRS_Geothermal_Leases/FeatureServer/0) | [`blm_mlrs.yaml`](blm_mlrs.yaml) | [docs](docs/servers/blm_mlrs.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -52,7 +53,9 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 │       ├── nci_evs.md
 │       ├── eia.md
 │       ├── grants_gov.md
-│       └── fema_nfhl.md
+│       ├── fema_nfhl.md
+│       ├── usgs_nhdplus_hr.md
+│       └── blm_mlrs.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -61,7 +64,8 @@ server requires a personal API key and is deployed per-user (`singleUser`).
 ├── eia.yaml
 ├── grants_gov.yaml
 ├── fema_nfhl.yaml
-└── usgs_nhdplus_hr.yaml
+├── usgs_nhdplus_hr.yaml
+└── blm_mlrs.yaml
 ```
 
 ## Adding a server

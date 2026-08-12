@@ -1,0 +1,56 @@
+name: BLM MLRS Geothermal Leases
+entryKey: obot-blm-mlrs
+serverUserType: multiUser
+shortDescription: Search and retrieve BLM geothermal lease records from the MLRS geothermal leases dataset
+description: |
+
+  A Model Context Protocol (MCP) server for the U.S. Bureau of Land Management
+  (BLM) [Mineral & Land Records System
+  (MLRS)](https://mlrs.blm.gov/) **Geothermal Leases** dataset. Query the BLM
+  National MLRS geothermal leases ArcGIS FeatureServer and get clean, structured
+  lease data — no API key required.
+
+  ## Features
+  - **Look up a lease by case serial number** — retrieve full details for a
+    single lease, including case name, type, status, state, acreage, commodity,
+    formation, production status, and effective/expiration/sale dates
+  - **Search leases with optional filters** — by admin state, case
+    disposition/status, and effective- or expiration-date ranges
+  - **Structured, downstream-friendly output** — results returned as clean
+    JSON objects with normalized date fields
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public BLM National MLRS
+  geothermal leases ArcGIS REST service. No API key or authentication is needed.
+
+  ## Examples
+  - "Get details for BLM geothermal lease NVNV105806473"
+  - "Find authorized geothermal leases in Nevada"
+  - "List geothermal leases with an effective date in 2020"
+  - "Which geothermal leases in California expire before 2030?"
+
+metadata:
+  categories: Government, Geospatial, Energy
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/blm_mlrs.png
+repoURL: https://github.com/GSA-TTS/mcp-server-blm-mlrs
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-blm-mlrs:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_lease_details
+    description: Retrieve full details for a single BLM geothermal lease by its case serial number. Returns case name, lease type, status, state, acreage, commodity, formation, production status, and effective/expiration/sale dates, or an error if the case is not found.
+    params:
+      case_number: "BLM case serial number, e.g. 'NVNV105806473'"
+  - name: search_leases
+    description: Search BLM geothermal leases with optional filters. All parameters are optional; if none are supplied, all leases are returned (capped at 50 records). Returns a count and a list of lease summaries.
+    params:
+      state: "Two-letter admin state code, e.g. 'NV' (matches ADMIN_STATE) (optional)"
+      status: "Case disposition/status, e.g. 'Authorized' (matches CSE_DISP) (optional)"
+      effective_date_from: "Inclusive lower bound on effective date, ISO 'YYYY-MM-DD' (optional)"
+      effective_date_to: "Inclusive upper bound on effective date, ISO 'YYYY-MM-DD' (optional)"
+      expiration_date_from: "Inclusive lower bound on expiration date, ISO 'YYYY-MM-DD' (optional)"
+      expiration_date_to: "Inclusive upper bound on expiration date, ISO 'YYYY-MM-DD' (optional)"
