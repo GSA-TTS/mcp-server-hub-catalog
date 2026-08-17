@@ -1,0 +1,112 @@
+name: Regulations.gov
+entryKey: obot-regulations-gov
+serverUserType: singleUser
+shortDescription: Search and retrieve federal regulatory documents, public comments, and dockets from Regulations.gov
+description: |
+
+  A Model Context Protocol (MCP) server for
+  [Regulations.gov](https://www.regulations.gov), the official U.S. federal
+  portal for public participation in the rulemaking process. Search and retrieve
+  federal regulatory documents, public comments, and dockets across all federal
+  agencies.
+
+  ## Features
+  - **Search documents** — Rules, Proposed Rules, Notices, and Other documents by
+    keyword, agency, date range, docket, and type
+  - **Retrieve full documents** including metadata and, on request, the extracted
+    text of attached PDF files
+  - **Search public comments** by keyword, agency, docket, or the document being
+    commented on
+  - **Read individual comments** with full text and attachment download URLs
+  - **Search and retrieve dockets** — the top-level unit grouping documents and
+    comments for a rulemaking action
+  - **Return results as Markdown or JSON** for flexible downstream processing
+
+  ## What you'll need to connect
+  A **free personal API key** from
+  [api.data.gov/signup](https://api.data.gov/signup/). Because this is a per-user
+  (`singleUser`) server, you will be prompted for your own key when you enable
+  the server; it is stored securely and used only by your own isolated instance.
+
+  ## Examples
+  - "Find EPA proposed rules about air quality from 2024"
+  - "Show me the dockets on methane emissions"
+  - "What public comments were submitted on docket EPA-HQ-OAR-2021-0257?"
+  - "Get the full text of document FDA-2009-N-0501-0012"
+  - "Read comment EPA-HQ-OAR-2021-0257-0542 and list its attachments"
+
+metadata:
+  categories: Government, Research, Legal
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/regulations_gov.png
+repoURL: https://github.com/GSA-TTS/mcp-server-regulations-gov
+env:
+  - key: REGULATIONS_GOV_API_KEY
+    name: Regulations.gov API Key
+    description: Your personal Regulations.gov (api.data.gov) API key (free at https://api.data.gov/signup/)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-regulations-gov:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: regulations_search_documents
+    description: Search federal regulatory documents (Rules, Proposed Rules, Notices, Other) by keyword, agency, docket, date range, and type. Returns paginated results.
+    params:
+      search_term: "Full-text keyword search across document content and metadata (optional)"
+      agency_ids: "Filter by agency IDs, e.g. ['EPA', 'DOT'] (optional)"
+      docket_id: "Filter to documents in a specific docket, e.g. 'EPA-HQ-OAR-2021-0257' (optional)"
+      posted_date_start: "Filter documents posted on or after this date, format YYYY-MM-DD (optional)"
+      posted_date_end: "Filter documents posted on or before this date, format YYYY-MM-DD (optional)"
+      document_type: "Filter by type: 'Rule', 'Proposed Rule', 'Notice', or 'Other' (optional)"
+      sort: "Sort field; prefix '-' for descending, e.g. '-postedDate' (optional)"
+      page_size: "Results per page, 1–250 (default: 20)"
+      page_number: "Page number, starts at 1 (default: 1)"
+      include_attachments: "Include attachment metadata in results (default: false)"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
+  - name: regulations_get_document
+    description: Get full metadata for a specific document by ID. Optionally downloads and extracts the text of all attached PDF files.
+    params:
+      document_id: "Document object ID or document ID, e.g. 'FDA-2009-N-0501-0012'"
+      download_content: "Download and extract text from all attached PDF files (default: false)"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
+  - name: regulations_search_comments
+    description: Search public comments by keyword, agency, docket, or the document being commented on. Personally identifiable information is never returned.
+    params:
+      search_term: "Full-text keyword search across comment content (optional)"
+      agency_ids: "Filter by agency IDs, e.g. ['EPA', 'FDA'] (optional)"
+      docket_id: "Filter to comments in a specific docket (optional)"
+      comment_on_id: "Filter to comments on a specific document object ID (optional)"
+      posted_date_start: "Filter comments posted on or after this date, format YYYY-MM-DD (optional)"
+      posted_date_end: "Filter comments posted on or before this date, format YYYY-MM-DD (optional)"
+      sort: "Sort field; prefix '-' for descending, e.g. '-postedDate' (optional)"
+      page_size: "Results per page, 1–250 (default: 20)"
+      page_number: "Page number, starts at 1 (default: 1)"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
+  - name: regulations_get_comment
+    description: Get the full text and metadata for a specific public comment. Optionally lists attachment titles, formats, sizes, and download URLs.
+    params:
+      comment_id: "Comment object ID or document ID, e.g. 'EPA-HQ-OAR-2021-0257-0542'"
+      include_attachments: "Include attachment metadata and download URLs (default: false)"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
+  - name: regulations_search_dockets
+    description: Search regulatory dockets — the top-level unit grouping documents and comments for a rulemaking action — by keyword, agency, type, and date range.
+    params:
+      search_term: "Full-text keyword search across docket titles and content (optional)"
+      agency_ids: "Filter by agency IDs, e.g. ['EPA', 'NHTSA', 'FDA'] (optional)"
+      docket_id: "Filter by a specific docket ID (optional)"
+      posted_date_start: "Filter dockets created on or after this date, format YYYY-MM-DD (optional)"
+      posted_date_end: "Filter dockets created on or before this date, format YYYY-MM-DD (optional)"
+      docket_type: "Filter by type: 'Rulemaking' or 'Nonrulemaking' (optional)"
+      sort: "Sort field; prefix '-' for descending, e.g. '-modifyDate' (optional)"
+      page_size: "Results per page, 1–250 (default: 20)"
+      page_number: "Page number, starts at 1 (default: 1)"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
+  - name: regulations_get_docket
+    description: Get full metadata for a specific docket by ID, including agency, type, RIN, program, keywords, and modification date.
+    params:
+      docket_id: "Docket ID, e.g. 'EPA-HQ-OAR-2021-0257'"
+      response_format: "'markdown' or 'json' (default: 'markdown')"
