@@ -48,7 +48,7 @@ env:
     sensitive: true
 runtime: containerized
 containerizedConfig:
-  image: ghcr.io/gsa-tts/mcp-server-regulations-gov:0.1.0
+  image: ghcr.io/gsa-tts/mcp-server-regulations-gov:0.2.0
   port: 8080
   path: /mcp
   healthzPath: /health
