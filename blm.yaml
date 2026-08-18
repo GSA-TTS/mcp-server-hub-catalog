@@ -1,0 +1,70 @@
+name: BLM
+entryKey: obot-blm
+serverUserType: multiUser
+shortDescription: Screen a location against BLM land use plans, wilderness areas, and National Monuments/NCAs for NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for U.S. Bureau of Land Management
+  (BLM) geospatial data used in NEPA environmental screening. Given a
+  latitude/longitude and a buffer radius, it identifies BLM approved land use
+  plans, designated wilderness areas, and National Monuments / National
+  Conservation Areas that intersect the region of interest (ROI) — no API key
+  required.
+
+  ## Features
+  - **Find approved land use plans in an ROI** — returns RMPs/MFPs with plan
+    name, status, ROD date/year, admin state, NEPA number, and ePlanning links.
+    Essential for conformance checks per 43 CFR 1610.5.
+  - **Screen for designated wilderness areas** — returns BLM wilderness areas
+    protected under the Wilderness Act of 1964, with NLCS ID, designation date,
+    and area. Supports BLM Extraordinary Circumstances screening.
+  - **Screen for National Monuments and NCAs** — returns National Monuments and
+    National Conservation Areas with NLCS ID, admin state, and area — special
+    designations that carry management restrictions.
+  - **Markdown summaries** — each tool returns a compact, human-readable
+    summary with NEPA compliance notes, not raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public BLM National ArcGIS REST
+  FeatureServers. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "What BLM land use plans apply within 25 miles of 39.06, -108.55?"
+  - "Are there any BLM wilderness areas near latitude 38.5, longitude -109.5?"
+  - "List BLM National Monuments and NCAs within 50 miles of this site."
+
+metadata:
+  categories: Government, Geospatial, Environment
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/blm.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-blm:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_blm_land_use_plans_in_roi
+    description: Identify BLM approved land use plans (RMPs/MFPs) intersecting the region of interest. Returns a Markdown summary with plan name, status, ROD date, admin state, and ePlanning links for conformance checks per 43 CFR 1610.5.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_blm_wilderness_areas_in_roi
+    description: Identify BLM designated wilderness areas (protected under the Wilderness Act of 1964) intersecting the region of interest. Returns a Markdown summary with name, NLCS ID, designation date, and area. Supports Extraordinary Circumstances screening.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_blm_national_monuments_in_roi
+    description: Identify BLM National Monuments and National Conservation Areas (NCAs) intersecting the region of interest. Returns a Markdown summary with name, NLCS ID, admin state, and area — special designations that carry management restrictions.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
