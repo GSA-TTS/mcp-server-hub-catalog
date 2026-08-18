@@ -35,6 +35,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **Regulations.gov** | Search and retrieve federal regulatory documents, public comments, and dockets (per-user API key) | [Regulations.gov API](https://open.gsa.gov/api/regulationsgov/) | [`regulations_gov.yaml`](regulations_gov.yaml) | [docs](docs/servers/regulations_gov.md) |
 | **USGS NHDPlus HR** | Query USGS NHDPlus High Resolution hydrography — streams, lakes, gages, and watersheds — by point or geometry | [USGS NHDPlus HR service](https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer) | [`usgs_nhdplus_hr.yaml`](usgs_nhdplus_hr.yaml) | [docs](docs/servers/usgs_nhdplus_hr.md) |
 | **BLM MLRS Geothermal Leases** | Search and retrieve BLM geothermal lease records by case number or by state, status, and date range | [BLM MLRS Geothermal Leases service](https://gis.blm.gov/nlsdb/rest/services/HUB/BLM_Natl_MLRS_Geothermal_Leases/FeatureServer/0) | [`blm_mlrs.yaml`](blm_mlrs.yaml) | [docs](docs/servers/blm_mlrs.md) |
+| **USACE IWR River Mile Markers** | Locate river mile markers on navigable U.S. rivers — nearest marker, search by area, or filter by river and mile range | [USACE IWR River Mile Markers service](https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/usace_river_mile_markers/FeatureServer/0) | [`usace_iwr.yaml`](usace_iwr.yaml) | [docs](docs/servers/usace_iwr.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -58,7 +59,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── regulations_gov.md
 │       ├── fema_nfhl.md
 │       ├── usgs_nhdplus_hr.md
-│       └── blm_mlrs.md
+│       ├── blm_mlrs.md
+│       └── usace_iwr.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -69,7 +71,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── regulations_gov.yaml
 ├── fema_nfhl.yaml
 ├── usgs_nhdplus_hr.yaml
-└── blm_mlrs.yaml
+├── blm_mlrs.yaml
+└── usace_iwr.yaml
 ```
 
 ## Adding a server

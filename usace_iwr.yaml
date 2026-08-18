@@ -1,0 +1,77 @@
+name: USACE IWR River Mile Markers
+entryKey: obot-usace-iwr
+serverUserType: multiUser
+shortDescription: Locate USACE river mile markers on navigable U.S. rivers — find the nearest marker, search by area, or filter by river and mile range
+description: |
+
+  A Model Context Protocol (MCP) server for the U.S. Army Corps of Engineers
+  (USACE) Institute for Water Resources (IWR)
+  [River Mile Markers](https://www.arcgis.com/home/item.html?id=604cdc08fe7d43cb90a0584a0b198875)
+  hosted ArcGIS Feature Service. It lets an AI application locate river mile
+  markers on navigable U.S. rivers and answer "what river mile am I at?" style
+  questions — no API key required.
+
+  ## Features
+  - **Find the nearest marker** — return the single closest river mile marker to
+    a lat/lon point, with great-circle distance and compass bearing
+  - **Search markers by area** — find markers near a point (radius) or within an
+    arbitrary GeoJSON geometry or bounding box, sorted nearest-first for point
+    queries
+  - **Filter by river and mile range** — query markers by river name
+    (case-insensitive substring) and/or a river-mile value range, with
+    offset-based pagination
+  - **Accept arbitrary GeoJSON geometry** — Point, MultiPoint, LineString,
+    MultiLineString, Polygon, MultiPolygon, or a BoundingBox shorthand — so you
+    can query a whole reach, corridor, or map extent, not just a coordinate
+  - **Provenance on every result** — source agency, dataset, service URL, layer,
+    CRS, and UTC retrieval timestamp for a defensible record
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public USACE IWR River Mile
+  Markers ArcGIS REST service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - The service caps responses at 2000 records; list-style queries paginate.
+
+  ## Examples
+  - "What river mile am I at, at latitude 31.45, longitude -92.71?"
+  - "What river mile markers are within 2 km of this boat ramp?"
+  - "List the markers on the RED river between mile 100 and 200."
+  - "Which markers fall inside this bounding box?"
+
+metadata:
+  categories: Government, Geospatial, Hydrology, Transportation
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/usace_iwr.png
+repoURL: https://github.com/GSA-TTS/mcp-server-usace-iwr
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-usace-iwr:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: usace_rivermile_nearest
+    description: Return the single closest river mile marker to a WGS84 coordinate, with great-circle distance and compass bearing. Answers "what river mile am I at?".
+    params:
+      lat: "Latitude in decimal degrees (WGS84)."
+      lon: "Longitude in decimal degrees (WGS84)."
+      max_radius_meters: "Maximum search radius in meters. If no marker is found within this radius, none is reported. Default 50000 (50 km)."
+  - name: usace_rivermile_find_markers
+    description: Find river mile markers near a point (lat/lon + radius) or within a GeoJSON geometry/bbox. Point queries include distance and are sorted nearest-first.
+    params:
+      lat: "Latitude in decimal degrees (WGS84). Use with 'lon' for a proximity search; omit when supplying 'geometry'."
+      lon: "Longitude in decimal degrees (WGS84). Use with 'lat' for a proximity search; omit when supplying 'geometry'."
+      radius_meters: "Search radius in meters around the lat/lon point. Ignored when 'geometry' is supplied. Default 5000 (5 km)."
+      geometry: "GeoJSON geometry object as a JSON string (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, or BoundingBox shorthand). Supply either this OR lat+lon."
+      limit: "Maximum number of markers to return. Default 25."
+  - name: usace_rivermile_query
+    description: Filter markers by river name (case-insensitive substring) and/or a river-mile value range, ordered by mile ascending, with offset-based pagination.
+    params:
+      river_name: "River name to filter on (case-insensitive substring match, e.g. 'RED', 'MISSISSIPPI', 'OHIO'). Omit to match all rivers."
+      mile_min: "Minimum river mile value (inclusive). Omit for no lower bound."
+      mile_max: "Maximum river mile value (inclusive). Omit for no upper bound."
+      limit: "Maximum markers to return per page. Default 25."
+      offset: "Number of matching markers to skip (for pagination). Default 0."
