@@ -1,0 +1,75 @@
+name: NEPA USACE
+entryKey: obot-nepa-usace
+serverUserType: multiUser
+shortDescription: Identify the USACE regulatory district and wetland delineation regions/subregions for a location for Section 404 NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for U.S. Army Corps of Engineers (USACE)
+  regulatory data, built for Section 404 Clean Water Act compliance and
+  jurisdictional screening in NEPA analyses. Given a latitude/longitude and a
+  buffer radius, it identifies the USACE district with regulatory jurisdiction
+  over a region of interest (ROI) and the applicable wetland delineation regions
+  and subregions, querying USACE regulatory ArcGIS services. No API key
+  required.
+
+  ## Features
+  - **Regulatory district** — the USACE district with jurisdiction over the ROI,
+    including district name, abbreviation, division, and website URL for permit
+    inquiries.
+  - **Wetland delineation regions** — the broad USACE Regional Supplement
+    regions used for wetland delineation methodology.
+  - **Wetland subregions** — finer MLRA-based subregions nested under the
+    Regional Supplement regions.
+  - **One-shot jurisdictional analysis** — combine district, region, and
+    subregion data into a single Section 404 screening summary.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public USACE regulatory ArcGIS
+  services. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "Which USACE district regulates the area within 25 miles of 38.9, -77.0?"
+  - "What wetland delineation region applies near latitude 30.3, longitude -97.7?"
+  - "Run a Section 404 jurisdictional analysis for this site."
+
+metadata:
+  categories: Government, Geospatial, Environment, Water
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/usace.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-usace:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_usace_regulatory_district
+    description: Identify which USACE district has regulatory jurisdiction over the ROI. Returns district name, abbreviation, division, and website URL for permit inquiries as a Markdown summary.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_usace_wetland_regions_in_roi
+    description: Get the broad USACE Regional Supplement wetland delineation regions within the ROI (the methodology regions). Use the subregions tool when MLRA-scale detail is needed. Returns a Markdown summary.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_usace_wetland_subregions_in_roi
+    description: Get finer MLRA-based wetland subregions nested under the USACE Regional Supplement regions within the ROI. Use the wetland regions tool when only the applicable Regional Supplement is needed. Returns a Markdown summary.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: analyze_usace_jurisdiction
+    description: One-shot comprehensive USACE jurisdictional analysis for Section 404 compliance — combines regulatory district, wetland region, and subregion data into a single Markdown summary. Use the individual get_* tools when only one dataset is needed.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
