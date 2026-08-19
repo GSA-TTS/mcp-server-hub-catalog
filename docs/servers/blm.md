@@ -1,4 +1,4 @@
-# BLM MCP Server
+# NEPA BLM MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
 
@@ -23,7 +23,7 @@ hosted by BLM.
   (a fork of [pnnl/nepa-mcp](https://github.com/pnnl/nepa-mcp); the BLM server
   is containerized additively under `docker/blm/`).
 - **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-blm` (`:8080/mcp`, health at `/health`).
+  `ghcr.io/gsa-tts/mcp-server-nepa-blm` (`:8080/mcp`, health at `/health`).
   The container has no public route; it is reachable only through the gateway.
 - **Authentication:** None required — queries the public BLM ArcGIS services.
 

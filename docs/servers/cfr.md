@@ -1,4 +1,4 @@
-# CFR MCP Server
+# NEPA CFR MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
 

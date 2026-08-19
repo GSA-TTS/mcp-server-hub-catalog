@@ -1,5 +1,5 @@
-name: Census
-entryKey: obot-census
+name: NEPA Census
+entryKey: obot-nepa-census
 serverUserType: singleUser
 shortDescription: Establish socioeconomic baseline conditions for NEPA analysis from U.S. Census Bureau ACS data by region of interest
 description: |
@@ -48,7 +48,7 @@ env:
     sensitive: true
 runtime: containerized
 containerizedConfig:
-  image: ghcr.io/gsa-tts/mcp-server-census:0.1.0
+  image: ghcr.io/gsa-tts/mcp-server-nepa-census:0.1.0
   port: 8080
   path: /mcp
   healthzPath: /health

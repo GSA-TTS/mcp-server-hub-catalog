@@ -1,4 +1,4 @@
-# Census MCP Server
+# NEPA Census MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
 
@@ -17,7 +17,7 @@ gateway.
   (a fork of [pnnl/nepa-mcp](https://github.com/pnnl/nepa-mcp); the Census
   server is containerized additively under `docker/census/`).
 - **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-census` (`:8080/mcp`, health at `/health`).
+  `ghcr.io/gsa-tts/mcp-server-nepa-census` (`:8080/mcp`, health at `/health`).
   The container has no public route; it is reachable only through the gateway.
 - **Authentication:** Per-user **Census API key** (`CENSUS_API_KEY`). This is a
   `singleUser` server — each user supplies their own free key, injected into
