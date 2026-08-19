@@ -37,6 +37,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **BLM MLRS Geothermal Leases** | Search and retrieve BLM geothermal lease records by case number or by state, status, and date range | [BLM MLRS Geothermal Leases service](https://gis.blm.gov/nlsdb/rest/services/HUB/BLM_Natl_MLRS_Geothermal_Leases/FeatureServer/0) | [`blm_mlrs.yaml`](blm_mlrs.yaml) | [docs](docs/servers/blm_mlrs.md) |
 | **BLM** | Screen a location against BLM land use plans, wilderness areas, and National Monuments/NCAs for NEPA analysis | [BLM National ArcGIS REST services](https://services1.arcgis.com/KbxwQRRfWyEYLgp4/arcgis/rest/services) | [`blm.yaml`](blm.yaml) | [docs](docs/servers/blm.md) |
 | **USACE IWR River Mile Markers** | Locate river mile markers on navigable U.S. rivers — nearest marker, search by area, or filter by river and mile range | [USACE IWR River Mile Markers service](https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/usace_river_mile_markers/FeatureServer/0) | [`usace_iwr.yaml`](usace_iwr.yaml) | [docs](docs/servers/usace_iwr.md) |
+| **CFR** | Resolve, browse, and diff Code of Federal Regulations text and trace the Federal Register rulemaking behind it | [eCFR](https://www.ecfr.gov/developers/documentation/api/v1) & [Federal Register](https://www.federalregister.gov/developers/documentation/api/v1) APIs | [`cfr.yaml`](cfr.yaml) | [docs](docs/servers/cfr.md) |
 | **Census** | Establish socioeconomic baseline conditions for NEPA analysis from U.S. Census Bureau ACS data by region of interest (per-user API key) | [Census ACS 5-Year Estimates](https://www.census.gov/programs-surveys/acs) | [`census.yaml`](census.yaml) | [docs](docs/servers/census.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
@@ -64,6 +65,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── blm_mlrs.md
 │       ├── blm.md
 │       ├── usace_iwr.md
+│       └── cfr.md
 │       └── census.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
@@ -78,6 +80,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── blm_mlrs.yaml
 ├── blm.yaml
 ├── usace_iwr.yaml
+└── cfr.yaml
 └── census.yaml
 └── usace_iwr.yaml
 ```
