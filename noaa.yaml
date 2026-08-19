@@ -1,0 +1,59 @@
+name: NEPA NOAA Critical Habitat
+entryKey: obot-nepa-noaa
+serverUserType: multiUser
+shortDescription: Screen a location against NOAA West Coast Region ESA-designated critical habitat for Section 7 consultation in NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for NOAA Fisheries West Coast Region
+  ESA-designated critical habitat, built for Endangered Species Act (ESA)
+  Section 7 consultation screening in NEPA analyses. Given a latitude/longitude
+  and a buffer radius, it identifies designated critical habitat (lines and
+  polygons) that intersects a region of interest (ROI), querying the NOAA
+  Fisheries ArcGIS FeatureServer. No API key required.
+
+  ## Features
+  - **Critical habitat screening by ROI** — designated critical habitat for
+    NOAA-managed species (salmon, steelhead, marine mammals, and marine fish)
+    intersecting a buffered point.
+  - **ROI-clipped areas with provenance** — polygon area is unioned across diced
+    fragments and clipped to the ROI; upstream whole-feature area is retained
+    separately for a defensible record.
+  - **Markdown summary output** — a compact, decision-oriented summary rather
+    than raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NOAA Fisheries West
+  Coast Region critical-habitat ArcGIS FeatureServer. No API key or
+  authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+  - **Coverage note:** the underlying service is NOAA Fisheries West Coast
+    Region. Outside that geography, a no-hit result may mean out-of-scope rather
+    than no ESA concern.
+
+  ## Examples
+  - "Is there NOAA critical habitat within 25 miles of 45.5, -122.6?"
+  - "Screen this site for ESA critical habitat near latitude 47.6, longitude -122.3."
+  - "What NOAA-managed species have critical habitat around this location?"
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/noaa.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-noaa:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_noaa_critical_habitat_in_roi
+    description: Query NOAA for West Coast Region ESA-designated critical habitat within the ROI. Returns designated critical habitat (lines and polygons) for NOAA-managed species — salmon, steelhead, marine mammals, and marine fish — as a Markdown summary. Polygon area is unioned across diced fragments and clipped to the ROI. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"

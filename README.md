@@ -45,6 +45,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **NEPA FEMA NFHL** | Screen a location against FEMA National Flood Hazard Layer (NFHL) flood zones, levees, and water areas for NEPA analysis | [FEMA NFHL ArcGIS service](https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer) | [`nepa_fema_nfhl.yaml`](nepa_fema_nfhl.yaml) | [docs](docs/servers/nepa_fema_nfhl.md) |
 | **NEPA GBIF** | Retrieve georeferenced GBIF species occurrences and county-level species presence for NEPA biodiversity screening | [GBIF API](https://www.gbif.org/developer/summary) | [`gbif.yaml`](gbif.yaml) | [docs](docs/servers/gbif.md) |
 | **NEPA IPaC** | Screen a location against USFWS IPaC ESA species, migratory birds, wetlands, critical habitat, and refuges for NEPA analysis | [USFWS IPaC](https://ipac.ecosphere.fws.gov/) | [`ipac.yaml`](ipac.yaml) | [docs](docs/servers/ipac.md) |
+| **NEPA NOAA Critical Habitat** | Screen a location against NOAA West Coast Region ESA-designated critical habitat for Section 7 consultation in NEPA analysis | [NOAA Fisheries West Coast critical-habitat service](https://www.fisheries.noaa.gov/national/endangered-species-conservation/critical-habitat) | [`noaa.yaml`](noaa.yaml) | [docs](docs/servers/noaa.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -78,7 +79,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── esa_ranges.md
 │       ├── nepa_fema_nfhl.md
 │       ├── gbif.md
-│       └── ipac.md
+│       ├── ipac.md
+│       └── noaa.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -99,7 +101,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── esa_ranges.yaml
 ├── nepa_fema_nfhl.yaml
 ├── gbif.yaml
-└── ipac.yaml
+├── ipac.yaml
+└── noaa.yaml
 ```
 
 ## Adding a server
