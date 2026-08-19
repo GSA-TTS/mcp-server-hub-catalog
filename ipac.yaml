@@ -1,0 +1,54 @@
+name: NEPA IPaC
+entryKey: obot-nepa-ipac
+serverUserType: multiUser
+shortDescription: Screen a location against USFWS IPaC ESA species, migratory birds, wetlands, critical habitat, and refuges for NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for the U.S. Fish & Wildlife Service
+  [Information for Planning and Consultation
+  (IPaC)](https://ipac.ecosphere.fws.gov/), built for Endangered Species Act
+  (ESA) Section 7 consultation and biological-resource screening in NEPA
+  analyses. Given a latitude/longitude and a buffer radius, it returns the USFWS
+  trust resources — ESA-listed species, migratory birds, wetlands, critical
+  habitat, and National Wildlife Refuges — that fall within a region of interest
+  (ROI). No API key required.
+
+  ## Features
+  - **One-call IPaC resource screen** — ESA-listed species, migratory birds of
+    concern, NWI wetlands, designated critical habitat, and refuge lands for the
+    ROI in a single request.
+  - **Markdown summary output** — a compact, decision-oriented summary keyed to
+    the ROI, rather than raw IPaC payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public USFWS IPaC service. No
+  API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "What USFWS-listed species and critical habitat are within 25 miles of 38.9, -77.0?"
+  - "Screen this site for migratory birds and wetlands near latitude 30.3, longitude -97.7."
+  - "Are there any National Wildlife Refuges around this location?"
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/ipac.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-ipac:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_ipac_resources_in_roi
+    description: Query USFWS IPaC for ESA-listed species, migratory birds, wetlands, critical habitat, and National Wildlife Refuge data within the ROI. Returns a Markdown summary of the trust resources found — useful for ESA Section 7 consultation and biological-resource screening in NEPA analyses.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
