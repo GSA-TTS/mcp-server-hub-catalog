@@ -1,0 +1,70 @@
+name: NEPA GBIF
+entryKey: obot-nepa-gbif
+serverUserType: multiUser
+shortDescription: Retrieve georeferenced GBIF species occurrences and county-level species presence for NEPA biodiversity screening
+description: |
+
+  A Model Context Protocol (MCP) server for the Global Biodiversity Information
+  Facility (GBIF), built for NEPA/EIS biodiversity screening. Given a
+  latitude/longitude and a buffer radius, it returns georeferenced species
+  occurrence records — actual observation coordinates — and county-level species
+  presence within a region of interest (ROI). Unlike species-list sources, GBIF
+  provides the observed lat/lon, so sightings can be mapped and habitat-use
+  patterns analyzed. No API key required.
+
+  ## Features
+  - **Georeferenced occurrences in an ROI** — actual observation coordinates for
+    species (threatened/endangered by default), filterable by minimum year and
+    capped by a record limit.
+  - **Species presence by county** — species lists aggregated by county within
+    the ROI buffer, appropriate for NEPA/EIS reports where county-level presence
+    is the reporting unit.
+  - **Markdown summary output** — compact, decision-oriented summaries rather
+    than raw GBIF payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public GBIF API (and the Census
+  county service for county aggregation). No API key or authentication is
+  needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+  - `threatened_only` defaults to true; `min_year` defaults to 2015.
+
+  ## Examples
+  - "What threatened species have been observed within 25 miles of 44.4, -110.6?"
+  - "List species presence by county near latitude 34.05, longitude -118.24."
+  - "Show all GBIF occurrences (not just threatened) since 2010 around this site."
+
+metadata:
+  categories: Environment, Geospatial, Wildlife, Research
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/gbif.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-gbif:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_gbif_species_occurrences_in_roi
+    description: Query GBIF for georeferenced species occurrences within the ROI. Returns actual observation coordinates (lat/lon) — ideal for mapping sightings and analyzing habitat-use patterns — as a Markdown summary. Defaults to threatened/endangered species since 2015.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      threatened_only: "Only return threatened/endangered species (default true) (optional)"
+      min_year: "Minimum observation year (default 2015) (optional)"
+      max_records: "Maximum records to retrieve, valid range 1 to 5000 (default 1000) (optional)"
+  - name: get_gbif_species_list_by_county
+    description: Query GBIF for species presence aggregated by county within the ROI buffer. Returns species lists per county as a Markdown summary — appropriate for NEPA/EIS reports where county-level presence is the reporting unit. Defaults to threatened/endangered species since 2015.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      threatened_only: "Only return threatened/endangered species (default true) (optional)"
+      min_year: "Minimum observation year (default 2015) (optional)"
+      max_records_per_county: "Maximum records per county, valid range 1 to 5000 (default 1000) (optional)"

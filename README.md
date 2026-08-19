@@ -43,6 +43,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **NEPA EPA AQS** | Assess air quality baseline conditions for NEPA analysis from EPA AQS criteria-pollutant monitoring data and NAAQS screening (per-user API key) | [EPA Air Quality System API](https://aqs.epa.gov/aqsweb/documents/data_api.html) | [`epa_aqs.yaml`](epa_aqs.yaml) | [docs](docs/servers/epa_aqs.md) |
 | **NEPA ESA Ranges** | Screen a location against NOAA ESA-listed species ranges (HUC-12 watershed detail) for Section 7 consultation in NEPA analysis | [NOAA Fisheries Ranges_dice service](https://www.fisheries.noaa.gov/topic/endangered-species-conservation) | [`esa_ranges.yaml`](esa_ranges.yaml) | [docs](docs/servers/esa_ranges.md) |
 | **NEPA FEMA NFHL** | Screen a location against FEMA National Flood Hazard Layer (NFHL) flood zones, levees, and water areas for NEPA analysis | [FEMA NFHL ArcGIS service](https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer) | [`nepa_fema_nfhl.yaml`](nepa_fema_nfhl.yaml) | [docs](docs/servers/nepa_fema_nfhl.md) |
+| **NEPA GBIF** | Retrieve georeferenced GBIF species occurrences and county-level species presence for NEPA biodiversity screening | [GBIF API](https://www.gbif.org/developer/summary) | [`gbif.yaml`](gbif.yaml) | [docs](docs/servers/gbif.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -74,7 +75,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── efh.md
 │       ├── epa_aqs.md
 │       ├── esa_ranges.md
-│       └── nepa_fema_nfhl.md
+│       ├── nepa_fema_nfhl.md
+│       └── gbif.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -93,7 +95,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── efh.yaml
 ├── epa_aqs.yaml
 ├── esa_ranges.yaml
-└── nepa_fema_nfhl.yaml
+├── nepa_fema_nfhl.yaml
+└── gbif.yaml
 ```
 
 ## Adding a server
