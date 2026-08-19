@@ -50,6 +50,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **NEPA USGS PAD-US** | Screen a location against the USGS PAD-US protected-areas database (ownership and management) for NEPA analysis | [USGS PAD-US](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview) | [`padus.yaml`](padus.yaml) | [docs](docs/servers/padus.md) |
 | **NEPA NOAA PCSRF** | Screen a location against NOAA species ranges, critical habitat, EFH, and Pacific Coastal Salmon Recovery Fund projects for NEPA analysis | [NOAA Fisheries ArcGIS services](https://www.fisheries.noaa.gov/grant/pacific-coastal-salmon-recovery-fund) | [`pcsrf.yaml`](pcsrf.yaml) | [docs](docs/servers/pcsrf.md) |
 | **NEPA USACE** | Identify the USACE regulatory district and wetland delineation regions/subregions for a location for Section 404 NEPA analysis | [USACE regulatory ArcGIS services](https://www.usace.army.mil/Missions/Civil-Works/Regulatory-Program-and-Permits/) | [`usace.yaml`](usace.yaml) | [docs](docs/servers/usace.md) |
+| **NEPA Tribal Lands** | Identify tribal lands (Census TIGERweb AIANNHA) intersecting a location for geographic context in NEPA analysis | [Census TIGERweb AIANNHA](https://tigerweb.geo.census.gov/tigerwebmain/TIGERweb_main.html) | [`tribal.yaml`](tribal.yaml) | [docs](docs/servers/tribal.md) |
+| **NEPA Counties (TIGERweb)** | Identify the counties intersecting a location (Census TIGERweb) for jurisdictional coordination in NEPA analysis | [Census TIGERweb](https://tigerweb.geo.census.gov/tigerwebmain/TIGERweb_main.html) | [`tigerweb_counties.yaml`](tigerweb_counties.yaml) | [docs](docs/servers/tigerweb_counties.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -88,7 +90,9 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── nrhp.md
 │       ├── padus.md
 │       ├── pcsrf.md
-│       └── usace.md
+│       ├── usace.md
+│       ├── tribal.md
+│       └── tigerweb_counties.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -114,7 +118,9 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── nrhp.yaml
 ├── padus.yaml
 ├── pcsrf.yaml
-└── usace.yaml
+├── usace.yaml
+├── tribal.yaml
+└── tigerweb_counties.yaml
 ```
 
 ## Adding a server
