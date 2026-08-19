@@ -1,0 +1,55 @@
+name: NEPA Counties (TIGERweb)
+entryKey: obot-nepa-tigerweb-counties
+serverUserType: multiUser
+shortDescription: Identify the counties intersecting a location (Census TIGERweb) for jurisdictional coordination in NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for county discovery, built for
+  jurisdictional coordination and permitting analysis in NEPA reviews. Given a
+  latitude/longitude and a buffer radius, it identifies every county that
+  intersects a region of interest (ROI), querying the public U.S. Census Bureau
+  TIGERweb service. No API key required.
+
+  This is a **boundary/geometry** lookup ("which counties overlap this area?").
+  For county-level socioeconomic statistics (income, poverty, employment), use
+  the separate Census (ACS) server.
+
+  ## Features
+  - **County discovery by ROI** — all counties intersecting a buffered point,
+    with names and FIPS identifiers, for jurisdictional coordination and
+    permitting.
+  - **Markdown summary output** — a compact, decision-oriented summary rather
+    than raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public Census TIGERweb ArcGIS
+  service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "What counties are within 25 miles of 39.06, -108.55?"
+  - "Which counties intersect a 10-mile buffer around latitude 34.05, longitude -118.24?"
+  - "List the counties for this project area for jurisdictional coordination."
+
+metadata:
+  categories: Government, Geospatial, Demographics
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/tigerweb_counties.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-tigerweb-counties:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_tigerweb_counties_in_roi
+    description: Identify all counties intersecting an ROI buffer using Census TIGERweb. Returns county names and FIPS identifiers as a Markdown summary — useful for jurisdictional coordination and permitting. This is a boundary/geometry lookup, not socioeconomic statistics.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
