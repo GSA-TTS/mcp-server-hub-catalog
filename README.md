@@ -48,6 +48,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **NEPA NOAA Critical Habitat** | Screen a location against NOAA West Coast Region ESA-designated critical habitat for Section 7 consultation in NEPA analysis | [NOAA Fisheries West Coast critical-habitat service](https://www.fisheries.noaa.gov/national/endangered-species-conservation/critical-habitat) | [`noaa.yaml`](noaa.yaml) | [docs](docs/servers/noaa.md) |
 | **NEPA NRHP** | Screen a location against National Register of Historic Places (NRHP) listed properties for Section 106 review in NEPA analysis | [NPS Cultural Resources service](https://www.nps.gov/subjects/nationalregister/index.htm) | [`nrhp.yaml`](nrhp.yaml) | [docs](docs/servers/nrhp.md) |
 | **NEPA USGS PAD-US** | Screen a location against the USGS PAD-US protected-areas database (ownership and management) for NEPA analysis | [USGS PAD-US](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview) | [`padus.yaml`](padus.yaml) | [docs](docs/servers/padus.md) |
+| **NEPA NOAA PCSRF** | Screen a location against NOAA species ranges, critical habitat, EFH, and Pacific Coastal Salmon Recovery Fund projects for NEPA analysis | [NOAA Fisheries ArcGIS services](https://www.fisheries.noaa.gov/grant/pacific-coastal-salmon-recovery-fund) | [`pcsrf.yaml`](pcsrf.yaml) | [docs](docs/servers/pcsrf.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -84,7 +85,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── ipac.md
 │       ├── noaa.md
 │       ├── nrhp.md
-│       └── padus.md
+│       ├── padus.md
+│       └── pcsrf.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -108,7 +110,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── ipac.yaml
 ├── noaa.yaml
 ├── nrhp.yaml
-└── padus.yaml
+├── padus.yaml
+└── pcsrf.yaml
 ```
 
 ## Adding a server
