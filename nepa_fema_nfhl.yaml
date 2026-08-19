@@ -1,0 +1,73 @@
+name: NEPA FEMA NFHL
+entryKey: obot-nepa-fema-nfhl
+serverUserType: multiUser
+shortDescription: Screen a location against FEMA National Flood Hazard Layer (NFHL) flood zones, levees, and water areas for NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for the Federal Emergency Management
+  Agency (FEMA) [National Flood Hazard Layer
+  (NFHL)](https://www.fema.gov/flood-maps/national-flood-hazard-layer), the
+  official source of FEMA flood hazard data, built for NEPA/EIS flood-hazard
+  screening. Given a latitude/longitude and a search radius, it screens a region
+  of interest (ROI) against mapped flood zones, levees, and water areas — no API
+  key required.
+
+  ## Features
+  - **Flood hazard zones** — flood zone classifications (Zone A, AE, X, D, etc.)
+    within the ROI.
+  - **Levees** — FEMA-mapped levee locations within the ROI.
+  - **Water areas** — rivers, lakes, and other water areas within the ROI.
+  - **One-shot flood-hazard screening** — combine flood zones, levees, and water
+    areas into a single screening summary.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public FEMA NFHL ArcGIS REST
+  service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `radius_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "Is 29.9511, -90.0715 in a FEMA flood zone within 5 miles?"
+  - "Are there any FEMA-mapped levees near latitude 38.6, longitude -90.2?"
+  - "What water areas are within 10 miles of this site?"
+  - "Run a FEMA NFHL flood-hazard screening for this location."
+
+metadata:
+  categories: Government, Geospatial, Emergency Management, Environment
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nepa_fema_nfhl.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-fema-nfhl:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_fema_nfhl_flood_zones_in_roi
+    description: Query FEMA flood hazard zones within a radius of a location. Returns flood zone classifications (Zone A, AE, X, D, etc.) as a Markdown summary.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_fema_nfhl_levees_in_roi
+    description: Query FEMA-mapped levee locations within a radius of a location. Returns a Markdown summary of levees in the ROI.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_fema_nfhl_water_areas_in_roi
+    description: Query FEMA water areas (rivers, lakes, etc.) within a radius of a location. Returns a Markdown summary of water areas in the ROI.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: analyze_fema_nfhl_flood_hazard_screening
+    description: One-shot FEMA NFHL flood-hazard screening for a location — combines flood zones, levees, and water areas into a single screening summary. Use the individual get_* tools when only one layer is needed.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
