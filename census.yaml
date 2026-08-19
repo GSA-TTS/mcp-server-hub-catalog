@@ -1,0 +1,63 @@
+name: Census
+entryKey: obot-census
+serverUserType: singleUser
+shortDescription: Establish socioeconomic baseline conditions for NEPA analysis from U.S. Census Bureau ACS data by region of interest
+description: |
+
+  A Model Context Protocol (MCP) server for U.S. Census Bureau American
+  Community Survey (ACS) 5-Year Estimates. Given a latitude/longitude and a
+  buffer radius, it returns socioeconomic indicators for the counties that
+  intersect the region of interest (ROI) — useful for establishing
+  socioeconomic baseline conditions for NEPA analysis.
+
+  ## Features
+  - **Socioeconomic baseline by ROI** — returns economic indicators (income,
+    poverty, unemployment) and labor statistics for each county intersecting a
+    buffered point.
+  - **Optional industry/occupation breakdown** — include the top industries and
+    occupations per county, with a configurable count.
+  - **Markdown summary output** — a compact, human-readable summary keyed to the
+    counties in the ROI, not raw Census API payloads.
+
+  ## What you'll need to connect
+  A **free personal Census API key** — register at
+  https://api.census.gov/data/key_signup.html. Because this is a per-user
+  (`singleUser`) server, you will be prompted for your own key when you enable
+  the server; it is stored securely and used only by your own isolated instance.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "What are the socioeconomic baseline conditions within 25 miles of 39.06, -108.55?"
+  - "Show income, poverty, and unemployment for counties near latitude 38.5, longitude -109.5."
+  - "Include the top 3 industries and occupations per county for this ROI."
+
+metadata:
+  categories: Government, Geospatial, Demographics, Research
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/census.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+env:
+  - key: CENSUS_API_KEY
+    name: Census API Key
+    description: Your personal U.S. Census Bureau API key (free at https://api.census.gov/data/key_signup.html)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-census:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_acs_socioeconomic_indicators_in_roi
+    description: Query ACS socioeconomic indicators for the counties within a buffered region of interest. Returns economic indicators (income, poverty, unemployment) and labor statistics per county as a Markdown summary. Useful for establishing socioeconomic baseline conditions for NEPA analysis.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      include_industries: "Include top industries/occupations data (default false) (optional)"
+      top_n: "Number of top industries/occupations per county, valid range 1 to 10 (default 2) (optional)"
