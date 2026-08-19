@@ -41,6 +41,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **Census** | Establish socioeconomic baseline conditions for NEPA analysis from U.S. Census Bureau ACS data by region of interest (per-user API key) | [Census ACS 5-Year Estimates](https://www.census.gov/programs-surveys/acs) | [`census.yaml`](census.yaml) | [docs](docs/servers/census.md) |
 | **NEPA EFH** | Screen a location against NOAA Essential Fish Habitat (EFH), HAPC, and salmon/HMS/CPS/groundfish designations for NEPA analysis | [NOAA Fisheries West Coast EFH services](https://www.fisheries.noaa.gov/national/habitat-conservation/essential-fish-habitat) | [`efh.yaml`](efh.yaml) | [docs](docs/servers/efh.md) |
 | **NEPA EPA AQS** | Assess air quality baseline conditions for NEPA analysis from EPA AQS criteria-pollutant monitoring data and NAAQS screening (per-user API key) | [EPA Air Quality System API](https://aqs.epa.gov/aqsweb/documents/data_api.html) | [`epa_aqs.yaml`](epa_aqs.yaml) | [docs](docs/servers/epa_aqs.md) |
+| **NEPA ESA Ranges** | Screen a location against NOAA ESA-listed species ranges (HUC-12 watershed detail) for Section 7 consultation in NEPA analysis | [NOAA Fisheries Ranges_dice service](https://www.fisheries.noaa.gov/topic/endangered-species-conservation) | [`esa_ranges.yaml`](esa_ranges.yaml) | [docs](docs/servers/esa_ranges.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -70,7 +71,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── cfr.md
 │       ├── census.md
 │       ├── efh.md
-│       └── epa_aqs.md
+│       ├── epa_aqs.md
+│       └── esa_ranges.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -87,7 +89,8 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── cfr.yaml
 ├── census.yaml
 ├── efh.yaml
-└── epa_aqs.yaml
+├── epa_aqs.yaml
+└── esa_ranges.yaml
 ```
 
 ## Adding a server

@@ -1,0 +1,59 @@
+name: NEPA ESA Ranges
+entryKey: obot-nepa-esa-ranges
+serverUserType: multiUser
+shortDescription: Screen a location against NOAA ESA-listed species ranges (HUC-12 watershed detail) for Section 7 consultation in NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for NOAA ESA-listed species ranges,
+  built for Endangered Species Act (ESA) Section 7 consultation screening in
+  NEPA analyses. Given a latitude/longitude and a buffer radius, it identifies
+  ESA-listed salmon and steelhead ranges — with HUC-12 watershed detail — that
+  intersect a region of interest (ROI), querying the NOAA Fisheries West Coast
+  Region Ranges_dice FeatureServer. No API key required.
+
+  ## Features
+  - **ESA species range screening by ROI** — returns ESA-listed salmon and
+    steelhead range records intersecting a buffered point, broken down by
+    HUC-12 watershed.
+  - **ROI-clipped areas with provenance** — watershed polygons are unioned by
+    range record and clipped to the requested point-buffer ROI; upstream
+    whole-watershed area is retained separately for a defensible record.
+  - **Markdown summary output** — a compact, decision-oriented summary rather
+    than raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NOAA Fisheries West
+  Coast Region Ranges_dice ArcGIS FeatureServer. No API key or authentication is
+  needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+  - **Coverage note:** the underlying service is NOAA Fisheries West Coast
+    Region. Outside that geography, a no-hit result may mean out-of-scope rather
+    than no ESA concern.
+
+  ## Examples
+  - "What ESA-listed species ranges are within 25 miles of 45.5, -122.6?"
+  - "Are there ESA salmon or steelhead ranges near latitude 47.6, longitude -122.3?"
+  - "Screen this site for ESA species ranges by watershed."
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/esa_ranges.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-esa-ranges:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_esa_species_ranges_in_roi
+    description: Query NOAA for ESA-listed species ranges within the ROI. Returns ESA-listed salmon and steelhead range records from the NOAA Fisheries West Coast Region, broken down by HUC-12 watershed, as a Markdown summary. Watershed polygons are unioned by range record and clipped to the ROI. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
