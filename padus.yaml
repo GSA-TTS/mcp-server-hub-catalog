@@ -1,0 +1,55 @@
+name: NEPA USGS PAD-US
+entryKey: obot-nepa-usgs-padus
+serverUserType: multiUser
+shortDescription: Screen a location against the USGS PAD-US protected-areas database (ownership and management) for NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for the USGS Protected Areas Database of
+  the United States (PAD-US), built for NEPA screening and baseline analysis.
+  Given a latitude/longitude and a buffer radius, it identifies PAD-US
+  protected-area records — designations and managing organizations — within a
+  region of interest (ROI), querying the USGS PAD-US ArcGIS service. No API key
+  required.
+
+  ## Features
+  - **Protected-area screening by ROI** — PAD-US protected-area designations and
+    the organizations that manage them, intersecting a buffered point.
+  - **Ownership / management context** — surfaces the managing agency and
+    designation for baseline land-status analysis.
+  - **Markdown summary output** — a compact, decision-oriented summary rather
+    than raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public USGS PAD-US ArcGIS
+  service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+  - **Scope note:** PAD-US is a protected-areas database, not a cadastral parcel
+    or comprehensive land-ownership service.
+
+  ## Examples
+  - "What protected areas are within 25 miles of 44.4, -110.6?"
+  - "Who manages the protected lands near latitude 37.7, longitude -119.5?"
+  - "Screen this site for PAD-US protected-area designations."
+
+metadata:
+  categories: Government, Geospatial, Environment, Public Lands
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/padus.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-usgs-padus:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_padus_protected_areas_in_roi
+    description: Query the USGS PAD-US database for protected-area records within the ROI. Returns protected-area designations and managing organizations as a Markdown summary. Note PAD-US is a protected-areas database, not a cadastral parcel or comprehensive land-ownership service.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
