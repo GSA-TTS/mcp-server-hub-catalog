@@ -39,6 +39,7 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 | **USACE IWR River Mile Markers** | Locate river mile markers on navigable U.S. rivers — nearest marker, search by area, or filter by river and mile range | [USACE IWR River Mile Markers service](https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/usace_river_mile_markers/FeatureServer/0) | [`usace_iwr.yaml`](usace_iwr.yaml) | [docs](docs/servers/usace_iwr.md) |
 | **CFR** | Resolve, browse, and diff Code of Federal Regulations text and trace the Federal Register rulemaking behind it | [eCFR](https://www.ecfr.gov/developers/documentation/api/v1) & [Federal Register](https://www.federalregister.gov/developers/documentation/api/v1) APIs | [`cfr.yaml`](cfr.yaml) | [docs](docs/servers/cfr.md) |
 | **Census** | Establish socioeconomic baseline conditions for NEPA analysis from U.S. Census Bureau ACS data by region of interest (per-user API key) | [Census ACS 5-Year Estimates](https://www.census.gov/programs-surveys/acs) | [`census.yaml`](census.yaml) | [docs](docs/servers/census.md) |
+| **NEPA EFH** | Screen a location against NOAA Essential Fish Habitat (EFH), HAPC, and salmon/HMS/CPS/groundfish designations for NEPA analysis | [NOAA Fisheries West Coast EFH services](https://www.fisheries.noaa.gov/national/habitat-conservation/essential-fish-habitat) | [`efh.yaml`](efh.yaml) | [docs](docs/servers/efh.md) |
 
 > **Note:** These servers are pilots / proofs of concept and are not intended
 > for production use.
@@ -65,8 +66,9 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 │       ├── blm_mlrs.md
 │       ├── blm.md
 │       ├── usace_iwr.md
-│       └── cfr.md
-│       └── census.md
+│       ├── cfr.md
+│       ├── census.md
+│       └── efh.md
 ├── nih_reporter.yaml            # Catalog entries (one per server)
 ├── nih_clinicaltrials.yaml
 ├── cdc_places.yaml
@@ -80,9 +82,9 @@ and Regulations.gov servers require a personal API key and are deployed per-user
 ├── blm_mlrs.yaml
 ├── blm.yaml
 ├── usace_iwr.yaml
-└── cfr.yaml
-└── census.yaml
-└── usace_iwr.yaml
+├── cfr.yaml
+├── census.yaml
+└── efh.yaml
 ```
 
 ## Adding a server

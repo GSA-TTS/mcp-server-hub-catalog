@@ -1,0 +1,79 @@
+name: NEPA EFH
+entryKey: obot-nepa-efh
+serverUserType: multiUser
+shortDescription: Screen a location against NOAA Essential Fish Habitat (EFH), HAPC, and salmon/HMS/CPS/groundfish designations for NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for NOAA Essential Fish Habitat (EFH)
+  data, built for Magnuson-Stevens Act compliance and ESA Section 7 consultation
+  screening in NEPA analyses. Given a latitude/longitude and a buffer radius, it
+  screens a region of interest (ROI) against EFH, Habitat Areas of Particular
+  Concern (HAPC), and species-group EFH from the NOAA Fisheries West Coast
+  Region ArcGIS services — no API key required.
+
+  ## Features
+  - **Habitat Areas of Particular Concern (HAPC)** — high-priority EFH subsets
+    that warrant heightened scrutiny under the Magnuson-Stevens Act.
+  - **General EFH areas** — waters and substrate necessary for fish spawning,
+    breeding, feeding, or growth to maturity.
+  - **Salmon EFH by HUC-8 watershed** — watersheds designated as EFH for
+    Chinook, Coho, and Pink salmon, identifying which species apply per
+    watershed.
+  - **HMS / CPS / Groundfish EFH** — Highly Migratory Species (tunas, sharks,
+    swordfish), Coastal Pelagic Species (sardine, anchovy, mackerel), and
+    Pacific Coast Groundfish (rockfish, flatfish, roundfish), with acreage
+    unioned by designation and clipped to the ROI.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NOAA Fisheries West
+  Coast Region EFH ArcGIS services. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+  - **Coverage note:** the underlying services are NOAA Fisheries West Coast
+    Region EFH. Outside that geography, no hits may simply mean out-of-scope.
+
+  ## Examples
+  - "Are there any Habitat Areas of Particular Concern within 25 miles of 47.6, -124.4?"
+  - "What Essential Fish Habitat is near latitude 46.2, longitude -124.0?"
+  - "Which salmon species have EFH watersheds around this site?"
+  - "Screen this location for HMS, coastal pelagic, and groundfish EFH."
+
+metadata:
+  categories: Government, Geospatial, Environment, Oceans
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/efh.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-efh:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_efh_hapc
+    description: Query NOAA for Habitat Areas of Particular Concern (HAPC) within the ROI. Returns HAPC designations — high-priority EFH subsets that warrant heightened scrutiny under the Magnuson-Stevens Act — as a Markdown summary. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_areas
+    description: Query NOAA for general Essential Fish Habitat (EFH) areas within the ROI — waters and substrate necessary for fish spawning, breeding, feeding, or growth to maturity under the Magnuson-Stevens Act. Returns a Markdown summary. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_salmon
+    description: Query NOAA for salmon Essential Fish Habitat by HUC-8 watershed within the ROI. Returns watersheds designated as EFH for Chinook, Coho, and Pink salmon, identifying which species apply per watershed, as a Markdown summary. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_hms_cps_groundfish
+    description: Query NOAA for Highly Migratory Species (HMS), Coastal Pelagic Species (CPS), and Pacific Coast Groundfish EFH within the ROI. Returns a Markdown summary with acreage unioned by designation and clipped to the ROI. Coverage is NOAA Fisheries West Coast Region.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
