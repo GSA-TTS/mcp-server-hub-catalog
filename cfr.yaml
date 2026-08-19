@@ -1,0 +1,112 @@
+name: CFR
+entryKey: obot-nepa-cfr
+serverUserType: multiUser
+shortDescription: Resolve, browse, and diff Code of Federal Regulations text and trace the Federal Register rulemaking behind it
+description: |
+
+  A Model Context Protocol (MCP) server for the Code of Federal Regulations
+  (CFR) and the Federal Register, built for NEPA/EIS regulatory citation and
+  compliance work. It resolves CFR citations to verbatim text, browses the CFR
+  table of contents, tracks amendment history, diffs a section between two
+  dates, and traces the Federal Register rulemaking (rules, proposed rules,
+  notices, and executive orders) behind a regulation — no API key required.
+
+  ## Features
+  - **Resolve any-depth citations** — from "43 CFR 46.215" to deep paragraph
+    addressing like "40 CFR 261.4(a)(20)(ii)(B)(1)", returning verbatim text,
+    section heading, ancestry breadcrumb, and in-text Federal Register cites.
+  - **Browse the CFR hierarchy** — list all 50 titles or drill into a title or
+    part, pruned to a chosen depth (parts → subparts → sections → paragraphs).
+  - **Track amendment history** — every amendment event for a section, part, or
+    whole title over a date window, with a substantive-only filter.
+  - **Diff two dates** — a per-paragraph diff (added / removed / modified) of a
+    single section between two dates, optionally scoped to a subtree.
+  - **Trace rulemaking** — Federal Register documents that touched a CFR
+    title/part, optionally correlated to the eCFR amendment events they caused.
+  - **Dereference FR citations and executive orders** — turn a "90 FR 29498"
+    citation or an EO number into its Federal Register record.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public
+  [eCFR](https://www.ecfr.gov/developers/documentation/api/v1) and
+  [Federal Register](https://www.federalregister.gov/developers/documentation/api/v1)
+  APIs. No API key or authentication is needed.
+
+  ## Conventions
+  - Dates are `YYYY-MM-DD`; omitting `as_of` returns current text (eCFR has a
+    ~1-day lag).
+  - Citations accept common forms, e.g. "33 CFR 328.3(a)", "43 CFR Part 3800",
+    "title 50", "90 FR 29498".
+
+  ## Examples
+  - "What does 40 CFR 1502.14 say today?"
+  - "Show the structure of 40 CFR Part 1500 down to the section level."
+  - "What amendments hit 33 CFR 328.3 in the last 5 years?"
+  - "Diff 40 CFR 230.10 between 2015-01-01 and 2024-01-01."
+  - "What Federal Register rules touched 43 CFR Part 46 last year?"
+  - "Resolve the citation 90 FR 29498." / "Look up Executive Order 14008."
+
+metadata:
+  categories: Government, Legal, Regulatory, Research
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cfr.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-cfr:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: cfr_resolve_citation
+    description: Resolve a CFR citation (any depth) to its current verbatim text, section heading, ancestry breadcrumb, and in-text Federal Register citations. Falls back to the deepest matching ancestor (with a resolution_warning) when the addressed paragraph no longer exists.
+    params:
+      citation: "Citation string, e.g. '43 CFR 46.215', '33 CFR 328.3(a)', '40 CFR 261.4(a)(20)(ii)(B)(1)'."
+      as_of: "YYYY-MM-DD; omit for current text (eCFR ~1 day lag) (optional)"
+      include_ancestry: "Include the title->section breadcrumb (default true) (optional)"
+      include_full_section: "Also return the entire section tree alongside the addressed node (default false) (optional)"
+  - name: cfr_browse_structure
+    description: Browse the CFR table of contents at any level. No title lists all 50 CFR titles; a title returns its structure pruned to max_depth; a title+part returns just that part's subtree.
+    params:
+      title: "CFR title number (1-50); omit to list all titles (optional)"
+      part: "Part number to restrict the returned subtree (optional)"
+      as_of: "YYYY-MM-DD; omit for current (optional)"
+      max_depth: "1=parts, 2=subparts, 3=sections (default), 4=paragraphs (optional)"
+  - name: cfr_history
+    description: Return all eCFR amendment events for a citation (section, part, or whole title) within a date window, each flagged substantive or editorial. Pure eCFR Versions data, no Federal Register enrichment.
+    params:
+      citation: "CFR citation, e.g. '33 CFR 328.3', '43 CFR Part 3800', 'title 50'."
+      start_date: "YYYY-MM-DD; default 5 years ago (optional)"
+      end_date: "YYYY-MM-DD; default today (optional)"
+      substantive_only: "If true, drop editorial-only events (default false) (optional)"
+  - name: cfr_compare_versions
+    description: Diff a single CFR section between two dates, paragraph by paragraph (added / removed / modified / unchanged), with a summary count. Optionally scope the diff to a paragraph subtree.
+    params:
+      citation: "CFR citation; must resolve to a section."
+      date_a: "Earlier date YYYY-MM-DD."
+      date_b: "Later date YYYY-MM-DD."
+      paragraph_path: "Restrict the diff to a subtree, e.g. ['a','4','ii'] (optional)"
+  - name: cfr_rulemaking
+    description: List Federal Register documents (rules, proposed rules, notices) that touched a CFR title/part over a date window, optionally correlated to the eCFR amendment events they caused. Use to discover rulemaking activity by CFR location.
+    params:
+      cfr_title: "CFR title number, e.g. 33, 40, 50."
+      cfr_part: "Optional part filter (optional)"
+      document_types: "Subset of {'RULE','PRORULE','NOTICE'} (optional)"
+      start_date: "YYYY-MM-DD; default 365 days ago (optional)"
+      end_date: "YYYY-MM-DD; default today (optional)"
+      correlate_with_amendments: "Pair FR documents with eCFR amendment events in the same window (default false) (optional)"
+      max_results: "Cap on FR documents returned (default 50) (optional)"
+  - name: cfr_resolve_fr_citation
+    description: Resolve a Federal Register citation (e.g. '90 FR 29498') to its source document — title, type, action, agencies, dates, and the agency's abstract — with ambiguity metadata when the cited page maps to multiple documents.
+    params:
+      citation: "Federal Register citation, e.g. '90 FR 29498' or '90 Fed. Reg. 29498'."
+      include_body: "Also inline the full document text (default false; bodies can be large) (optional)"
+      max_body_chars: "Truncate inlined body text to this many characters (default 50000) (optional)"
+  - name: cfr_resolve_executive_order
+    description: Resolve an Executive Order number to its Federal Register Presidential Document record — title, FR citation, publication/signing dates, president, page range, and source URLs.
+    params:
+      eo_number: "Executive Order number, e.g. 14008."
+      year: "Optional publication year hint (optional)"
+      include_document: "Include the full raw Federal Register document JSON (default false) (optional)"
+      include_body: "Include raw full-text body from the FR/GovInfo text URL (default false) (optional)"
+      max_body_chars: "Truncate body text when include_body is true (default 50000) (optional)"
