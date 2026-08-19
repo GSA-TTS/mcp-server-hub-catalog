@@ -1,0 +1,54 @@
+name: NEPA NRHP
+entryKey: obot-nepa-nrhp
+serverUserType: multiUser
+shortDescription: Screen a location against National Register of Historic Places (NRHP) listed properties for Section 106 review in NEPA analysis
+description: |
+
+  A Model Context Protocol (MCP) server for the National Register of Historic
+  Places (NRHP), built for Section 106 of the National Historic Preservation Act
+  (NHPA) and cultural-resource screening in NEPA analyses. Given a
+  latitude/longitude and a buffer radius, it identifies NRHP-listed historic
+  properties — including National Historic Landmarks (NHL) — within a region of
+  interest (ROI), querying the National Park Service Cultural Resources ArcGIS
+  service. No API key required.
+
+  ## Features
+  - **Historic property screening by ROI** — NRHP-listed properties (and NHLs)
+    intersecting a buffered point.
+  - **Section 106 focus** — surfaces the listed cultural resources relevant to
+    NHPA Section 106 review and NEPA cultural-resource analysis.
+  - **Markdown summary output** — a compact, decision-oriented summary rather
+    than raw ArcGIS payloads.
+
+  ## What you'll need to connect
+  **No setup required** — the server queries the public NPS Cultural Resources
+  ArcGIS service. No API key or authentication is needed.
+
+  ## Conventions
+  - All coordinates are WGS84 (EPSG:4326) decimal degrees. Convert addresses or
+    place names to coordinates first.
+  - `buffer_miles` accepts 0.1–100.0 (default 25).
+
+  ## Examples
+  - "What historic properties are listed within 25 miles of 38.9, -77.0?"
+  - "Screen this site for NRHP properties near latitude 29.95, longitude -90.07."
+  - "Are there any National Historic Landmarks around this location?"
+
+metadata:
+  categories: Government, Geospatial, Historic Preservation, Culture
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nrhp.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-nepa-nrhp:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: get_nrhp_properties_in_roi
+    description: Query the National Register of Historic Places (NRHP) for listed historic properties within the ROI. Returns properties — including National Historic Landmarks (NHL) — from the NPS Cultural Resources service as a Markdown summary. Essential for Section 106 NHPA and NEPA cultural-resource analysis.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
