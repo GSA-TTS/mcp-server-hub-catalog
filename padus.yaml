@@ -12,8 +12,12 @@ description: |
   required.
 
   ## Features
-  - **Protected-area screening by ROI** — PAD-US protected-area designations and
-    the organizations that manage them, intersecting a buffered point.
+  - **Protected-area screening by ROI** — PAD-US protected-area records
+    (ownership, management, and designations) intersecting a buffered point,
+    drawn from the PAD-US Combined layer.
+  - **Designation coverage** — surfaces designation records such as Wilderness
+    Study Areas, National Conservation Areas, and designated Wilderness
+    alongside fee ownership, with a by-category breakdown.
   - **Ownership / management context** — surfaces the managing agency and
     designation for baseline land-status analysis.
   - **Markdown summary output** — a compact, decision-oriented summary rather
@@ -29,6 +33,9 @@ description: |
   - `buffer_miles` accepts 0.1–100.0 (default 25).
   - **Scope note:** PAD-US is a protected-areas database, not a cadastral parcel
     or comprehensive land-ownership service.
+  - **Acreage note:** source-feature acreage is the full mapped area of each
+    intersecting PAD-US Combined-layer feature; it may extend beyond the ROI and
+    is not additive within or across categories.
 
   ## Examples
   - "What protected areas are within 25 miles of 44.4, -110.6?"
@@ -42,13 +49,13 @@ icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icon
 repoURL: https://github.com/GSA-TTS/nepa-mcp
 runtime: containerized
 containerizedConfig:
-  image: ghcr.io/gsa-tts/mcp-server-nepa-usgs-padus:0.1.0
+  image: ghcr.io/gsa-tts/mcp-server-nepa-usgs-padus:0.1.1
   port: 8080
   path: /mcp
   healthzPath: /health
 toolPreview:
   - name: get_padus_protected_areas_in_roi
-    description: Query the USGS PAD-US database for protected-area records within the ROI. Returns protected-area designations and managing organizations as a Markdown summary. Note PAD-US is a protected-areas database, not a cadastral parcel or comprehensive land-ownership service.
+    description: Query the USGS PAD-US Combined layer for protected-area records (ownership, management, and designations) within the ROI. Returns designations and managing organizations as a Markdown summary, with a by-category breakdown. Note PAD-US is a protected-areas database, not a cadastral parcel or comprehensive land-ownership service, and source-feature acreage is not additive within the ROI.
     params:
       latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
       longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
