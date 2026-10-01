@@ -1,0 +1,85 @@
+name: SAM.gov
+entryKey: obot-sam-gov
+serverUserType: singleUser
+shortDescription: Search federal contracting opportunities and contract awards on SAM.gov
+description: |
+
+  A Model Context Protocol (MCP) server for [SAM.gov](https://sam.gov), the
+  U.S. government's System for Award Management. It covers two SAM.gov public
+  APIs through one server: **contracting opportunities** (pre-award notices) and
+  **contract awards** (executed contract actions and their modifications).
+
+  ## Features
+  - **Search opportunities** by posted-date range, procurement type, NAICS code,
+    set-aside type, agency, place of performance, title keywords, solicitation
+    number, and response deadline
+  - **Retrieve full opportunity details** including contacts, award info, place
+    of performance, office address, and resource links
+  - **Fetch the full text description** of an opportunity
+  - **Search contract awards** by date signed, fiscal year, dollars obligated,
+    NAICS code, awardee name/UEI, contracting agency, set-aside type, and place
+    of performance
+  - **Retrieve full contract details** for a single award by its PIID
+  - **Retrieve the full contract family** — base award plus all modifications —
+    for a PIID
+
+  ## What you'll need to connect
+  A **free SAM.gov public API key**. Sign in at [sam.gov](https://sam.gov),
+  then get your key under **Account Details > Public API Key**. Because this is
+  a per-user (`singleUser`) server, you will be prompted for your own key when
+  you enable the server; it is stored securely and used only by your own
+  isolated instance.
+
+  ## Examples
+  - "Find open IT solicitations set aside for small business posted in the last 30 days"
+  - "Show me sources-sought notices for NAICS 541512 in California"
+  - "Get the full description for notice ID <noticeId>"
+  - "Find contract awards to a given UEI signed in FY2024 over $1M"
+  - "Show the full contract family for PIID <piid>"
+
+metadata:
+  categories: Government, Finance, Procurement
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/sam_gov.png
+repoURL: https://github.com/GSA-TTS/sam-gov-mcp-server
+env:
+  - key: SAM_GOV_API_KEY
+    name: SAM.gov API Key
+    description: Your personal SAM.gov public API key (sign in at https://sam.gov, then Account Details > Public API Key)
+    required: true
+    sensitive: true
+runtime: containerized
+containerizedConfig:
+  image: ghcr.io/gsa-tts/mcp-server-sam-gov:0.1.0
+  port: 8080
+  path: /mcp
+  healthzPath: /health
+toolPreview:
+  - name: search_opportunities
+    description: Search SAM.gov for federal contracting opportunities (pre-award notices). Requires a posted-date range (max 1 year) and supports many optional filters. Returns summarized results with pagination info.
+    params:
+      search_params: "Search criteria: posted_from/posted_to (MM/DD/YYYY, required), ptype, ncode (NAICS), type_of_set_aside, organization_name/code, state, zip, title, solnum, rdlfrom/rdlto (response deadline), limit (1-1000), offset (0-indexed)"
+  - name: get_opportunity_details
+    description: Get full details for a single opportunity by notice ID, including contacts, award info, place of performance, office address, and resource links.
+    params:
+      notice_id: "The noticeId from a search_opportunities result"
+      posted_from: "Same posted_from date used in the search (MM/DD/YYYY)"
+      posted_to: "Same posted_to date used in the search (MM/DD/YYYY)"
+  - name: get_opportunity_description
+    description: Fetch the full text description of an opportunity (served from a separate SAM.gov endpoint).
+    params:
+      notice_id: "The noticeId of the opportunity"
+  - name: search_contract_awards
+    description: Search SAM.gov for federal contract awards (executed contract actions). All filters are optional. Returns a summarized list with pagination info.
+    params:
+      search_params: "Search criteria: date signed or range, fiscal year, dollars obligated or range, NAICS code, awardee name/UEI, CAGE, contracting agency codes, set-aside type, place of performance, free text, limit (1-100), offset"
+  - name: get_contract_details
+    description: Get the full contract record for a single award by its PIID, optionally a specific modification/transaction.
+    params:
+      piid: "The Procurement Instrument Identifier (PIID) of the contract"
+      modification_number: "Optional modification number to get a specific mod"
+      transaction_number: "Optional transaction number"
+  - name: get_contract_family
+    description: Get the full contract family for a PIID (base award plus all modifications) via PIID aggregation.
+    params:
+      piid: "The Procurement Instrument Identifier (PIID) of the contract"
