@@ -40,8 +40,9 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/regulations_gov.png
 repoURL: https://github.com/GSA-TTS/mcp-server-regulations-gov
-env:
+config:
   - key: REGULATIONS_GOV_API_KEY
+    usage: env
     name: Regulations.gov API Key
     description: Your personal Regulations.gov (api.data.gov) API key (free at https://api.data.gov/signup/)
     required: true

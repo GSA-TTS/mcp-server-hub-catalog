@@ -40,8 +40,9 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/census.png
 repoURL: https://github.com/GSA-TTS/nepa-mcp
-env:
+config:
   - key: CENSUS_API_KEY
+    usage: env
     name: Census API Key
     description: Your personal U.S. Census Bureau API key (free at https://api.census.gov/data/key_signup.html)
     required: true

@@ -42,8 +42,9 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/sam_gov.png
 repoURL: https://github.com/GSA-TTS/sam-gov-mcp-server
-env:
+config:
   - key: SAM_GOV_API_KEY
+    usage: env
     name: SAM.gov API Key
     description: Your personal SAM.gov public API key (sign in at https://sam.gov, then Account Details > Public API Key)
     required: true

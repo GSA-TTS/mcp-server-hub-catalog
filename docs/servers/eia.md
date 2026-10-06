@@ -33,7 +33,7 @@ them:
 | Credential | Hop | Who supplies / enforces it |
 |------------|-----|----------------------------|
 | Gateway/transport auth (Obot API key) | client → gateway → this server | The **Obot gateway**. The `containerized` server has no public route, so the gateway is the only caller and it enforces access. The server sets no FastMCP `auth` provider. |
-| `EIA_API_KEY` | this server → `api.eia.gov` | Declared in the catalog entry as a **required, sensitive** `containerizedConfig.env` field. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
+| `EIA_API_KEY` | this server → `api.eia.gov` | Declared as required, sensitive top-level `config` with `usage: env`. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
 
 Get a free key at <https://www.eia.gov/opendata/register.php>. Users are
 prompted for it when they enable the server; it is stored securely and used only
