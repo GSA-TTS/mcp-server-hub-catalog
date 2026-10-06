@@ -85,13 +85,13 @@ A server can be added in one of two runtimes:
    ```
 
    If the server needs a per-user credential, set `serverUserType: singleUser`
-   and add a **top-level `env`** list (sibling of `runtime` /
-   `containerizedConfig`, **not** nested inside it):
+   and add a **top-level `config`** list with `usage: env`:
 
    ```yaml
    serverUserType: singleUser
-   env:                              # <-- TOP LEVEL
+   config:
      - key: MY_API_KEY
+       usage: env
        name: My API Key
        description: Your personal API key for the Example service
        required: true
@@ -132,16 +132,13 @@ A server can be added in one of two runtimes:
   gateway-hosted instance. Use `singleUser` only when each user must supply
   their own upstream credentials.
 - When a server needs a user-supplied value (e.g. a personal API key), declare
-  it as a **top-level `env` list** on the entry — a sibling of `runtime` /
-  `containerizedConfig`, **not** nested inside `containerizedConfig`. Obot reads
-  the top-level `env` to prompt the user and inject the value into the deployed
-  container. Nesting it under `containerizedConfig` means Obot never prompts for
-  it (the UI shows only the connection URL) and the server launches without the
-  variable. See [`docs/SCHEMA.md`](docs/SCHEMA.md#env-usershared-configuration).
-  Changing `env` after a server is deployed requires a fresh deploy/registration.
+  it in the top-level `config` list with `usage: env`. Current Obot rejects the
+  legacy `env` field. See
+  [`docs/SCHEMA.md`](docs/SCHEMA.md#config-usershared-configuration). Changing
+  `config` after deployment requires a fresh deploy/registration.
 - Never commit secrets, API keys, or credentials in a catalog entry. Catalog
   entries describe **how to connect**, not **how to authenticate with private
-  credentials**. (Declaring an `env` field like `EIA_API_KEY` is fine — that is
+  credentials**. (Declaring a `config` key like `EIA_API_KEY` is fine — that is
   the *name* of a field the user fills in, not a secret value.)
 
 ## Validation checklist
@@ -157,8 +154,8 @@ Before opening a pull request, confirm:
     `path` (and `healthzPath` if the server has one), and the image has been
     verified to run and answer on those paths.
 - [ ] `entryKey` is unique across all entries in the catalog.
-- [ ] If the server needs a user-supplied value (e.g. an API key), `env` is a
-      **top-level** list (not nested under `containerizedConfig`), with each
+- [ ] If the server needs a user-supplied value (e.g. an API key), `config` is a
+      **top-level** list with `usage: env`, with each
       item declaring `key` and, as appropriate, `name`, `description`,
       `required`, and `sensitive`.
 - [ ] A `docs/servers/<name>.md` page exists (for new servers).

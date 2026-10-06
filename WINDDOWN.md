@@ -62,15 +62,16 @@ page per entry); `docs/servers/nih_reporter.md` is the template.
   over `AGENTS.md` on any conflict). Key fields: `name`, `entryKey` (globally
   unique, `obot-` prefixed), `serverUserType`, `shortDescription`, `repoURL`,
   `runtime`, and one of `remoteConfig` / `containerizedConfig`. Optional:
-  `description`, `metadata`, `icon`, `toolPreview`, and a top-level `env` list.
-- **Gotcha:** the per-user `env` list is a **top-level sibling of `runtime`**,
+  `description`, `metadata`, `icon`, `toolPreview`, and a top-level `config` list.
+- **Gotcha:** per-user environment values use top-level `config` entries with
+  `usage: env`,
   NOT nested under `containerizedConfig` — nesting it breaks the config-field UI
   (documented in `AGENTS.md` and the hub's `obot/README.md`).
 - **Containerized images must be publicly pullable and version-pinned** — the
   gateway's Docker backend has no registry auth (no ECR/private). Images must be
   **linux/amd64** to match the gateway host.
 - **After merging a catalog change**, re-sync the catalog source in the Obot
-  admin UI and re-deploy the server; `env`/config changes require a fresh deploy.
+  admin UI and re-deploy the server; config changes require a fresh deploy.
 - Contribution discipline (from `CONTRIBUTING.md` / `AGENTS.md`): one server per
   PR, branch from fresh `main`, no self-merge. `scripts/make_icon.py` normalizes
   icons to 128×128 transparent-padded PNGs.

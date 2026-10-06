@@ -90,15 +90,15 @@ an existing entry such as [`nci_evs.yaml`](nci_evs.yaml).
   credentials**, so each gets an isolated instance (the **EIA** entry is the
   worked example — see below).
 
-**Per-user credentials → top-level `env` (get this right — also a real
-correction):** when a `singleUser` server needs a personal API key, declare it
-as a **top-level `env` list** on the entry — a **sibling of `runtime` /
-`containerizedConfig`, NOT nested inside `containerizedConfig`**:
+**Per-user credentials → top-level `config`:** when a `singleUser` server needs
+a personal API key, declare it as a **top-level `config` list** on the entry and
+set `usage: env`:
 
 ```yaml
 serverUserType: singleUser
-env:                              # <-- TOP LEVEL
+config:
   - key: EIA_API_KEY
+    usage: env
     name: EIA API Key
     description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
     required: true
@@ -111,11 +111,10 @@ containerizedConfig:
   healthzPath: /health
 ```
 
-If `env` is nested under `containerizedConfig`, Obot does not parse it as user
-config: the UI shows only the connection URL (**no key field**), the container
-launches **without** the variable, and tool calls fail (e.g. `EIA_API_KEY is
-not set`). See [`docs/SCHEMA.md`](docs/SCHEMA.md#env-usershared-configuration)
-for the full field reference.
+Current Obot rejects both the legacy top-level `env` field and runtime-specific
+environment configuration. See
+[`docs/SCHEMA.md`](docs/SCHEMA.md#config-usershared-configuration) for the full
+field reference.
 
 `runtime: remote` is also valid (hosted outside the gateway process at a fixed
 public or backend-approved internal URL via `remoteConfig.fixedURL`) — see
@@ -182,8 +181,8 @@ present; no secrets.
 - Re-sync the catalog source in the **obot admin UI** so the gateway indexes the
   new entry, then deploy the server. See the server-hub deployment notes in the
   `mcp-server-hub` repo.
-- **Config-field changes need a fresh deploy.** Obot reads the entry's `env`
-  (user-config) schema at deploy/registration time. If you add or change `env`
+- **Config-field changes need a fresh deploy.** Obot reads the entry's `config`
+  schema at deploy/registration time. If you add or change `config`
   after a server is already deployed, re-sync the catalog **and re-deploy /
   re-register** the server — an existing deployment will not retroactively gain
   a new config field.
@@ -236,5 +235,5 @@ repo:
   (the original containerized pattern).
 - **EIA Open Data** — [entry](eia.yaml) · [docs](docs/servers/eia.md) ·
   server repo [`GSA-TTS/mcp-server-eia`](https://github.com/GSA-TTS/mcp-server-eia)
-  (the `singleUser` + top-level `env` per-user-API-key example; also the
+  (the `singleUser` + top-level `config` per-user-API-key example; also the
   pip/`requirements.txt` + `buildx --platform linux/amd64` image pattern).

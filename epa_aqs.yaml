@@ -43,13 +43,15 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/epa_aqs.png
 repoURL: https://github.com/GSA-TTS/nepa-mcp
-env:
+config:
   - key: EPA_AQS_EMAIL
+    usage: env
     name: EPA AQS Email
     description: The email address registered with EPA AQS (free at https://aqs.epa.gov/data/api/signup)
     required: true
     sensitive: false
   - key: EPA_AQS_API_KEY
+    usage: env
     name: EPA AQS API Key
     description: Your personal EPA AQS API key (free at https://aqs.epa.gov/data/api/signup)
     required: true

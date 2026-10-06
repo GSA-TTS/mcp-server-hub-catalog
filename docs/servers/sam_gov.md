@@ -36,7 +36,7 @@ different hops** — do not conflate them:
 | Credential | Hop | Who supplies / enforces it |
 |------------|-----|----------------------------|
 | Gateway/transport auth (Obot API key) | client → gateway → this server | The **Obot gateway**. The `containerized` server has no public route, so the gateway is the only caller and it enforces access. |
-| `SAM_GOV_API_KEY` | this server → `api.sam.gov` | Declared in the catalog entry as a **required, sensitive** top-level `env` field. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
+| `SAM_GOV_API_KEY` | this server → `api.sam.gov` | Declared as required, sensitive top-level `config` with `usage: env`. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
 
 Get a free key by signing in at <https://sam.gov> and opening
 **Account Details > Public API Key**. Users are prompted for it when they enable

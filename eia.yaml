@@ -34,8 +34,9 @@ metadata:
   allow-multiple: "false"
 icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/eia.png
 repoURL: https://github.com/GSA-TTS/mcp-server-eia
-env:
+config:
   - key: EIA_API_KEY
+    usage: env
     name: EIA API Key
     description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
     required: true

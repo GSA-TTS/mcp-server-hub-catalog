@@ -34,7 +34,7 @@ credentials on two different hops** — do not conflate them:
 | Credential | Hop | Who supplies / enforces it |
 |------------|-----|----------------------------|
 | Gateway/transport auth (Obot API key) | client → gateway → this server | The **Obot gateway**. The `containerized` server has no public route, so the gateway is the only caller and it enforces access. |
-| `REGULATIONS_GOV_API_KEY` | this server → `api.regulations.gov` | Declared in the catalog entry as a **required, sensitive** top-level `env` field. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
+| `REGULATIONS_GOV_API_KEY` | this server → `api.regulations.gov` | Declared as required, sensitive top-level `config` with `usage: env`. For a `singleUser` deployment, the gateway prompts **each user** for their own key and injects it as an environment variable into **their own** container instance. |
 
 Get a free key at <https://api.data.gov/signup/>. Users are prompted for it when
 they enable the server; it is stored securely and used only by their own
