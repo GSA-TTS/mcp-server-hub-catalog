@@ -117,9 +117,9 @@ launches **without** the variable, and tool calls fail (e.g. `EIA_API_KEY is
 not set`). See [`docs/SCHEMA.md`](docs/SCHEMA.md#env-usershared-configuration)
 for the full field reference.
 
-`runtime: remote` is also valid (externally hosted at a fixed public URL via
-`remoteConfig.fixedURL`) — see `docs/SCHEMA.md`. The catalog currently uses
-`containerized`.
+`runtime: remote` is also valid (hosted outside the gateway process at a fixed
+public or backend-approved internal URL via `remoteConfig.fixedURL`) — see
+`docs/SCHEMA.md`.
 
 ### Step 2 — Add a docs page
 

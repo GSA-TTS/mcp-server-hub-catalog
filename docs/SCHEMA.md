@@ -30,13 +30,14 @@ entry format so that entries render correctly in the obot MCP gateway UI.
 
 ### `remoteConfig` (required when `runtime: remote`)
 
-A `remote` server runs somewhere outside the gateway (e.g. on cloud.gov) and is
-reachable at a fixed public URL. The gateway proxies to that URL. **Because the
-URL is public, a `remote` server is reachable independently of the gateway.**
+A `remote` server runs outside the gateway process and is reachable at a fixed
+URL. The gateway proxies to that URL. The endpoint can be public or, when the
+runtime backend explicitly permits it, an internal platform route protected by
+network policy.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `fixedURL` | string (URL) | The fixed MCP endpoint the gateway connects to (e.g. `https://<app>.app.cloud.gov/mcp`). |
+| `fixedURL` | string (URL) | The fixed MCP endpoint the gateway connects to (e.g. `https://<app>.app.cloud.gov/mcp` or `http://<app>.apps.internal:8080/mcp`). |
 
 ### `containerizedConfig` (required when `runtime: containerized`)
 
