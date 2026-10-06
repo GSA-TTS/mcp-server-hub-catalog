@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: cdc-places
+displayName: CDC PLACES
+description: Access CDC PLACES through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cdc_places.png
+components:
+  - id: cdc-places
+    name: CDC PLACES
+    mcpServerCatalogEntryKey: obot-places
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        cdc-places:
+          allowedTools: null

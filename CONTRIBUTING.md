@@ -1,181 +1,107 @@
 # Contributing to the MCP Server Hub Catalog
 
-This catalog lists the MCP (Model Context Protocol) servers available through
-the GSA-managed obot MCP gateway. This guide explains how to add a new server or
-update an existing one.
+`main` is the primary cloud.gov catalog. The `aws` branch is the supported
+legacy containerized pilot. Start every change from the branch that owns the
+target deployment.
 
-## Overview
+## Add a cloud.gov Service
 
-Each MCP server is described by a single YAML file at the repository root. The
-gateway reads these files to populate the catalog UI and to know how to connect
-to each server. The entry format follows the
-[obot-platform/mcp-catalog](https://github.com/obot-platform/mcp-catalog)
-convention.
+Cloud.gov services use two manifests in `catalog/cloudgov/`.
 
-Before contributing, review [`docs/SCHEMA.md`](docs/SCHEMA.md) for the full field
-reference.
+### 1. Deploy the internal application
 
-## Adding a new server
+The MCP server must:
 
-A server can be added in one of two runtimes:
+- listen on the Cloud Foundry-assigned application port;
+- expose streamable HTTP at `/mcp` and health at `/health`;
+- have only an `apps.internal` route; and
+- have a C2C policy allowing the Obot app to reach only its application port.
 
-- **`remote`** — the server runs outside the gateway process at a fixed URL and
-  the gateway proxies to it. The endpoint may be public or, when the runtime
-  backend explicitly permits it, an internal platform route such as
-  `*.apps.internal` protected by a C2C network policy.
-- **`containerized`** — the gateway hosts the server itself as a Docker
-  container from a published image. The container has **no public route** and is
-  reachable only through the gateway, which is the preferred model for
-  gateway-only access, usage monitoring, and access control.
+Verify `/health` from inside the Obot container and confirm the equivalent
+public `app.cloud.gov` route is unreachable.
 
-### Option A — remote server
+### 2. Add the component entry
 
-1. **Confirm the server is deployed and reachable from the gateway.** The
-   gateway connects to a fixed remote endpoint (typically a cloud.gov `/mcp`
-   URL). For an internal route, verify from the gateway app and confirm that no
-   public route is mapped.
+Create `catalog/cloudgov/<name>.yaml`:
 
-2. **Create the entry file.** Add a new file named `<name>.yaml` in
-   `snake_case` at the repository root. At minimum it must contain the required
-   fields:
-
-   ```yaml
-   name: my_server
-   entryKey: obot-my-server
-   serverUserType: multiUser
-   shortDescription: Access data from the Example API
-   repoURL: https://github.com/GSA-TTS/mcp-server-my-server
-   runtime: remote
-   remoteConfig:
-     fixedURL: https://my-server-mcp-server.app.cloud.gov/mcp
-   ```
-
-### Option B — containerized (gateway-hosted) server
-
-1. **Publish a public image.** Build a container that serves MCP over
-   streamable HTTP on a known port and path (conventionally `:8080/mcp`) and
-   exposes a health path (conventionally `/health`). Push it to a **publicly
-   pullable** registry (public GHCR or Docker Hub) — the gateway's Docker
-   runtime backend pulls without registry authentication, so private images
-   (including ECR) are not supported by the current pilot deployment. Pin the
-   image to a version tag.
-
-2. **Verify the image runs.** Confirm the container answers on its health and
-   MCP endpoints, e.g.:
-
-   ```bash
-   docker run --rm -p 8080:8080 <image>
-   curl -s localhost:8080/health   # expect {"status":"healthy",...}
-   ```
-
-3. **Create the entry file** at the repository root:
-
-   ```yaml
-   name: my_server
-   entryKey: obot-my-server
-   serverUserType: multiUser
-   shortDescription: Access data from the Example API
-   repoURL: https://github.com/GSA-TTS/mcp-server-my-server
-   runtime: containerized
-   containerizedConfig:
-     image: ghcr.io/gsa-tts/mcp-server-my-server:1.0.0
-     port: 8080
-     path: /mcp
-     healthzPath: /health
-   ```
-
-   If the server needs a per-user credential, set `serverUserType: singleUser`
-   and add a **top-level `config`** list with `usage: env`:
-
-   ```yaml
-   serverUserType: singleUser
-   config:
-     - key: MY_API_KEY
-       usage: env
-       name: My API Key
-       description: Your personal API key for the Example service
-       required: true
-       sensitive: true
-   runtime: containerized
-   containerizedConfig:
-     image: ghcr.io/gsa-tts/mcp-server-my-server:1.0.0
-     port: 8080
-     path: /mcp
-     healthzPath: /health
-   ```
-
-### Both options
-
-3. **Enrich the entry (recommended).** Add `description`, `metadata`, `icon`,
-   and `toolPreview` fields so the entry renders richly in the gateway. See the
-   [enriched example](docs/SCHEMA.md#enriched-example) in the schema doc.
-
-4. **Add a server documentation page.** Create
-   `docs/servers/<name>.md` describing the server, its data source, and the
-   tools it exposes. Use an existing page such as
-   [`docs/servers/nih_reporter.md`](docs/servers/nih_reporter.md) as a template.
-
-5. **Update the README.** Add a row to the server table in
-   [`README.md`](README.md) linking to the new documentation page.
-
-## Field conventions
-
-- `entryKey` MUST be globally unique and prefixed with `obot-`.
-- `name` and the filename stem SHOULD match (in `snake_case`).
-- For remote servers, `remoteConfig.fixedURL` is the endpoint the gateway
-  connects to. It is often — but not required to be — identical to `repoURL`.
-- For containerized servers, `containerizedConfig.image` MUST be a publicly
-  pullable, version-pinned image reference; `port` and `path` MUST match what
-  the container actually serves.
-- Use `serverUserType: multiUser` for servers that need no per-user
-  credentials (e.g. those querying a public, keyless API) — all users share one
-  gateway-hosted instance. Use `singleUser` only when each user must supply
-  their own upstream credentials.
-- When a server needs a user-supplied value (e.g. a personal API key), declare
-  it in the top-level `config` list with `usage: env`. Current Obot rejects the
-  legacy `env` field. See
-  [`docs/SCHEMA.md`](docs/SCHEMA.md#config-usershared-configuration). Changing
-  `config` after deployment requires a fresh deploy/registration.
-- Never commit secrets, API keys, or credentials in a catalog entry. Catalog
-  entries describe **how to connect**, not **how to authenticate with private
-  credentials**. (Declaring a `config` key like `EIA_API_KEY` is fine — that is
-  the *name* of a field the user fills in, not a secret value.)
-
-## Validation checklist
-
-Before opening a pull request, confirm:
-
-- [ ] The file is valid YAML (no tabs, correct indentation).
-- [ ] All required common fields are present (`name`, `entryKey`,
-      `serverUserType`, `shortDescription`, `repoURL`, `runtime`).
-- [ ] The runtime-specific config is present and correct:
-  - **remote:** `remoteConfig.fixedURL`, and the endpoint is deployed and reachable.
-  - **containerized:** `containerizedConfig.image` (public + pinned), `port`,
-    `path` (and `healthzPath` if the server has one), and the image has been
-    verified to run and answer on those paths.
-- [ ] `entryKey` is unique across all entries in the catalog.
-- [ ] If the server needs a user-supplied value (e.g. an API key), `config` is a
-      **top-level** list with `usage: env`, with each
-      item declaring `key` and, as appropriate, `name`, `description`,
-      `required`, and `sensitive`.
-- [ ] A `docs/servers/<name>.md` page exists (for new servers).
-- [ ] The README server table is updated.
-- [ ] No secrets or credentials are included.
-
-You can quickly check YAML validity locally, for example:
-
-```bash
-python -c "import yaml,sys; yaml.safe_load(open('my_server.yaml'))"
+```yaml
+name: Example Internal
+entryKey: obot-example
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for Example
+repoURL: https://github.com/GSA-TTS/mcp-server-example
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-example.apps.internal:8080/mcp
 ```
 
-## Pull requests
+Use an implementation-oriented display name. Users do not launch this entry.
 
-- Keep each PR focused — one server per PR is the established convention (see
-  the commit history).
-- Use a descriptive commit message, e.g. `feat: add <Server Name> to catalog`.
-- Note in the PR description that the endpoint has been verified as reachable.
+### 3. Add the vMCP product
 
-## Questions
+Create `catalog/cloudgov/<name>_vmcp.yaml`:
 
-For questions about the catalog or the gateway, contact the GSA-TTS team
-maintaining this repository.
+```yaml
+type: vmcp
+entryKey: example
+displayName: Example
+components:
+  - id: example
+    name: Example
+    mcpServerCatalogEntryKey: obot-example
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        example:
+          allowedTools: null
+```
+
+Profiles are authorization policy. `selector: "*"` means all authenticated
+Obot users, not anonymous access. Prefer narrower subjects or tool allowlists
+when the service does not need broad access.
+
+Keep component `entryKey`, vMCP `entryKey`, and component `id` stable. Changing
+them can disrupt reconciliation, saved configuration, and client connections.
+
+### 4. Document and validate
+
+Add or update `docs/servers/<name>.md`, the active table in `README.md`, and an
+icon under `icons/` when needed.
+
+The migration gate requires:
+
+- valid YAML and unique keys;
+- no legacy `env`, `remoteConfig.headers`, or
+  `multiUserConfig.userDefinedHeaders` fields;
+- internal-only routing and the expected C2C policy;
+- `/health` from Obot;
+- `tools/list` and a real `tools/call` through the gateway; and
+- a successful OAuth or scoped-API-key connection from a real external client.
+
+The client URL is `https://<obot-host>/mcp-connect/<vmcp-id>` with no `/mcp`
+suffix.
+
+## Maintain the AWS Pilot
+
+AWS break/fix changes start from `aws`. That branch retains one containerized
+entry per server at the repository root. Container images must remain public,
+version-pinned, and compatible with `linux/amd64`.
+
+Do not add new products to AWS unless required to maintain pilot parity. New
+services target cloud.gov on `main`.
+
+## Field Conventions
+
+See [`docs/SCHEMA.md`](docs/SCHEMA.md) for the generic entry and vMCP schema.
+
+- Never commit credentials, tokens, or secret values.
+- User-supplied environment values use top-level `config` entries with
+  `usage: env`; current Obot rejects legacy `env`.
+- Keep one service migration per PR.
+- Branch from an up-to-date `main` for cloud.gov or `aws` for legacy fixes.
+- Include verification, rollback, security impact, and AI assistance in the PR.
+- Do not self-merge; require human review and passing CI.

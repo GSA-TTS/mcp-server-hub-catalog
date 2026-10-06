@@ -4,6 +4,12 @@
 > file records the state of the catalog for a future team. It is a snapshot for
 > developers, not GSA policy.
 >
+> **Superseded snapshot:** This document describes the former AWS/containerized
+> catalog before cloud.gov became primary. Current branch roles and contribution
+> guidance are in [`README.md`](README.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
+> and [`catalog/cloudgov/README.md`](catalog/cloudgov/README.md). The historical
+> containerized catalog is preserved on the `aws` branch.
+>
 > **This repo is one of four.** See the cross-repo map in the
 > [`GSA-TTS/mcp-server-hub`](https://github.com/GSA-TTS/mcp-server-hub) repo
 > (`planning/WINDDOWN-INDEX.md`) for how `mcp-server-hub`, the `obot` fork, this
@@ -101,7 +107,7 @@ confirmation; no action taken here.
 
 ## 6. If you resume
 
-1. `main` is the source of truth; start from a fresh clone.
+1. `main` is the cloud.gov source of truth; `aws` is the supported legacy pilot.
 2. Follow `CONTRIBUTING.md` + `docs/SCHEMA.md` to add/modify entries.
 3. Prune the stale branches in §5 after confirming their servers are on `main`.
 4. Remember catalog changes are inert until re-synced + re-deployed in the Obot

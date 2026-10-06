@@ -1,0 +1,36 @@
+name: CDC PLACES Internal
+entryKey: obot-places
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for CDC PLACES health data
+description: |
+
+  Administrative component for the CDC PLACES MCP service deployed as an
+  internal cloud.gov application. Users connect through the CDC PLACES vMCP,
+  not directly to this entry.
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cdc_places.png
+repoURL: https://github.com/GSA-TTS/cdc-places-mcp-server
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-cdc-places.apps.internal:8080/mcp
+toolPreview:
+  - name: get_cdc_places_data
+    description: Fetch health data for a specific measure, location, and time period.
+    params:
+      year: "Year of the data release (e.g. '2023', '2022')"
+      measureid: "Health measure identifier (e.g. CSMOKING, DIABETES, OBESITY)"
+      geo: "Geographic level: state, county, census, zcta, or places"
+      datavaluetypeid: "CrdPrv (crude prevalence) or AgeAdjPrv (age-adjusted prevalence)"
+      locationname: "Optional location name (e.g. 'Wayne' for Wayne County)"
+  - name: area_summary_stats
+    description: Calculate summary statistics across geographic areas within a scope.
+    params:
+      geo_scope: "counties_in_state, tracts_in_county, or places_in_state"
+      state_code: "Two-letter state abbreviation (e.g. CA, MI)"
+      year: "Year of the data release"
+      measureid: "Health measure identifier"
+      datavaluetypeid: "CrdPrv or AgeAdjPrv"
+      county: "Optional county name (required for tracts_in_county scope)"

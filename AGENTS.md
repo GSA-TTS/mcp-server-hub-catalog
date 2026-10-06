@@ -1,239 +1,51 @@
 # AGENTS.md — MCP Server Hub Catalog
 
-Instructions for an AI agent adding or updating a server entry in this
-catalog. This is the **project-level** contract; it is additive to any
-universal agent rules and never overrides them.
+This project-level contract supplements the universal agent rules.
 
-> **What this repo is:** the catalog of MCP servers the GSA-managed **obot MCP
-> gateway** connects to. Each server is one YAML file at the repo root. The
-> gateway reads these files to populate its UI and learn how to connect.
->
-> **Scope of this file:** the *catalog* side only — writing, validating, and
-> landing a catalog entry. Containerizing the upstream server (Dockerfile →
-> public GHCR image) happens in the **server's own repo**; see
-> [Reference examples](#reference-examples).
+## Branch Roles
 
----
+- `main` is the primary cloud.gov catalog.
+- `aws` is the supported legacy containerized pilot.
+- New services and migrations target `main`.
+- AWS break/fix maintenance targets `aws` and is not merged into `main` unless
+  it also applies to cloud.gov.
 
-## Canonical references (read before editing)
+## Canonical References
 
-| Doc | Purpose |
-|-----|---------|
-| [`docs/SCHEMA.md`](docs/SCHEMA.md) | Full field reference for a catalog entry. **Source of truth for fields.** |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Human workflow + validation checklist. |
-| [`README.md`](README.md) | Server table + repo structure (must be updated per new server). |
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): workflow and verification gates.
+- [`catalog/cloudgov/README.md`](catalog/cloudgov/README.md): deployment
+  architecture and visibility model.
+- [`docs/SCHEMA.md`](docs/SCHEMA.md): generic field reference.
 
-If this file and `docs/SCHEMA.md` ever disagree on a field, **`docs/SCHEMA.md`
-wins** — fix this file to match.
+If these documents disagree on field syntax, `docs/SCHEMA.md` wins. If they
+disagree on deployment architecture, `catalog/cloudgov/README.md` wins.
 
-## File conventions
+## Main Branch Rules
 
-- **One file per server** at the repo **root**, named in `snake_case`
-  (e.g. `nci_evs.yaml`). No category nesting.
-- Plain YAML, no Markdown frontmatter, no tabs.
-- `entryKey` MUST be globally unique and prefixed with `obot-`.
-- Never commit secrets/credentials. Entries describe **how to connect**, not
-  how to authenticate with private credentials.
+- Add cloud.gov manifests only under `catalog/cloudgov/`.
+- Every service has a `runtime: remote` component and a `type: vmcp` product.
+- Component names should identify them as internal implementation details.
+- Users launch/connect to vMCPs, not component entries.
+- Internal apps use `apps.internal`, no public application route, and a
+  port-scoped C2C policy from Obot.
+- The external Obot endpoint is `/mcp-connect/<vmcp-id>` without `/mcp`.
+- Keep component/vMCP identifiers stable.
+- Do not create unrestricted aggregate vMCPs without a concrete workflow.
 
----
+## AWS Branch Rules
 
-## Runbook — add a `containerized` server
+- Preserve root containerized entries and existing behavior.
+- Accept break/fix, security, dependency-pin, and compatibility maintenance.
+- Do not add speculative functionality or new products.
+- Verify images are public, version-pinned, and `linux/amd64`.
 
-This is the pattern used for the servers currently in the catalog (they wrap
-public, keyless federal-data APIs and are hosted by the gateway as containers).
-The **NCI EVS** entry is the worked example throughout.
+## Security And Verification
 
-### Prerequisite (in the server's own repo, not here)
-
-A **publicly pullable, version-pinned** image must already exist and serve MCP
-over streamable HTTP. Confirm before writing the entry:
-
-```bash
-docker manifest inspect ghcr.io/gsa-tts/mcp-server-<name>:<version>   # must succeed (public)
-```
-
-Do **not** author a catalog entry that pins an image which is not yet public and
-pullable — the gateway's Docker runtime pulls without auth, so a private image
-(including ECR) will fail. See [Reference examples](#reference-examples) for how
-that image is built.
-
-### Step 1 — Create `<name>.yaml` at the repo root
-
-Required fields (see `docs/SCHEMA.md` for the authoritative list):
-
-```yaml
-name: NCI EVS                 # display name; filename stem is snake_case of this
-entryKey: obot-nci-evs        # UNIQUE across the catalog, prefixed obot-
-serverUserType: multiUser     # see decision below
-shortDescription: Search and navigate NCI cancer terminology (NCIt / NCIm) via the EVS API
-repoURL: https://github.com/GSA-TTS/mcp-server-nci-evs
-runtime: containerized
-containerizedConfig:
-  image: ghcr.io/gsa-tts/mcp-server-nci-evs:0.2.0   # public + version-pinned
-  port: 8080          # MUST match what the container serves
-  path: /mcp          # MUST match the MCP endpoint path
-  healthzPath: /health
-```
-
-Then enrich (strongly recommended) with `description` (Markdown block scalar
-with **Features / What you'll need to connect / Examples**), `metadata`
-(`categories`, `allow-multiple`), `icon`, and `toolPreview`. Copy the shape from
-an existing entry such as [`nci_evs.yaml`](nci_evs.yaml).
-
-**`serverUserType` decision (get this right — it was a real correction):**
-
-- Use **`multiUser`** when the server needs **no per-user credentials** (e.g. it
-  queries a public, keyless API). All users share one gateway-hosted instance.
-  **Most current servers in this catalog are `multiUser`** — match that default
-  unless the server needs a personal credential.
-- Use **`singleUser`** only when each user must supply their **own upstream
-  credentials**, so each gets an isolated instance (the **EIA** entry is the
-  worked example — see below).
-
-**Per-user credentials → top-level `config`:** when a `singleUser` server needs
-a personal API key, declare it as a **top-level `config` list** on the entry and
-set `usage: env`:
-
-```yaml
-serverUserType: singleUser
-config:
-  - key: EIA_API_KEY
-    usage: env
-    name: EIA API Key
-    description: Your personal EIA Open Data API key (free at https://www.eia.gov/opendata/register.php)
-    required: true
-    sensitive: true
-runtime: containerized
-containerizedConfig:
-  image: ghcr.io/gsa-tts/mcp-server-eia:0.1.0
-  port: 8080
-  path: /mcp
-  healthzPath: /health
-```
-
-Current Obot rejects both the legacy top-level `env` field and runtime-specific
-environment configuration. See
-[`docs/SCHEMA.md`](docs/SCHEMA.md#config-usershared-configuration) for the full
-field reference.
-
-`runtime: remote` is also valid (hosted outside the gateway process at a fixed
-public or backend-approved internal URL via `remoteConfig.fixedURL`) — see
-`docs/SCHEMA.md`.
-
-### Step 2 — Add a docs page
-
-Create `docs/servers/<name>.md` (overview, data source, runtime, tools table).
-Use [`docs/servers/nci_evs.md`](docs/servers/nci_evs.md) as the template.
-
-### Step 3 — Add an icon
-
-Add `icons/<name>.png` and reference it from the entry as the raw GitHub URL:
-`https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/<name>.png`.
-Match the size of existing icons (128×128 is typical).
-
-### Step 4 — Update the README
-
-Add a row to the server table **and** the repo-structure tree in
-[`README.md`](README.md).
-
----
-
-## Verification (MUST pass before opening a PR)
-
-Run the full checklist in [`CONTRIBUTING.md`](CONTRIBUTING.md#validation-checklist).
-At minimum:
-
-```bash
-# 1. Valid YAML + required fields + expected serverUserType
-python -c "import yaml; d=yaml.safe_load(open('<name>.yaml')); \
-  assert {'name','entryKey','serverUserType','shortDescription','repoURL','runtime'} <= d.keys(); \
-  print('ok', d['entryKey'], d['serverUserType'])"
-# (no PyYAML on the host? use: uv run --with pyyaml python -c "...")
-
-# 2. entryKey is unique across the catalog (expect exactly ONE match)
-grep -h '^entryKey:' *.yaml | sort | uniq -d   # prints nothing if all unique
-
-# 3. Image is public + pullable, and port/path match the container
-docker manifest inspect <containerizedConfig.image>
-```
-
-Confirm also: `docs/servers/<name>.md` exists; README table + tree updated; icon
-present; no secrets.
-
-> Prefer the dedicated tools (Read/Grep/Glob/Edit) over ad-hoc shell for file
-> work; the shell snippets above are the verification gates, not editing steps.
-
-## Landing the change (PR discipline)
-
-- **One server per PR** (established convention — see git history).
-- Branch from an **up-to-date `main`** (`git checkout main && git pull --ff-only`).
-  This catalog moves fast; a stale base is how NCI EVS shipped as `singleUser`
-  and needed a follow-up `*-multiuser` PR.
-- Commit message: `feat: add <Server Name> to catalog` (or
-  `feat: <server> <change>` for updates).
-- PR description SHOULD include: context, the changed files, the verification
-  output (YAML valid, entryKey unique, image public), rollback (revert the PR),
-  and security impact (usually "none — public API, no credentials").
-- Do not self-merge; wait for human review.
-
-## After merge
-
-- Re-sync the catalog source in the **obot admin UI** so the gateway indexes the
-  new entry, then deploy the server. See the server-hub deployment notes in the
-  `mcp-server-hub` repo.
-- **Config-field changes need a fresh deploy.** Obot reads the entry's `config`
-  schema at deploy/registration time. If you add or change `config`
-  after a server is already deployed, re-sync the catalog **and re-deploy /
-  re-register** the server — an existing deployment will not retroactively gain
-  a new config field.
-
----
-
-## Container-image build pattern (in the server's own repo)
-
-The catalog only pins a public image; the image is built in the server's repo.
-Use the **pip + `requirements.txt`** pattern shared by the GSA servers (e.g.
-`mcp-server-nci-evs`, `mcp-server-eia`), which is more robust than a
-uv/BuildKit-syntax Dockerfile:
-
-- **Base + install:** `FROM python:3.14-slim`, then `pip install` from a
-  `requirements.txt` exported from the lockfile
-  (`uv export --format requirements-txt --no-hashes --no-dev -o requirements.txt`).
-  Commit `requirements.txt` and regenerate it when dependencies change.
-- **No BuildKit-only features.** Avoid the `# syntax=docker/dockerfile:1`
-  frontend directive and `--mount=type=cache` `RUN` mounts. The frontend
-  directive makes BuildKit fetch `docker/dockerfile` at build time, which
-  **fails behind a TLS-intercepting network** (`x509: certificate signed by
-  unknown authority`). The plain pattern builds without that fetch.
-- **Serve HTTP on the container port:** set `ENV PORT=8080` and
-  `PYTHONPATH=/app/src`; the server selects the streamable-HTTP transport at
-  `/mcp` (with `/health`) when `PORT` is set.
-- **Build for the gateway's architecture.** The gateway host is **linux/amd64**;
-  a plain `docker build` on Apple Silicon produces an **arm64-only** image, which
-  makes the gateway fail to launch with a misleading `No such image ...` (it
-  means "no manifest for my architecture"). Build+push with
-  `docker buildx build --platform linux/amd64 ... --push` and verify with
-  `docker manifest inspect <image> | grep architecture` (expect `amd64`).
-
-> Worked example: [`GSA-TTS/mcp-server-eia`](https://github.com/GSA-TTS/mcp-server-eia)
-> `Dockerfile` + `scripts/build-and-push.sh`.
-
----
-
-## Reference examples
-
-Real servers built and cataloged with this pattern. Use them as concrete
-templates, including how the **upstream image** is produced in the server's own
-repo:
-
-- **NCI EVS** — [entry](nci_evs.yaml) · [docs](docs/servers/nci_evs.md) ·
-  server repo [`GSA-TTS/mcp-server-nci-evs`](https://github.com/GSA-TTS/mcp-server-nci-evs)
-  (see its `Dockerfile` and `scripts/build-and-push.sh` for the
-  Dockerfile → public GHCR image flow).
-- **NIH RePORTER** — [entry](nih_reporter.yaml) · [docs](docs/servers/nih_reporter.md) ·
-  server repo [`GSA-TTS/mcp-server-nih-reporter`](https://github.com/GSA-TTS/mcp-server-nih-reporter)
-  (the original containerized pattern).
-- **EIA Open Data** — [entry](eia.yaml) · [docs](docs/servers/eia.md) ·
-  server repo [`GSA-TTS/mcp-server-eia`](https://github.com/GSA-TTS/mcp-server-eia)
-  (the `singleUser` + top-level `config` per-user-API-key example; also the
-  pip/`requirements.txt` + `buildx --platform linux/amd64` image pattern).
+- Never commit credentials, API keys, tokens, or secret values.
+- Treat internal hostnames as sensitive architecture metadata even though they
+  are not credentials.
+- User configuration uses top-level `config`; legacy `env` is invalid.
+- Validate YAML, unique keys, component references, profiles, and tool policy.
+- A cloud.gov migration requires live `/health`, `tools/list`, `tools/call`, and
+  external-client verification.
+- Document AI assistance and require human review before merge.

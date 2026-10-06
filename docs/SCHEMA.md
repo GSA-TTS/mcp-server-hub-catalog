@@ -1,16 +1,16 @@
 # Catalog Entry Schema
 
 This document describes the schema for MCP server catalog entries in this
-repository. Each server is defined by a single YAML file at the repository root
-(one file per server). The format follows the
+repository. The format follows the
 [obot-platform/mcp-catalog](https://github.com/obot-platform/mcp-catalog)
 entry format so that entries render correctly in the obot MCP gateway UI.
 
 ## File conventions
 
-- **One file per server**, named in `snake_case` matching the entry `name`
-  (e.g. `nih_reporter.yaml` → `name: nih_reporter`).
-- Files live at the repository **root** — there is no category nesting.
+- Use one file per catalog object and a descriptive `snake_case` filename.
+- On `main`, cloud.gov component entries and vMCPs live under
+  `catalog/cloudgov/`. On the legacy `aws` branch, containerized entries remain
+  at the repository root.
 - Files are plain YAML (no Markdown frontmatter).
 
 ## Fields
