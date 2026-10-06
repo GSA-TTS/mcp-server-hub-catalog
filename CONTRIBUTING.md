@@ -19,9 +19,10 @@ reference.
 
 A server can be added in one of two runtimes:
 
-- **`remote`** — the server runs somewhere outside the gateway (e.g. cloud.gov)
-  at a fixed public URL, and the gateway proxies to it. The URL is public, so
-  the server is reachable independently of the gateway.
+- **`remote`** — the server runs outside the gateway process at a fixed URL and
+  the gateway proxies to it. The endpoint may be public or, when the runtime
+  backend explicitly permits it, an internal platform route such as
+  `*.apps.internal` protected by a C2C network policy.
 - **`containerized`** — the gateway hosts the server itself as a Docker
   container from a published image. The container has **no public route** and is
   reachable only through the gateway, which is the preferred model for
@@ -29,9 +30,10 @@ A server can be added in one of two runtimes:
 
 ### Option A — remote server
 
-1. **Confirm the server is deployed and reachable.** The gateway connects to a
-   fixed remote endpoint (typically a cloud.gov `/mcp` URL). Verify the endpoint
-   responds before adding it to the catalog.
+1. **Confirm the server is deployed and reachable from the gateway.** The
+   gateway connects to a fixed remote endpoint (typically a cloud.gov `/mcp`
+   URL). For an internal route, verify from the gateway app and confirm that no
+   public route is mapped.
 
 2. **Create the entry file.** Add a new file named `<name>.yaml` in
    `snake_case` at the repository root. At minimum it must contain the required
