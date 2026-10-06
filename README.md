@@ -1,5 +1,10 @@
 # MCP Server Hub Catalog
 
+> **Legacy AWS catalog:** This `aws` branch preserves the containerized pilot
+> deployment while cloud.gov reaches feature parity. It remains supported for
+> break/fix maintenance, but new deployment work targets `main`. There are no
+> production users on the AWS pilot.
+
 This repository is the catalog of [Model Context Protocol
 (MCP)](https://modelcontextprotocol.io) servers available through the
 GSA-managed **obot MCP gateway**. Each entry describes a hosted MCP server that
