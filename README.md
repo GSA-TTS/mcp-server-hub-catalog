@@ -15,9 +15,9 @@ only `catalog/cloudgov/*.yaml`.
 | Product | Runtime | Component | Product definition | Status |
 |---|---|---|---|---|
 | CDC PLACES | Internal cloud.gov app | [`cdc_places.yaml`](catalog/cloudgov/cdc_places.yaml) | [`cdc_places_vmcp.yaml`](catalog/cloudgov/cdc_places_vmcp.yaml) | Live tested |
-| NIH RePORTER | Internal cloud.gov app | [`nih_reporter.yaml`](catalog/cloudgov/nih_reporter.yaml) | [`nih_reporter_vmcp.yaml`](catalog/cloudgov/nih_reporter_vmcp.yaml) | Live verification pending |
-| ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |
-| NCBI E-Utils | Internal cloud.gov app | [`ncbi_eutils.yaml`](catalog/cloudgov/ncbi_eutils.yaml) | [`ncbi_eutils_vmcp.yaml`](catalog/cloudgov/ncbi_eutils_vmcp.yaml) | Live verification pending |
+| NIH RePORTER | Internal cloud.gov app | [`nih_reporter.yaml`](catalog/cloudgov/nih_reporter.yaml) | [`nih_reporter_vmcp.yaml`](catalog/cloudgov/nih_reporter_vmcp.yaml) | Live tested |
+| ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live tested |
+| NCBI E-Utils | Internal cloud.gov app | [`ncbi_eutils.yaml`](catalog/cloudgov/ncbi_eutils.yaml) | [`ncbi_eutils_vmcp.yaml`](catalog/cloudgov/ncbi_eutils_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 
