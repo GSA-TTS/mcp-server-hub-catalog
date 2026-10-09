@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: ncbi-eutils
+displayName: NCBI E-Utils
+description: Search NCBI biomedical databases through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/ncbi_eutils.png
+components:
+  - id: ncbi-eutils
+    name: NCBI E-Utils
+    mcpServerCatalogEntryKey: obot-eutils
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        ncbi-eutils:
+          allowedTools: null

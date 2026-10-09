@@ -1,0 +1,37 @@
+name: NCBI E-Utils Internal
+entryKey: obot-eutils
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NCBI Entrez E-utilities
+description: |
+
+  Administrative component for the NCBI E-Utils MCP service deployed as an
+  internal cloud.gov application. Users connect through the NCBI E-Utils vMCP,
+  not directly to this entry.
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/ncbi_eutils.png
+repoURL: https://github.com/GSA-TTS/mcp-server-ncbi-eutils
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-ncbi-eutils.apps.internal:8080/mcp
+toolPreview:
+  - name: eutils_info
+    description: Discover NCBI Entrez databases, fields, links, and metadata.
+    params:
+      db: "Optional Entrez database name"
+      version: "Optional EInfo version"
+  - name: eutils_search
+    description: Search an Entrez database and return matching identifiers.
+    params:
+      db: "Entrez database to search"
+      term: "Search query"
+      retmax: "Maximum results to return"
+  - name: eutils_fetch
+    description: Retrieve full Entrez records by identifier or history token.
+    params:
+      db: "Entrez database"
+      ids: "Record identifiers"
+      rettype: "Record type"
+      retmode: "Response format"
