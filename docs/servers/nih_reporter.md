@@ -1,6 +1,10 @@
 # NIH RePORTER MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
+>
+> **Migration verification (2026-10-09):** internal health, public-route
+> unreachability, vMCP `tools/list`, a real `tools/call`, and an external MCP
+> client connection passed against the cloud.gov deployment.
 
 ## Overview
 
