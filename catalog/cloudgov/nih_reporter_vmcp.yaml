@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nih-reporter
+displayName: NIH RePORTER
+description: Search and analyze NIH grant funding data through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_reporter.png
+components:
+  - id: nih-reporter
+    name: NIH RePORTER
+    mcpServerCatalogEntryKey: obot-reporter
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nih-reporter:
+          allowedTools: null

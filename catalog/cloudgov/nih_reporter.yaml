@@ -1,0 +1,35 @@
+name: NIH RePORTER Internal
+entryKey: obot-reporter
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NIH RePORTER grant data
+description: |
+
+  Administrative component for the NIH RePORTER MCP service deployed as an
+  internal cloud.gov application. Users connect through the NIH RePORTER vMCP,
+  not directly to this entry.
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_reporter.png
+repoURL: https://github.com/GSA-TTS/mcp-server-nih-reporter
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nih-reporter.apps.internal:8080/mcp
+toolPreview:
+  - name: find_project_ids
+    description: Search NIH-funded projects and return matching project IDs with overview statistics.
+    params:
+      search_params: "Search criteria such as terms, years, agencies, organizations, investigators, award types, and spending categories"
+      offset: "Zero-based result offset"
+      limit: "Number of project IDs to return (maximum 500)"
+  - name: search_spending_categories
+    description: Resolve plain-English topics to NIH spending category IDs.
+    params:
+      query: "Plain-English category search text"
+      limit: "Maximum number of matches"
+  - name: get_project_information
+    description: Retrieve selected metadata for NIH projects by project number.
+    params:
+      project_ids: "Project ID numbers"
+      include_fields: "Project fields to return"
