@@ -1,0 +1,36 @@
+name: ClinicalTrials.gov Internal
+entryKey: obot-clinicaltrials
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for ClinicalTrials.gov study data
+description: |
+
+  Administrative component for the ClinicalTrials.gov MCP service deployed as
+  an internal cloud.gov application. Users connect through the ClinicalTrials.gov
+  vMCP, not directly to this entry.
+
+metadata:
+  categories: Health, Research, Government
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_clinicaltrials.png
+repoURL: https://github.com/GSA-TTS/mcp-server-nih-clinicaltrials
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nih-clinicaltrials.apps.internal:8080/mcp
+toolPreview:
+  - name: clinicaltrials_get_study
+    description: Retrieve a ClinicalTrials.gov study record by NCT ID.
+    params:
+      nct_id: "NCT identifier, such as NCT00000102"
+      fields: "Optional study fields to return"
+  - name: clinicaltrials_search_studies
+    description: Search studies by condition, intervention, sponsor, location, phase, and status.
+    params:
+      query_cond: "Condition or disease"
+      query_intr: "Intervention or treatment"
+      query_spons: "Sponsor or collaborator"
+      page_size: "Results per page"
+  - name: clinicaltrials_analyze_study_locations
+    description: Analyze the geographic distribution of matching studies.
+    params:
+      query_cond: "Condition or disease"
+      target_country: "Country used for location classification"

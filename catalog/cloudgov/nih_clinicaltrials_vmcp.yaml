@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nih-clinicaltrials
+displayName: ClinicalTrials.gov
+description: Search and analyze ClinicalTrials.gov studies through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nih_clinicaltrials.png
+components:
+  - id: nih-clinicaltrials
+    name: ClinicalTrials.gov
+    mcpServerCatalogEntryKey: obot-clinicaltrials
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nih-clinicaltrials:
+          allowedTools: null
