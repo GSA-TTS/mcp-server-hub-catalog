@@ -15,9 +15,12 @@ layer for common agent tasks such as search-then-summary and search-then-fetch.
 
 - **Data source:** [NCBI Entrez E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/)
 - **Source repository:** [GSA-TTS/mcp-server-ncbi-eutils](https://github.com/GSA-TTS/mcp-server-ncbi-eutils)
-- **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-ncbi-eutils` (`:8080/mcp`, health at `/health`).
-  The container has no public route; it is reachable only through the gateway.
+- **Runtime:** an internal cloud.gov application registered as a `remote`
+  component and exposed to users through the NCBI E-Utils vMCP. A port-scoped
+  C2C policy permits the gateway to reach `:8080/mcp`; the application has no
+  public route.
+- **Client access:** authenticated through the gateway at
+  `/mcp-connect/<vmcp-id>` with no `/mcp` suffix.
 - **Authentication:** None required — queries the public NCBI E-utilities API.
 
 ## Shared conventions
