@@ -1,0 +1,75 @@
+name: NEPA CFR Internal
+entryKey: obot-nepa-cfr
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for CFR and Federal Register research
+description: |
+
+  Administrative component for the NEPA CFR MCP service deployed as an internal
+  cloud.gov application. Users connect through the NEPA CFR vMCP, not directly
+  to this entry.
+
+  The service resolves and compares Code of Federal Regulations text, browses
+  CFR structure and history, and traces Federal Register rulemaking. It queries
+  public eCFR and Federal Register APIs and requires no API key.
+
+metadata:
+  categories: Government, Legal, Regulatory, Research
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cfr.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-cfr.apps.internal:8080/mcp
+toolPreview:
+  - name: cfr_resolve_citation
+    description: Resolve a CFR citation to its current verbatim text, heading, ancestry, and Federal Register citations.
+    params:
+      citation: "Citation string, such as '43 CFR 46.215' or '33 CFR 328.3(a)'."
+      as_of: "YYYY-MM-DD; omit for current text (optional)"
+      include_ancestry: "Include the title-to-section breadcrumb (default true) (optional)"
+      include_full_section: "Return the full section tree with the addressed node (default false) (optional)"
+  - name: cfr_browse_structure
+    description: Browse all CFR titles or drill into a title or part to a selected depth.
+    params:
+      title: "CFR title number 1-50; omit to list all titles (optional)"
+      part: "Part number to restrict the returned subtree (optional)"
+      as_of: "YYYY-MM-DD; omit for current text (optional)"
+      max_depth: "1=parts, 2=subparts, 3=sections, 4=paragraphs (optional)"
+  - name: cfr_history
+    description: Return eCFR amendment events for a citation within a date window.
+    params:
+      citation: "CFR citation, part, or title."
+      start_date: "YYYY-MM-DD; default five years ago (optional)"
+      end_date: "YYYY-MM-DD; default today (optional)"
+      substantive_only: "Drop editorial-only events when true (optional)"
+  - name: cfr_compare_versions
+    description: Compare a CFR section between two dates with a paragraph-level diff.
+    params:
+      citation: "CFR citation that resolves to a section."
+      date_a: "Earlier date in YYYY-MM-DD format."
+      date_b: "Later date in YYYY-MM-DD format."
+      paragraph_path: "Restrict the diff to a paragraph subtree (optional)"
+  - name: cfr_rulemaking
+    description: Find Federal Register documents that touched a CFR title or part and optionally correlate amendments.
+    params:
+      cfr_title: "CFR title number."
+      cfr_part: "Part number filter (optional)"
+      document_types: "Subset of RULE, PRORULE, and NOTICE (optional)"
+      start_date: "YYYY-MM-DD; default 365 days ago (optional)"
+      end_date: "YYYY-MM-DD; default today (optional)"
+      correlate_with_amendments: "Correlate documents with eCFR amendment events (optional)"
+      max_results: "Maximum Federal Register documents to return (optional)"
+  - name: cfr_resolve_fr_citation
+    description: Resolve a Federal Register citation to its source document and summary.
+    params:
+      citation: "Federal Register citation, such as '90 FR 29498'."
+      include_body: "Include full document text (default false) (optional)"
+      max_body_chars: "Maximum included body characters (optional)"
+  - name: cfr_resolve_executive_order
+    description: Resolve an Executive Order number to its Federal Register Presidential Document record.
+    params:
+      eo_number: "Executive Order number, such as 14008."
+      year: "Publication year hint (optional)"
+      include_document: "Include raw Federal Register document JSON (optional)"
+      include_body: "Include full document text (optional)"
+      max_body_chars: "Maximum included body characters (optional)"

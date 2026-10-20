@@ -19,6 +19,7 @@ only `catalog/cloudgov/*.yaml`.
 | ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |
 | NCBI E-Utils | Internal cloud.gov app | [`ncbi_eutils.yaml`](catalog/cloudgov/ncbi_eutils.yaml) | [`ncbi_eutils_vmcp.yaml`](catalog/cloudgov/ncbi_eutils_vmcp.yaml) | Live verification pending |
 | NEPA BLM | Internal cloud.gov app | [`nepa_blm.yaml`](catalog/cloudgov/nepa_blm.yaml) | [`nepa_blm_vmcp.yaml`](catalog/cloudgov/nepa_blm_vmcp.yaml) | Live tested |
+| NEPA CFR | Internal cloud.gov app | [`nepa_cfr.yaml`](catalog/cloudgov/nepa_cfr.yaml) | [`nepa_cfr_vmcp.yaml`](catalog/cloudgov/nepa_cfr_vmcp.yaml) | App verified; gateway verification pending |
 
 Each service is represented by:
 
@@ -61,7 +62,8 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── nih_reporter*.yaml         # NIH RePORTER component and vMCP
 │   ├── nih_clinicaltrials*.yaml   # ClinicalTrials.gov component and vMCP
 │   ├── ncbi_eutils*.yaml          # NCBI E-Utils component and vMCP
-│   └── nepa_blm*.yaml             # NEPA BLM component and vMCP
+│   ├── nepa_blm*.yaml             # NEPA BLM component and vMCP
+│   └── nepa_cfr*.yaml             # NEPA CFR component and vMCP
 ├── docs/
 │   ├── SCHEMA.md                  # generic Obot catalog field reference
 │   └── servers/                   # service documentation and migration history
