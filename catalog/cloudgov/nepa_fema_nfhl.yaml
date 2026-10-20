@@ -1,0 +1,48 @@
+name: NEPA FEMA NFHL Internal
+entryKey: obot-nepa-fema-nfhl
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NEPA flood-hazard screening with FEMA NFHL
+description: |
+
+  Administrative component for the NEPA FEMA NFHL MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA FEMA NFHL
+  vMCP, not directly to this entry.
+
+  This is the NEPA monorepo flood-hazard-screening service, which exposes flood
+  zones, levees, water areas, and a combined screening tool. It is distinct from
+  the standalone FEMA NFHL catalog product, which has a different tool contract.
+  The public FEMA NFHL source requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Emergency Management, Environment
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nepa_fema_nfhl.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-fema-nfhl.apps.internal:8080/mcp
+toolPreview:
+  - name: get_fema_nfhl_flood_zones_in_roi
+    description: Identify FEMA flood hazard zone classifications within a radius of a location.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_fema_nfhl_levees_in_roi
+    description: Identify FEMA-mapped levees within a radius of a location.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_fema_nfhl_water_areas_in_roi
+    description: Identify FEMA water areas such as rivers and lakes within a radius of a location.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: analyze_fema_nfhl_flood_hazard_screening
+    description: Combine FEMA flood zones, levees, and water areas into one flood-hazard screening summary.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      radius_miles: "Search radius in miles, valid range 0.1 to 100.0 (default 25) (optional)"
