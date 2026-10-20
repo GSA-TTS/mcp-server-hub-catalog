@@ -1,0 +1,32 @@
+name: NEPA EPA ACRES Internal
+entryKey: obot-nepa-epa-acres
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for EPA ACRES Brownfields screening
+description: |
+
+  Administrative component for the NEPA EPA ACRES MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA EPA ACRES
+  vMCP, not directly to this entry.
+
+  The service identifies grantee-reported EPA ACRES Brownfields properties near
+  a location. ACRES is not a complete inventory of brownfields or contaminated
+  sites, and a record is not a determination that land is contaminated,
+  available, or suitable for development. The public source requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Environment
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/epa_acres.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-epa-acres.apps.internal:8080/mcp
+toolPreview:
+  - name: get_epa_acres_properties_in_roi
+    description: Identify grantee-reported EPA ACRES Brownfields properties within the region of interest, grouped by state and paginated nearest-first. ACRES is not a complete contaminated-site inventory, and a record is not a contamination or development-suitability determination.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      max_results: "Maximum records in this response, valid range 1 to 100 (default 100) (optional)"
+      result_offset: "Zero-based offset into nearest-first records, valid range 0 to 9999 (default 0) (optional)"
