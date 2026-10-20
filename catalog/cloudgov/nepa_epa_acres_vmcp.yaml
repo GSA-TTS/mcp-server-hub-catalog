@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-epa-acres
+displayName: NEPA EPA ACRES
+description: Screen locations against EPA ACRES Brownfields property records through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/epa_acres.png
+components:
+  - id: nepa-epa-acres
+    name: NEPA EPA ACRES
+    mcpServerCatalogEntryKey: obot-nepa-epa-acres
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-epa-acres:
+          allowedTools: null
