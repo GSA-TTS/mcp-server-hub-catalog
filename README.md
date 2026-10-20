@@ -21,7 +21,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA BLM | Internal cloud.gov app | [`nepa_blm.yaml`](catalog/cloudgov/nepa_blm.yaml) | [`nepa_blm_vmcp.yaml`](catalog/cloudgov/nepa_blm_vmcp.yaml) | Live tested |
 | NEPA CFR | Internal cloud.gov app | [`nepa_cfr.yaml`](catalog/cloudgov/nepa_cfr.yaml) | [`nepa_cfr_vmcp.yaml`](catalog/cloudgov/nepa_cfr_vmcp.yaml) | Live tested |
 | NEPA EFH | Internal cloud.gov app | [`nepa_efh.yaml`](catalog/cloudgov/nepa_efh.yaml) | [`nepa_efh_vmcp.yaml`](catalog/cloudgov/nepa_efh_vmcp.yaml) | Live tested |
-| NEPA EPA ACRES | Internal cloud.gov app | [`nepa_epa_acres.yaml`](catalog/cloudgov/nepa_epa_acres.yaml) | [`nepa_epa_acres_vmcp.yaml`](catalog/cloudgov/nepa_epa_acres_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA EPA ACRES | Internal cloud.gov app | [`nepa_epa_acres.yaml`](catalog/cloudgov/nepa_epa_acres.yaml) | [`nepa_epa_acres_vmcp.yaml`](catalog/cloudgov/nepa_epa_acres_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 
