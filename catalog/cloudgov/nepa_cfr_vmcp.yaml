@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-cfr
+displayName: NEPA CFR
+description: Research CFR text, amendment history, and Federal Register rulemaking through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/cfr.png
+components:
+  - id: nepa-cfr
+    name: NEPA CFR
+    mcpServerCatalogEntryKey: obot-nepa-cfr
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-cfr:
+          allowedTools: null
