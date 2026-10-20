@@ -23,6 +23,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA EFH | Internal cloud.gov app | [`nepa_efh.yaml`](catalog/cloudgov/nepa_efh.yaml) | [`nepa_efh_vmcp.yaml`](catalog/cloudgov/nepa_efh_vmcp.yaml) | Live tested |
 | NEPA EPA ACRES | Internal cloud.gov app | [`nepa_epa_acres.yaml`](catalog/cloudgov/nepa_epa_acres.yaml) | [`nepa_epa_acres_vmcp.yaml`](catalog/cloudgov/nepa_epa_acres_vmcp.yaml) | Live tested |
 | NEPA ESA Ranges | Internal cloud.gov app | [`nepa_esa_ranges.yaml`](catalog/cloudgov/nepa_esa_ranges.yaml) | [`nepa_esa_ranges_vmcp.yaml`](catalog/cloudgov/nepa_esa_ranges_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA FEMA NFHL | Internal cloud.gov app | [`nepa_fema_nfhl.yaml`](catalog/cloudgov/nepa_fema_nfhl.yaml) | [`nepa_fema_nfhl_vmcp.yaml`](catalog/cloudgov/nepa_fema_nfhl_vmcp.yaml) | App verified; gateway verification pending |
 
 Each service is represented by:
 
@@ -69,7 +70,8 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── nepa_cfr*.yaml             # NEPA CFR component and vMCP
 │   ├── nepa_efh*.yaml             # NEPA EFH component and vMCP
 │   ├── nepa_epa_acres*.yaml       # NEPA EPA ACRES component and vMCP
-│   └── nepa_esa_ranges*.yaml      # NEPA ESA Ranges component and vMCP
+│   ├── nepa_esa_ranges*.yaml      # NEPA ESA Ranges component and vMCP
+│   └── nepa_fema_nfhl*.yaml       # NEPA FEMA NFHL component and vMCP
 ├── docs/
 │   ├── SCHEMA.md                  # generic Obot catalog field reference
 │   └── servers/                   # service documentation and migration history

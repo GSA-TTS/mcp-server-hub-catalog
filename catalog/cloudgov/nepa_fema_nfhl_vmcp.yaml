@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-fema-nfhl
+displayName: NEPA FEMA NFHL
+description: Screen locations for FEMA flood zones, levees, and water areas through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nepa_fema_nfhl.png
+components:
+  - id: nepa-fema-nfhl
+    name: NEPA FEMA NFHL
+    mcpServerCatalogEntryKey: obot-nepa-fema-nfhl
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-fema-nfhl:
+          allowedTools: null
