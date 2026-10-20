@@ -22,8 +22,8 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA CFR | Internal cloud.gov app | [`nepa_cfr.yaml`](catalog/cloudgov/nepa_cfr.yaml) | [`nepa_cfr_vmcp.yaml`](catalog/cloudgov/nepa_cfr_vmcp.yaml) | Live tested |
 | NEPA EFH | Internal cloud.gov app | [`nepa_efh.yaml`](catalog/cloudgov/nepa_efh.yaml) | [`nepa_efh_vmcp.yaml`](catalog/cloudgov/nepa_efh_vmcp.yaml) | Live tested |
 | NEPA EPA ACRES | Internal cloud.gov app | [`nepa_epa_acres.yaml`](catalog/cloudgov/nepa_epa_acres.yaml) | [`nepa_epa_acres_vmcp.yaml`](catalog/cloudgov/nepa_epa_acres_vmcp.yaml) | Live tested |
-| NEPA ESA Ranges | Internal cloud.gov app | [`nepa_esa_ranges.yaml`](catalog/cloudgov/nepa_esa_ranges.yaml) | [`nepa_esa_ranges_vmcp.yaml`](catalog/cloudgov/nepa_esa_ranges_vmcp.yaml) | App verified; gateway verification pending |
-| NEPA FEMA NFHL | Internal cloud.gov app | [`nepa_fema_nfhl.yaml`](catalog/cloudgov/nepa_fema_nfhl.yaml) | [`nepa_fema_nfhl_vmcp.yaml`](catalog/cloudgov/nepa_fema_nfhl_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA ESA Ranges | Internal cloud.gov app | [`nepa_esa_ranges.yaml`](catalog/cloudgov/nepa_esa_ranges.yaml) | [`nepa_esa_ranges_vmcp.yaml`](catalog/cloudgov/nepa_esa_ranges_vmcp.yaml) | Live tested |
+| NEPA FEMA NFHL | Internal cloud.gov app | [`nepa_fema_nfhl.yaml`](catalog/cloudgov/nepa_fema_nfhl.yaml) | [`nepa_fema_nfhl_vmcp.yaml`](catalog/cloudgov/nepa_fema_nfhl_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 
