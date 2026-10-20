@@ -1,0 +1,42 @@
+name: NEPA GBIF Internal
+entryKey: obot-nepa-gbif
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for GBIF biodiversity occurrence screening
+description: |
+
+  Administrative component for the NEPA GBIF MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA GBIF vMCP,
+  not directly to this entry.
+
+  The service retrieves georeferenced GBIF occurrence records and county-level
+  species presence. Occurrences are observations contributed to GBIF, not
+  authoritative species-range, habitat, absence, or regulatory determinations.
+  The public GBIF and Census sources require no API key.
+
+metadata:
+  categories: Environment, Geospatial, Wildlife, Research
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/gbif.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-gbif.apps.internal:8080/mcp
+toolPreview:
+  - name: get_gbif_species_occurrences_in_roi
+    description: Retrieve georeferenced GBIF species occurrence records within the region of interest. Records are observations, not authoritative range, habitat, absence, or regulatory determinations.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      threatened_only: "Only return threatened or endangered species (default true) (optional)"
+      min_year: "Minimum observation year (default 2015) (optional)"
+      max_records: "Maximum records to retrieve, valid range 1 to 5000 (default 1000) (optional)"
+  - name: get_gbif_species_list_by_county
+    description: Retrieve GBIF species presence grouped by county within the region of interest. County presence reflects contributed occurrence records, not authoritative range or absence.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+      threatened_only: "Only return threatened or endangered species (default true) (optional)"
+      min_year: "Minimum observation year (default 2015) (optional)"
+      max_records_per_county: "Maximum records per county, valid range 1 to 5000 (default 1000) (optional)"

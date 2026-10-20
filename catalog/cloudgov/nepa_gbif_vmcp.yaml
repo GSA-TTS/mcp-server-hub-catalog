@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-gbif
+displayName: NEPA GBIF
+description: Retrieve biodiversity occurrence observations and county-level species presence through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/gbif.png
+components:
+  - id: nepa-gbif
+    name: NEPA GBIF
+    mcpServerCatalogEntryKey: obot-nepa-gbif
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-gbif:
+          allowedTools: null
