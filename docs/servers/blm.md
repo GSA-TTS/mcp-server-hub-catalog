@@ -1,6 +1,12 @@
 # NEPA BLM MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
+>
+> **Migration status (2026-10-20):** the digest-pinned BLM application passed
+> cloud.gov startup, internal-only route metadata, port-scoped C2C policy,
+> gateway-to-`/health` reachability, and the supplemental public HTTP negative
+> probe. Catalog synchronization, authenticated vMCP `tools/list`, a real
+> `tools/call`, and external-client verification remain pending.
 
 ## Overview
 
@@ -22,9 +28,12 @@ hosted by BLM.
 - **Source repository:** [GSA-TTS/nepa-mcp](https://github.com/GSA-TTS/nepa-mcp)
   (a fork of [pnnl/nepa-mcp](https://github.com/pnnl/nepa-mcp); the BLM server
   is containerized additively under `docker/blm/`).
-- **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-nepa-blm` (`:8080/mcp`, health at `/health`).
-  The container has no public route; it is reachable only through the gateway.
+- **Runtime:** an internal cloud.gov application registered as a `remote`
+  component and exposed to users through the NEPA BLM vMCP. A port-scoped C2C
+  policy permits the gateway to reach `:8080/mcp`; the application has no
+  public route.
+- **Client access:** authenticated through the gateway at
+  `/mcp-connect/<vmcp-id>` with no `/mcp` suffix.
 - **Authentication:** None required — queries the public BLM ArcGIS services.
 
 ## Design principles
