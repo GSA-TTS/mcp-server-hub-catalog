@@ -24,7 +24,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA EPA ACRES | Internal cloud.gov app | [`nepa_epa_acres.yaml`](catalog/cloudgov/nepa_epa_acres.yaml) | [`nepa_epa_acres_vmcp.yaml`](catalog/cloudgov/nepa_epa_acres_vmcp.yaml) | Live tested |
 | NEPA ESA Ranges | Internal cloud.gov app | [`nepa_esa_ranges.yaml`](catalog/cloudgov/nepa_esa_ranges.yaml) | [`nepa_esa_ranges_vmcp.yaml`](catalog/cloudgov/nepa_esa_ranges_vmcp.yaml) | Live tested |
 | NEPA FEMA NFHL | Internal cloud.gov app | [`nepa_fema_nfhl.yaml`](catalog/cloudgov/nepa_fema_nfhl.yaml) | [`nepa_fema_nfhl_vmcp.yaml`](catalog/cloudgov/nepa_fema_nfhl_vmcp.yaml) | Live tested |
-| NEPA GBIF | Internal cloud.gov app | [`nepa_gbif.yaml`](catalog/cloudgov/nepa_gbif.yaml) | [`nepa_gbif_vmcp.yaml`](catalog/cloudgov/nepa_gbif_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA GBIF | Internal cloud.gov app | [`nepa_gbif.yaml`](catalog/cloudgov/nepa_gbif.yaml) | [`nepa_gbif_vmcp.yaml`](catalog/cloudgov/nepa_gbif_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 
