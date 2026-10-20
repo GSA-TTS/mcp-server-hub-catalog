@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-efh
+displayName: NEPA EFH
+description: Screen locations against NOAA Essential Fish Habitat designations through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/efh.png
+components:
+  - id: nepa-efh
+    name: NEPA EFH
+    mcpServerCatalogEntryKey: obot-nepa-efh
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-efh:
+          allowedTools: null

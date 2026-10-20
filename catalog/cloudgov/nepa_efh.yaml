@@ -1,0 +1,48 @@
+name: NEPA EFH Internal
+entryKey: obot-nepa-efh
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NOAA Essential Fish Habitat screening
+description: |
+
+  Administrative component for the NEPA EFH MCP service deployed as an internal
+  cloud.gov application. Users connect through the NEPA EFH vMCP, not directly
+  to this entry.
+
+  The service screens a region of interest against NOAA Essential Fish Habitat,
+  Habitat Areas of Particular Concern, and salmon, HMS, coastal pelagic, and
+  groundfish designations. Its source services cover the NOAA Fisheries West
+  Coast Region and require no API key.
+
+metadata:
+  categories: Government, Geospatial, Environment, Oceans
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/efh.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-efh.apps.internal:8080/mcp
+toolPreview:
+  - name: get_efh_hapc
+    description: Identify Habitat Areas of Particular Concern within the region of interest for heightened Magnuson-Stevens Act scrutiny.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_areas
+    description: Identify general Essential Fish Habitat areas within the region of interest.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_salmon
+    description: Identify salmon Essential Fish Habitat by HUC-8 watershed and applicable species within the region of interest.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_efh_hms_cps_groundfish
+    description: Identify highly migratory, coastal pelagic, and Pacific Coast groundfish Essential Fish Habitat within the region of interest.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
