@@ -1,0 +1,30 @@
+name: NEPA ESA Ranges Internal
+entryKey: obot-nepa-esa-ranges
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NOAA ESA species-range screening
+description: |
+
+  Administrative component for the NEPA ESA Ranges MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA ESA Ranges
+  vMCP, not directly to this entry.
+
+  The service identifies ESA-listed salmon and steelhead ranges by HUC-12
+  watershed. Its source covers the NOAA Fisheries West Coast Region; outside
+  that geography, a no-hit result may mean out-of-scope rather than no ESA
+  concern. The public source requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/esa_ranges.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-esa-ranges.apps.internal:8080/mcp
+toolPreview:
+  - name: get_esa_species_ranges_in_roi
+    description: Identify ESA-listed salmon and steelhead ranges by HUC-12 watershed within the region of interest. Coverage is the NOAA Fisheries West Coast Region; outside that geography, no hits may mean out-of-scope rather than no ESA concern.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"

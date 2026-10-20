@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-esa-ranges
+displayName: NEPA ESA Ranges
+description: Screen locations against NOAA ESA-listed species ranges through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/esa_ranges.png
+components:
+  - id: nepa-esa-ranges
+    name: NEPA ESA Ranges
+    mcpServerCatalogEntryKey: obot-nepa-esa-ranges
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-esa-ranges:
+          allowedTools: null
