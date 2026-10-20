@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-blm
+displayName: NEPA BLM
+description: Screen locations against BLM land use plans, wilderness areas, and National Monuments through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/blm.png
+components:
+  - id: nepa-blm
+    name: NEPA BLM
+    mcpServerCatalogEntryKey: obot-nepa-blm
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-blm:
+          allowedTools: null
