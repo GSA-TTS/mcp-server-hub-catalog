@@ -1,0 +1,50 @@
+name: NEPA NOAA PCSRF Internal
+entryKey: obot-nepa-noaa-pcsrf
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NOAA salmon and habitat screening
+description: |
+
+  Administrative component for the NEPA NOAA PCSRF MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA NOAA PCSRF
+  vMCP, not directly to this entry.
+
+  The service exposes NOAA species ranges, a generalized 2021-09-04 critical-
+  habitat snapshot, Atlantic salmon EFH/HAPC, and Pacific Coastal Salmon
+  Recovery Fund projects. Confirm current critical-habitat designations with
+  agency sources. Atlantic salmon EFH/HAPC is not Pacific salmon project data,
+  and PCSRF project records are not regulatory determinations. No API key is
+  required.
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/pcsrf.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-noaa-pcsrf.apps.internal:8080/mcp
+toolPreview:
+  - name: get_noaa_all_species_ranges_in_roi
+    description: Identify NOAA all-species range records within the region of interest. This is range screening, not PCSRF project data or a regulatory determination.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_noaa_critical_habitat_20210904_in_roi
+    description: Identify features from NOAA's generalized 2021-09-04 critical-habitat snapshot within the region of interest. Confirm current designations with agency sources.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_atlantic_salmon_efh_hapc_in_roi
+    description: Identify Atlantic salmon EFH/HAPC buffer zones within the region of interest. This is Atlantic salmon data, not Pacific salmon or PCSRF project data.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_pcsrf_projects_in_roi
+    description: Identify Pacific Coastal Salmon Recovery Fund restoration, monitoring, and habitat projects within the region of interest. Project records describe funded work, not regulatory determinations.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
