@@ -1,6 +1,12 @@
 # NEPA USACE MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
+>
+> **Migration status (2026-10-20):** the digest-pinned USACE application passed
+> cloud.gov startup, internal-only route metadata, port-scoped C2C policy,
+> gateway-to-`/health` reachability, and the supplemental public HTTP negative
+> probe. Catalog synchronization, authenticated vMCP `tools/list`, a real
+> `tools/call`, and external-client verification remain pending.
 
 ## Overview
 
@@ -22,9 +28,12 @@ MCP gateway.
 - **Source repository:** [GSA-TTS/nepa-mcp](https://github.com/GSA-TTS/nepa-mcp)
   (a fork of [pnnl/nepa-mcp](https://github.com/pnnl/nepa-mcp); the USACE server
   is containerized additively under `docker/usace/`).
-- **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-nepa-usace` (`:8080/mcp`, health at `/health`).
-  The container has no public route; it is reachable only through the gateway.
+- **Runtime:** an internal cloud.gov application registered as a `remote`
+  component and exposed to users through the NEPA USACE vMCP. A port-scoped C2C
+  policy permits the gateway to reach `:8080/mcp`; the application has no
+  public route.
+- **Client access:** authenticated through the gateway at
+  `/mcp-connect/<vmcp-id>` with no `/mcp` suffix.
 - **Authentication:** None required — queries the public USACE services.
 
 ## Design principles
@@ -35,6 +44,8 @@ payloads:
 - Each tool returns a Markdown summary keyed to the ROI.
 - The analysis tool combines district, region, and subregion data into a
   one-shot Section 404 jurisdictional screen.
+- Results do not constitute an approved jurisdictional determination, wetland
+  delineation, permit decision, consultation, or other agency action.
 
 ## Tools
 
