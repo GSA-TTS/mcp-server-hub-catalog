@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-noaa
+displayName: NEPA NOAA Critical Habitat
+description: Screen locations against NOAA-managed ESA critical habitat through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/noaa.png
+components:
+  - id: nepa-noaa
+    name: NEPA NOAA Critical Habitat
+    mcpServerCatalogEntryKey: obot-nepa-noaa
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-noaa:
+          allowedTools: null
