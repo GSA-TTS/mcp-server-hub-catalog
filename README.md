@@ -32,6 +32,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA NOAA PCSRF | Internal cloud.gov app | [`nepa_pcsrf.yaml`](catalog/cloudgov/nepa_pcsrf.yaml) | [`nepa_pcsrf_vmcp.yaml`](catalog/cloudgov/nepa_pcsrf_vmcp.yaml) | Live tested |
 | NEPA Counties (TIGERweb) | Internal cloud.gov app | [`nepa_tigerweb_counties.yaml`](catalog/cloudgov/nepa_tigerweb_counties.yaml) | [`nepa_tigerweb_counties_vmcp.yaml`](catalog/cloudgov/nepa_tigerweb_counties_vmcp.yaml) | Live tested |
 | NEPA Tribal Lands | Internal cloud.gov app | [`nepa_tribal.yaml`](catalog/cloudgov/nepa_tribal.yaml) | [`nepa_tribal_vmcp.yaml`](catalog/cloudgov/nepa_tribal_vmcp.yaml) | Live tested |
+| NEPA USACE | Internal cloud.gov app | [`nepa_usace.yaml`](catalog/cloudgov/nepa_usace.yaml) | [`nepa_usace_vmcp.yaml`](catalog/cloudgov/nepa_usace_vmcp.yaml) | App verified; gateway verification pending |
 
 Each service is represented by:
 
@@ -87,7 +88,8 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── nepa_padus*.yaml           # NEPA USGS PAD-US component and vMCP
 │   ├── nepa_pcsrf*.yaml           # NEPA NOAA PCSRF component and vMCP
 │   ├── nepa_tigerweb_counties*.yaml # NEPA TIGERweb component and vMCP
-│   └── nepa_tribal*.yaml          # NEPA Tribal Lands component and vMCP
+│   ├── nepa_tribal*.yaml          # NEPA Tribal Lands component and vMCP
+│   └── nepa_usace*.yaml           # NEPA USACE component and vMCP
 ├── docs/
 │   ├── SCHEMA.md                  # generic Obot catalog field reference
 │   └── servers/                   # service documentation and migration history

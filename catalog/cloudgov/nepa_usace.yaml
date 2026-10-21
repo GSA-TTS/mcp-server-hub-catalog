@@ -1,0 +1,49 @@
+name: NEPA USACE Internal
+entryKey: obot-nepa-usace
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for USACE district and wetland-region screening
+description: |
+
+  Administrative component for the NEPA USACE MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA USACE vMCP,
+  not directly to this entry.
+
+  The service identifies USACE regulatory districts and wetland delineation
+  regions and subregions within a region of interest. It is distinct from the
+  USACE IWR River Mile Markers product. Results support screening and do not
+  constitute an approved jurisdictional determination, wetland delineation,
+  permit decision, consultation, or other agency action. No API key is required.
+
+metadata:
+  categories: Government, Geospatial, Environment, Water
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/usace.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-usace.apps.internal:8080/mcp
+toolPreview:
+  - name: get_usace_regulatory_district
+    description: Identify the USACE regulatory district associated with the region of interest. Results support screening and do not constitute a jurisdictional or permit determination.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_usace_wetland_regions_in_roi
+    description: Identify broad USACE Regional Supplement wetland delineation regions within the region of interest. Results do not replace an approved wetland delineation.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: get_usace_wetland_subregions_in_roi
+    description: Identify finer MLRA-based wetland subregions within the region of interest. Results do not replace an approved wetland delineation.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
+  - name: analyze_usace_jurisdiction
+    description: Combine district, wetland-region, and subregion data into a Section 404 screening summary. This is not an approved jurisdictional determination, wetland delineation, permit decision, or consultation.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"

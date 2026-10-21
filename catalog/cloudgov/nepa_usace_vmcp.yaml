@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-usace
+displayName: NEPA USACE
+description: Screen USACE districts and wetland delineation regions through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/usace.png
+components:
+  - id: nepa-usace
+    name: NEPA USACE
+    mcpServerCatalogEntryKey: obot-nepa-usace
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-usace:
+          allowedTools: null
