@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-tigerweb-counties
+displayName: NEPA Counties (TIGERweb)
+description: Identify Census county boundaries through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/tigerweb_counties.png
+components:
+  - id: nepa-tigerweb-counties
+    name: NEPA Counties (TIGERweb)
+    mcpServerCatalogEntryKey: obot-nepa-tigerweb-counties
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-tigerweb-counties:
+          allowedTools: null

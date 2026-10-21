@@ -1,0 +1,30 @@
+name: NEPA Counties (TIGERweb) Internal
+entryKey: obot-nepa-tigerweb-counties
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for Census county-boundary lookup
+description: |
+
+  Administrative component for the NEPA TIGERweb Counties MCP service deployed
+  as an internal cloud.gov application. Users connect through the NEPA Counties
+  vMCP, not directly to this entry.
+
+  The service identifies Census county boundaries intersecting a region of
+  interest. It is a geographic boundary lookup, not ACS socioeconomic data,
+  legal jurisdiction, agency authority, consultation, or a permitting
+  determination. The public Census TIGERweb source requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Demographics
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/tigerweb_counties.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-tigerweb-counties.apps.internal:8080/mcp
+toolPreview:
+  - name: get_tigerweb_counties_in_roi
+    description: Identify Census county boundaries intersecting the region of interest, with county names and FIPS identifiers. This is not socioeconomic data, legal jurisdiction, agency authority, or a permitting determination.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
