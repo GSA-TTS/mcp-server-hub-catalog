@@ -1,0 +1,31 @@
+name: NEPA NOAA Critical Habitat Internal
+entryKey: obot-nepa-noaa
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for NOAA critical-habitat screening
+description: |
+
+  Administrative component for the NEPA NOAA Critical Habitat MCP service
+  deployed as an internal cloud.gov application. Users connect through the NEPA
+  NOAA Critical Habitat vMCP, not directly to this entry.
+
+  The service identifies NOAA-managed ESA-designated critical habitat within a
+  region of interest. Its source covers the NOAA Fisheries West Coast Region;
+  outside that geography, a no-hit result may mean out-of-scope rather than no
+  ESA concern. Results support screening and do not replace a formal critical-
+  habitat determination or ESA consultation. No API key is required.
+
+metadata:
+  categories: Government, Geospatial, Environment, Wildlife
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/noaa.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-noaa.apps.internal:8080/mcp
+toolPreview:
+  - name: get_noaa_critical_habitat_in_roi
+    description: Identify NOAA West Coast Region ESA-designated critical habitat within the region of interest. Outside that geography, no hits may mean out-of-scope; results do not replace a formal determination or consultation.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
