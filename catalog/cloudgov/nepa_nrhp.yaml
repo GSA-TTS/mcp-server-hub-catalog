@@ -1,0 +1,31 @@
+name: NEPA NRHP Internal
+entryKey: obot-nepa-nrhp
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for National Register historic-property screening
+description: |
+
+  Administrative component for the NEPA NRHP MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA NRHP vMCP,
+  not directly to this entry.
+
+  The service identifies National Register of Historic Places listings and
+  National Historic Landmarks within a region of interest. Results support early
+  cultural-resource screening; they do not replace identification of historic
+  properties, eligibility evaluation, effects findings, consultation, or other
+  official Section 106 responsibilities. The public source requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Historic Preservation, Culture
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/nrhp.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-nrhp.apps.internal:8080/mcp
+toolPreview:
+  - name: get_nrhp_properties_in_roi
+    description: Identify NRHP-listed historic properties and National Historic Landmarks within the region of interest. Results support screening and do not replace official Section 106 identification, eligibility, effects, or consultation responsibilities.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
