@@ -32,7 +32,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA NOAA PCSRF | Internal cloud.gov app | [`nepa_pcsrf.yaml`](catalog/cloudgov/nepa_pcsrf.yaml) | [`nepa_pcsrf_vmcp.yaml`](catalog/cloudgov/nepa_pcsrf_vmcp.yaml) | Live tested |
 | NEPA Counties (TIGERweb) | Internal cloud.gov app | [`nepa_tigerweb_counties.yaml`](catalog/cloudgov/nepa_tigerweb_counties.yaml) | [`nepa_tigerweb_counties_vmcp.yaml`](catalog/cloudgov/nepa_tigerweb_counties_vmcp.yaml) | Live tested |
 | NEPA Tribal Lands | Internal cloud.gov app | [`nepa_tribal.yaml`](catalog/cloudgov/nepa_tribal.yaml) | [`nepa_tribal_vmcp.yaml`](catalog/cloudgov/nepa_tribal_vmcp.yaml) | Live tested |
-| NEPA USACE | Internal cloud.gov app | [`nepa_usace.yaml`](catalog/cloudgov/nepa_usace.yaml) | [`nepa_usace_vmcp.yaml`](catalog/cloudgov/nepa_usace_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA USACE | Internal cloud.gov app | [`nepa_usace.yaml`](catalog/cloudgov/nepa_usace.yaml) | [`nepa_usace_vmcp.yaml`](catalog/cloudgov/nepa_usace_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 
