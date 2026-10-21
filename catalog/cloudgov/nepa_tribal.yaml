@@ -1,0 +1,31 @@
+name: NEPA Tribal Lands Internal
+entryKey: obot-nepa-tribal
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for tribal-land geographic context
+description: |
+
+  Administrative component for the NEPA Tribal Lands MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA Tribal Lands
+  vMCP, not directly to this entry.
+
+  The service identifies Census TIGERweb American Indian, Alaska Native, and
+  Native Hawaiian Area cartographic boundaries within a region of interest.
+  Boundaries provide geographic context only. A no-hit does not establish the
+  absence of tribal interests, and results cannot satisfy government-to-
+  government consultation or other agency obligations. No API key is required.
+
+metadata:
+  categories: Government, Geospatial, Demographics
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/tribal.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-tribal.apps.internal:8080/mcp
+toolPreview:
+  - name: get_tribal_lands_in_roi
+    description: Identify Census TIGERweb AIANNHA cartographic boundaries within the region of interest. A no-hit does not establish absence of tribal interests, and results cannot satisfy consultation obligations.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"
