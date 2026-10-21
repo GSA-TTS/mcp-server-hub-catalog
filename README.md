@@ -29,7 +29,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA NOAA Critical Habitat | Internal cloud.gov app | [`nepa_noaa.yaml`](catalog/cloudgov/nepa_noaa.yaml) | [`nepa_noaa_vmcp.yaml`](catalog/cloudgov/nepa_noaa_vmcp.yaml) | Live tested |
 | NEPA NRHP | Internal cloud.gov app | [`nepa_nrhp.yaml`](catalog/cloudgov/nepa_nrhp.yaml) | [`nepa_nrhp_vmcp.yaml`](catalog/cloudgov/nepa_nrhp_vmcp.yaml) | Live tested |
 | NEPA USGS PAD-US | Internal cloud.gov app | [`nepa_padus.yaml`](catalog/cloudgov/nepa_padus.yaml) | [`nepa_padus_vmcp.yaml`](catalog/cloudgov/nepa_padus_vmcp.yaml) | Live tested |
-| NEPA NOAA PCSRF | Internal cloud.gov app | [`nepa_pcsrf.yaml`](catalog/cloudgov/nepa_pcsrf.yaml) | [`nepa_pcsrf_vmcp.yaml`](catalog/cloudgov/nepa_pcsrf_vmcp.yaml) | App verified; gateway verification pending |
+| NEPA NOAA PCSRF | Internal cloud.gov app | [`nepa_pcsrf.yaml`](catalog/cloudgov/nepa_pcsrf.yaml) | [`nepa_pcsrf_vmcp.yaml`](catalog/cloudgov/nepa_pcsrf_vmcp.yaml) | Live tested |
 
 Each service is represented by:
 

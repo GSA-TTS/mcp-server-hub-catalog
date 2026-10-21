@@ -2,11 +2,12 @@
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
 >
-> **Migration status (2026-10-20):** the digest-pinned PCSRF application passed
-> cloud.gov startup, internal-only route metadata, port-scoped C2C policy,
+> **Migration verification (2026-10-20):** the digest-pinned PCSRF application
+> passed cloud.gov startup, internal-only route metadata, port-scoped C2C policy,
 > gateway-to-`/health` reachability, and the supplemental public HTTP negative
-> probe. Catalog synchronization, authenticated vMCP `tools/list`, a real
-> `tools/call`, and external-client verification remain pending.
+> probe. The catalog synchronized, the NEPA NOAA PCSRF vMCP launched, and
+> authenticated `tools/list`, live tool calls, and an external MCP client
+> connection all passed.
 
 ## Overview
 
