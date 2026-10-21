@@ -1,0 +1,18 @@
+type: vmcp
+entryKey: nepa-padus
+displayName: NEPA USGS PAD-US
+description: Screen locations for USGS protected-area records through the GSA cloud.gov MCP gateway.
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/padus.png
+components:
+  - id: nepa-padus
+    name: NEPA USGS PAD-US
+    mcpServerCatalogEntryKey: obot-nepa-usgs-padus
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-padus:
+          allowedTools: null

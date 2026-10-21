@@ -1,0 +1,31 @@
+name: NEPA USGS PAD-US Internal
+entryKey: obot-nepa-usgs-padus
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for USGS protected-area screening
+description: |
+
+  Administrative component for the NEPA USGS PAD-US MCP service deployed as an
+  internal cloud.gov application. Users connect through the NEPA USGS PAD-US
+  vMCP, not directly to this entry.
+
+  The service identifies PAD-US protected-area ownership, management, and
+  designation records within a region of interest. PAD-US is not a cadastral
+  parcel or complete land-ownership service. Reported source-feature acreage may
+  extend beyond the region of interest and is not additive. The public source
+  requires no API key.
+
+metadata:
+  categories: Government, Geospatial, Environment, Public Lands
+  allow-multiple: "false"
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/padus.png
+repoURL: https://github.com/GSA-TTS/nepa-mcp
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-nepa-usgs-padus.apps.internal:8080/mcp
+toolPreview:
+  - name: get_padus_protected_areas_in_roi
+    description: Identify PAD-US protected-area ownership, management, and designation records within the region of interest. PAD-US is not a cadastral or complete ownership service, and source-feature acreage may extend beyond the ROI and is not additive.
+    params:
+      latitude: "Latitude in decimal degrees (WGS84), valid range -90 to 90."
+      longitude: "Longitude in decimal degrees (WGS84), valid range -180 to 180."
+      buffer_miles: "Buffer distance in miles, valid range 0.1 to 100.0 (default 25) (optional)"

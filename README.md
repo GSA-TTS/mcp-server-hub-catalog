@@ -28,6 +28,7 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA IPaC | Internal cloud.gov app | [`nepa_ipac.yaml`](catalog/cloudgov/nepa_ipac.yaml) | [`nepa_ipac_vmcp.yaml`](catalog/cloudgov/nepa_ipac_vmcp.yaml) | Live tested |
 | NEPA NOAA Critical Habitat | Internal cloud.gov app | [`nepa_noaa.yaml`](catalog/cloudgov/nepa_noaa.yaml) | [`nepa_noaa_vmcp.yaml`](catalog/cloudgov/nepa_noaa_vmcp.yaml) | Live tested |
 | NEPA NRHP | Internal cloud.gov app | [`nepa_nrhp.yaml`](catalog/cloudgov/nepa_nrhp.yaml) | [`nepa_nrhp_vmcp.yaml`](catalog/cloudgov/nepa_nrhp_vmcp.yaml) | Live tested |
+| NEPA USGS PAD-US | Internal cloud.gov app | [`nepa_padus.yaml`](catalog/cloudgov/nepa_padus.yaml) | [`nepa_padus_vmcp.yaml`](catalog/cloudgov/nepa_padus_vmcp.yaml) | App verified; gateway verification pending |
 
 Each service is represented by:
 
@@ -79,7 +80,8 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── nepa_gbif*.yaml            # NEPA GBIF component and vMCP
 │   ├── nepa_ipac*.yaml            # NEPA IPaC component and vMCP
 │   ├── nepa_noaa*.yaml            # NEPA NOAA component and vMCP
-│   └── nepa_nrhp*.yaml            # NEPA NRHP component and vMCP
+│   ├── nepa_nrhp*.yaml            # NEPA NRHP component and vMCP
+│   └── nepa_padus*.yaml           # NEPA USGS PAD-US component and vMCP
 ├── docs/
 │   ├── SCHEMA.md                  # generic Obot catalog field reference
 │   └── servers/                   # service documentation and migration history
