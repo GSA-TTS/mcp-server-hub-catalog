@@ -1,6 +1,12 @@
 # NEPA NOAA PCSRF MCP Server
 
 > **Status:** Pilot / proof of concept. Not intended for production use.
+>
+> **Migration status (2026-10-20):** the digest-pinned PCSRF application passed
+> cloud.gov startup, internal-only route metadata, port-scoped C2C policy,
+> gateway-to-`/health` reachability, and the supplemental public HTTP negative
+> probe. Catalog synchronization, authenticated vMCP `tools/list`, a real
+> `tools/call`, and external-client verification remain pending.
 
 ## Overview
 
@@ -17,10 +23,12 @@ natural-language requests routed through the obot MCP gateway.
 - **Source repository:** [GSA-TTS/nepa-mcp](https://github.com/GSA-TTS/nepa-mcp)
   (a fork of [pnnl/nepa-mcp](https://github.com/pnnl/nepa-mcp); the PCSRF server
   is containerized additively under `docker/pcsrf/`).
-- **Runtime:** `containerized` — hosted by the gateway from the public image
-  `ghcr.io/gsa-tts/mcp-server-nepa-noaa-pcsrf` (`:8080/mcp`, health at
-  `/health`). The container has no public route; it is reachable only through
-  the gateway.
+- **Runtime:** an internal cloud.gov application registered as a `remote`
+  component and exposed to users through the NEPA NOAA PCSRF vMCP. A
+  port-scoped C2C policy permits the gateway to reach `:8080/mcp`; the
+  application has no public route.
+- **Client access:** authenticated through the gateway at
+  `/mcp-connect/<vmcp-id>` with no `/mcp` suffix.
 - **Authentication:** None required — queries the public NOAA services.
 
 ## Related servers
@@ -40,6 +48,9 @@ payloads:
   upstream whole-feature area and line-length attributes remain distinguishable.
 - The critical-habitat snapshot is a 2021-09-04 generalized dataset — confirm
   current designations with agency sources before relying on results.
+- Atlantic salmon EFH/HAPC is not Pacific salmon or PCSRF project data, and
+  PCSRF project records describe funded work rather than regulatory
+  determinations.
 
 ## Tools
 
