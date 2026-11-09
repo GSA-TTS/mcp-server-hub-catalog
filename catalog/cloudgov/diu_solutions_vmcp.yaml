@@ -1,0 +1,27 @@
+type: vmcp
+entryKey: diu-solutions
+displayName: DIU Solutions Catalog
+description: |
+  Discover DIU commercial solutions by mission need, capability, vendor, focus
+  area, or completion year through the authenticated GSA cloud.gov MCP gateway.
+  Uses a point-in-time public snapshot, not a live feed. Verify important
+  details against the cited DIU sources. Pilot; not authorized for production use.
+components:
+  - id: diu-solutions
+    name: DIU Solutions Catalog
+    mcpServerCatalogEntryKey: obot-diu-solutions
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        diu-solutions:
+          allowedTools:
+            - search_solutions
+            - get_solution
+            - list_solutions
+            - catalog_facets
+            - search
+            - fetch

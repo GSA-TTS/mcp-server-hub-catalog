@@ -1,0 +1,51 @@
+name: DIU Solutions Catalog Internal
+entryKey: obot-diu-solutions
+serverUserType: multiUser
+shortDescription: Internal cloud.gov component for DIU commercial solutions discovery
+description: |
+  Administrative component for the DIU Solutions Catalog MCP service deployed
+  as a private cloud.gov application. Users connect through the DIU Solutions
+  Catalog vMCP, not directly to this entry.
+
+  Searches a checked-in public catalog snapshot using a local embedding model
+  and embedded Qdrant index. It is not a live DIU proxy and does not refresh
+  automatically. Results are discovery aids, not endorsements or procurement
+  recommendations; verify important details against the cited DIU sources.
+metadata:
+  categories: Government, Research, Technology
+  allow-multiple: "false"
+repoURL: https://github.com/GSA-TTS/mcp-diu-solutions-catalog
+runtime: remote
+remoteConfig:
+  fixedURL: http://mcp-diu-solutions.apps.internal:8001/mcp
+toolPreview:
+  - name: search_solutions
+    description: Semantically discover solutions by mission need, capability, or problem.
+    params:
+      query: "Mission need, capability, problem, or keyword"
+      limit: "Maximum results (default 10, capped at 50)"
+      portfolio: "Optional exact focus area; discover values with catalog_facets"
+      vendor: "Optional exact vendor name"
+      year_completed: "Optional exact completion year as a string"
+  - name: get_solution
+    description: Retrieve one complete public catalog record by DIU UUID.
+    params:
+      uuid: "DIU UUID returned by search_solutions or list_solutions"
+  - name: list_solutions
+    description: Browse catalog records with exact filters and pagination.
+    params:
+      portfolio: "Optional exact focus area"
+      vendor: "Optional exact vendor name"
+      year_completed: "Optional exact completion year as a string"
+      limit: "Page size (default 25, capped at 100)"
+      offset: "Zero-based result offset"
+  - name: catalog_facets
+    description: List available focus areas, vendors, and completion years with counts.
+  - name: search
+    description: Semantic search returning stable IDs, titles, and canonical DIU citation URLs.
+    params:
+      query: "Mission need, capability, problem, or keyword"
+  - name: fetch
+    description: Retrieve citation-ready project content for an ID returned by search.
+    params:
+      id: "Stable DIU record ID returned by search"

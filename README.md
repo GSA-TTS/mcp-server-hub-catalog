@@ -18,6 +18,7 @@ only `catalog/cloudgov/*.yaml`.
 | NIH RePORTER | Internal cloud.gov app | [`nih_reporter.yaml`](catalog/cloudgov/nih_reporter.yaml) | [`nih_reporter_vmcp.yaml`](catalog/cloudgov/nih_reporter_vmcp.yaml) | Live verification pending |
 | ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |
 | NCBI E-Utils | Internal cloud.gov app | [`ncbi_eutils.yaml`](catalog/cloudgov/ncbi_eutils.yaml) | [`ncbi_eutils_vmcp.yaml`](catalog/cloudgov/ncbi_eutils_vmcp.yaml) | Live verification pending |
+| DIU Solutions Catalog | Internal cloud.gov app | [`diu_solutions.yaml`](catalog/cloudgov/diu_solutions.yaml) | [`diu_solutions_vmcp.yaml`](catalog/cloudgov/diu_solutions_vmcp.yaml) | Live verification pending |
 | NEPA BLM | Internal cloud.gov app | [`nepa_blm.yaml`](catalog/cloudgov/nepa_blm.yaml) | [`nepa_blm_vmcp.yaml`](catalog/cloudgov/nepa_blm_vmcp.yaml) | Live tested |
 | NEPA CFR | Internal cloud.gov app | [`nepa_cfr.yaml`](catalog/cloudgov/nepa_cfr.yaml) | [`nepa_cfr_vmcp.yaml`](catalog/cloudgov/nepa_cfr_vmcp.yaml) | Live tested |
 | NEPA EFH | Internal cloud.gov app | [`nepa_efh.yaml`](catalog/cloudgov/nepa_efh.yaml) | [`nepa_efh_vmcp.yaml`](catalog/cloudgov/nepa_efh_vmcp.yaml) | Live tested |
