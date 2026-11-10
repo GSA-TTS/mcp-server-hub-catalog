@@ -1,6 +1,7 @@
 type: vmcp
 entryKey: diu-solutions
 displayName: DIU Solutions Catalog
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/diu_solutions.png
 description: |
   Discover DIU commercial solutions by mission need, capability, vendor, focus
   area, or completion year through the authenticated GSA cloud.gov MCP gateway.
