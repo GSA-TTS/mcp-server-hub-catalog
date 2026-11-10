@@ -15,6 +15,7 @@ metadata:
   categories: Government, Research, Technology
   allow-multiple: "false"
 repoURL: https://github.com/GSA-TTS/mcp-diu-solutions-catalog
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/diu_solutions.png
 runtime: remote
 remoteConfig:
   fixedURL: http://mcp-diu-solutions.apps.internal:8001/mcp
