@@ -47,6 +47,24 @@ component `entryKey`, vMCP `entryKey`, and component `id` stable.
 Start with one vMCP per component. Add multi-component vMCPs only for coherent
 user workflows; do not publish an unrestricted all-catalog vMCP by default.
 
+### NEPA Applications
+
+[`nepa_applications_vmcp.yaml`](nepa_applications_vmcp.yaml) composes the 15
+existing NEPA components for project-location screening, environmental-resource
+research, and regulatory analysis. It references internal component entries,
+not other vMCPs, and does not require a new application or network policy.
+The individual NEPA vMCPs remain unchanged.
+
+Its explicit `everyone` profile permits authenticated Obot users to use all
+tools from each component (`allowedTools: null`), including future tools added
+to those components. New servers require a reviewed manifest update; this is
+not automatic all-catalog aggregation. Review combined access scope and tool
+changes before release. Aggregate live verification remains pending even
+though the individual NEPA products have been tested.
+
+See the [product documentation](../../docs/servers/nepa_applications.md) and
+[decision record](../../docs/decisions/0001-nepa-applications-vmcp.md).
+
 ## Migration Gate
 
 Each migrated service must have:

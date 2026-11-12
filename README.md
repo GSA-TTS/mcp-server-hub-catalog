@@ -19,6 +19,7 @@ only `catalog/cloudgov/*.yaml`.
 | ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |
 | NCBI E-Utils | Internal cloud.gov app | [`ncbi_eutils.yaml`](catalog/cloudgov/ncbi_eutils.yaml) | [`ncbi_eutils_vmcp.yaml`](catalog/cloudgov/ncbi_eutils_vmcp.yaml) | Live verification pending |
 | DIU Solutions Catalog | Internal cloud.gov app | [`diu_solutions.yaml`](catalog/cloudgov/diu_solutions.yaml) | [`diu_solutions_vmcp.yaml`](catalog/cloudgov/diu_solutions_vmcp.yaml) | Live verification pending |
+| NEPA Applications | Composed vMCP; existing internal apps | 15 existing NEPA components below | [`nepa_applications_vmcp.yaml`](catalog/cloudgov/nepa_applications_vmcp.yaml) | Aggregate live verification pending |
 | NEPA BLM | Internal cloud.gov app | [`nepa_blm.yaml`](catalog/cloudgov/nepa_blm.yaml) | [`nepa_blm_vmcp.yaml`](catalog/cloudgov/nepa_blm_vmcp.yaml) | Live tested |
 | NEPA CFR | Internal cloud.gov app | [`nepa_cfr.yaml`](catalog/cloudgov/nepa_cfr.yaml) | [`nepa_cfr_vmcp.yaml`](catalog/cloudgov/nepa_cfr_vmcp.yaml) | Live tested |
 | NEPA EFH | Internal cloud.gov app | [`nepa_efh.yaml`](catalog/cloudgov/nepa_efh.yaml) | [`nepa_efh_vmcp.yaml`](catalog/cloudgov/nepa_efh_vmcp.yaml) | Live tested |
@@ -40,6 +41,12 @@ Each service is represented by:
 - a `runtime: remote` component entry pointing to an `apps.internal` endpoint;
 - a user-facing `type: vmcp` product with profiles and tool permissions; and
 - an internal cloud.gov app protected by a C2C network policy.
+
+[NEPA Applications](docs/servers/nepa_applications.md) is an additional
+workflow-specific product composing all 15 NEPA components and exposing all
+their tools to authenticated Obot users. It adds no application and leaves
+the individual NEPA products unchanged. Membership is explicit; future tools
+on included components are also exposed.
 
 Users connect to the authenticated vMCP endpoint:
 
@@ -76,6 +83,7 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── nih_reporter*.yaml         # NIH RePORTER component and vMCP
 │   ├── nih_clinicaltrials*.yaml   # ClinicalTrials.gov component and vMCP
 │   ├── ncbi_eutils*.yaml          # NCBI E-Utils component and vMCP
+│   ├── nepa_applications_vmcp.yaml # aggregate NEPA workflow product
 │   ├── nepa_blm*.yaml             # NEPA BLM component and vMCP
 │   ├── nepa_cfr*.yaml             # NEPA CFR component and vMCP
 │   ├── nepa_efh*.yaml             # NEPA EFH component and vMCP
@@ -93,6 +101,7 @@ should not be merged back unless they also apply to cloud.gov.
 │   └── nepa_usace*.yaml           # NEPA USACE component and vMCP
 ├── docs/
 │   ├── SCHEMA.md                  # generic Obot catalog field reference
+│   ├── decisions/                 # architectural and authorization decisions
 │   └── servers/                   # service documentation and migration history
 └── icons/                         # shared product icons
 ```

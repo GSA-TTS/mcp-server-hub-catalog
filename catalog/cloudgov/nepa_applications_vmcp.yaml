@@ -1,0 +1,92 @@
+type: vmcp
+entryKey: nepa-applications
+displayName: NEPA Applications
+description: |
+  Screen project locations, research environmental resources, and analyze
+  regulations with all tools from the 15 NEPA components in the GSA cloud.gov
+  MCP gateway. Supports early NEPA research, not official determinations,
+  consultation, or completed NEPA compliance. Pilot / proof of concept;
+  not authorized for production use.
+components:
+  - id: nepa-blm
+    name: NEPA BLM
+    mcpServerCatalogEntryKey: obot-nepa-blm
+  - id: nepa-cfr
+    name: NEPA CFR
+    mcpServerCatalogEntryKey: obot-nepa-cfr
+  - id: nepa-efh
+    name: NEPA EFH
+    mcpServerCatalogEntryKey: obot-nepa-efh
+  - id: nepa-epa-acres
+    name: NEPA EPA ACRES
+    mcpServerCatalogEntryKey: obot-nepa-epa-acres
+  - id: nepa-esa-ranges
+    name: NEPA ESA Ranges
+    mcpServerCatalogEntryKey: obot-nepa-esa-ranges
+  - id: nepa-fema-nfhl
+    name: NEPA FEMA NFHL
+    mcpServerCatalogEntryKey: obot-nepa-fema-nfhl
+  - id: nepa-gbif
+    name: NEPA GBIF
+    mcpServerCatalogEntryKey: obot-nepa-gbif
+  - id: nepa-ipac
+    name: NEPA IPaC
+    mcpServerCatalogEntryKey: obot-nepa-ipac
+  - id: nepa-noaa
+    name: NEPA NOAA Critical Habitat
+    mcpServerCatalogEntryKey: obot-nepa-noaa
+  - id: nepa-nrhp
+    name: NEPA NRHP
+    mcpServerCatalogEntryKey: obot-nepa-nrhp
+  - id: nepa-padus
+    name: NEPA USGS PAD-US
+    mcpServerCatalogEntryKey: obot-nepa-usgs-padus
+  - id: nepa-pcsrf
+    name: NEPA NOAA PCSRF
+    mcpServerCatalogEntryKey: obot-nepa-noaa-pcsrf
+  - id: nepa-tigerweb-counties
+    name: NEPA Counties (TIGERweb)
+    mcpServerCatalogEntryKey: obot-nepa-tigerweb-counties
+  - id: nepa-tribal
+    name: NEPA Tribal Lands
+    mcpServerCatalogEntryKey: obot-nepa-tribal
+  - id: nepa-usace
+    name: NEPA USACE
+    mcpServerCatalogEntryKey: obot-nepa-usace
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        nepa-blm:
+          allowedTools: null
+        nepa-cfr:
+          allowedTools: null
+        nepa-efh:
+          allowedTools: null
+        nepa-epa-acres:
+          allowedTools: null
+        nepa-esa-ranges:
+          allowedTools: null
+        nepa-fema-nfhl:
+          allowedTools: null
+        nepa-gbif:
+          allowedTools: null
+        nepa-ipac:
+          allowedTools: null
+        nepa-noaa:
+          allowedTools: null
+        nepa-nrhp:
+          allowedTools: null
+        nepa-padus:
+          allowedTools: null
+        nepa-pcsrf:
+          allowedTools: null
+        nepa-tigerweb-counties:
+          allowedTools: null
+        nepa-tribal:
+          allowedTools: null
+        nepa-usace:
+          allowedTools: null
