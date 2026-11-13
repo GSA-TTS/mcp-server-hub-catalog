@@ -1,0 +1,62 @@
+name: FRED External Component
+entryKey: obot-fred
+serverUserType: singleUser
+shortDescription: External FRED MCP Connector operated by the Federal Reserve Bank of St. Louis; outside the GSA hub boundary
+description: |
+  Administrative component for the official FRED MCP Connector, operated by
+  the Research Division of the Federal Reserve Bank of St. Louis. Users launch
+  the FRED vMCP, not this implementation entry. This is not a GSA-hosted server
+  or a third-party community implementation of the FRED API.
+
+  ## External service — outside the GSA hub boundary
+  Obot connects to https://mcp.stlouisfed.org over public HTTPS. Tool requests
+  and arguments leave the GSA hub boundary; upstream authentication, operation,
+  availability, and data handling are controlled by the provider. Listing does
+  not establish GSA authorization or approval for sensitive data. Do not submit
+  PII, CUI, credentials, or nonpublic government information without approval.
+
+  ## Features
+  - Search economic time series and inspect units, frequency, sources, and notes.
+  - Retrieve current or historical observations with transformations and aggregation.
+  - Create interactive FRED graphs comparing up to five series.
+  - Generate CSV or JSON download links.
+
+  ## What you'll need to connect
+  The connector is free and requires a free FRED MCP Connector account,
+  separate from an existing FRED user account. Sign up or sign in through the
+  provider's authorization flow and authorize your AI assistant. Each assistant
+  needs its own authorization, but you can reuse the same connector account.
+  No FRED API key is required. Do not enter account credentials into catalog
+  configuration. Obot authentication does not replace upstream FRED sign-in.
+  Gateway OAuth compatibility and per-user isolation are not yet live verified.
+
+  ## Examples
+  - "What is the latest unemployment rate?"
+  - "Compare CPI and PCE inflation."
+  - "Graph the federal funds rate since 1990."
+  - "Download monthly unemployment since 1980 as CSV."
+
+  ## Limitations
+  Economic statistics can be revised. Verify series definitions, units,
+  observation dates, sources, and as-of dates (realtime_start/realtime_end).
+  A missing observation (".") is not zero. AI-generated analysis can be wrong.
+  FRED provides economic data, not financial, investment, legal, or policy advice.
+  Hub integration is a pilot; not authorized for production use.
+metadata:
+  categories: Economics, Research, Government
+  allow-multiple: "false"
+repoURL: https://fred.stlouisfed.org
+runtime: remote
+remoteConfig:
+  fixedURL: https://mcp.stlouisfed.org
+toolPreview:
+  - name: fred-search-series
+    description: Search FRED economic time series using keywords or concepts.
+  - name: fred-get-series-metadata
+    description: Retrieve series units, frequency, seasonal adjustment, source, and notes.
+  - name: fred-get-series-observations
+    description: Retrieve observations with optional date range, transformation, or frequency aggregation.
+  - name: fred-download-series-observations-link
+    description: Generate a CSV or JSON download link with observation retrieval options.
+  - name: fred-graph-series
+    description: Create an interactive FRED graph comparing up to five series.

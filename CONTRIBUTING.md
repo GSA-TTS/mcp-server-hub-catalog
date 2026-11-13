@@ -85,6 +85,32 @@ The migration gate requires:
 The client URL is `https://<obot-host>/mcp-connect/<vmcp-id>` with no `/mcp`
 suffix.
 
+## List an External Provider
+
+An externally operated server is not an internal cloud.gov migration. FRED is
+the explicit example: the official provider's `https://mcp.stlouisfed.org`
+endpoint remains outside the GSA hub boundary even when proxied through Obot.
+
+- Keep the remote component and paired vMCP under `catalog/cloudgov/`; use an
+  implementation-oriented component name and a user-facing product name.
+- Disclose the operator, external endpoint, boundary crossing, account
+  requirements, and sensitive-input restrictions in both listings and docs.
+- Use the exact provider endpoint. For per-user upstream authorization, declare
+  `singleUser`; do not configure shared accounts, passwords, or manual tokens.
+  Do not invent API-key fields when none are required.
+- Use an explicit tool allowlist and document an external-service decision
+  record. Review provider terms/privacy, data flows, and required egress before use.
+- Verify live MCP initialization, authorization discovery, upstream OAuth,
+  isolation across users, revocation/reauthorization, `tools/list`, real tool
+  calls, external-client access, and unauthenticated rejection. Internal-app
+  routing/C2C and `/health` checks do not apply to an external provider.
+- Track blocked acceptance in the service document or feature issue/PR and
+  never describe static validation as a live integration pass.
+
+Listing does not approve a provider for production or sensitive government
+data. Deployment, egress, or authentication changes require separate approval.
+See [FRED](docs/servers/fred.md) for the current blocked acceptance record.
+
 ## Maintain the AWS Pilot
 
 AWS break/fix changes start from `aws`. That branch retains one containerized

@@ -14,6 +14,7 @@ only `catalog/cloudgov/*.yaml`.
 
 | Product | Runtime | Component | Product definition | Status |
 |---|---|---|---|---|
+| FRED | External provider HTTPS; outside hub boundary | [`fred.yaml`](catalog/cloudgov/fred.yaml) | [`fred_vmcp.yaml`](catalog/cloudgov/fred_vmcp.yaml) | Live connectivity/OAuth verification blocked |
 | CDC PLACES | Internal cloud.gov app | [`cdc_places.yaml`](catalog/cloudgov/cdc_places.yaml) | [`cdc_places_vmcp.yaml`](catalog/cloudgov/cdc_places_vmcp.yaml) | Live tested |
 | NIH RePORTER | Internal cloud.gov app | [`nih_reporter.yaml`](catalog/cloudgov/nih_reporter.yaml) | [`nih_reporter_vmcp.yaml`](catalog/cloudgov/nih_reporter_vmcp.yaml) | Live verification pending |
 | ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |
@@ -36,11 +37,18 @@ only `catalog/cloudgov/*.yaml`.
 | NEPA Tribal Lands | Internal cloud.gov app | [`nepa_tribal.yaml`](catalog/cloudgov/nepa_tribal.yaml) | [`nepa_tribal_vmcp.yaml`](catalog/cloudgov/nepa_tribal_vmcp.yaml) | Live tested |
 | NEPA USACE | Internal cloud.gov app | [`nepa_usace.yaml`](catalog/cloudgov/nepa_usace.yaml) | [`nepa_usace_vmcp.yaml`](catalog/cloudgov/nepa_usace_vmcp.yaml) | Live tested |
 
-Each service is represented by:
+Each internally hosted service is represented by:
 
 - a `runtime: remote` component entry pointing to an `apps.internal` endpoint;
 - a user-facing `type: vmcp` product with profiles and tool permissions; and
 - an internal cloud.gov app protected by a C2C network policy.
+
+[FRED](docs/servers/fred.md) is an explicit external-service exception. Its
+official connector is operated by the Federal Reserve Bank of St. Louis at
+`https://mcp.stlouisfed.org`, outside the GSA hub boundary. It uses a remote
+component and vMCP, but no GSA-hosted app or upstream C2C protection. Requests
+leave the hub boundary. A separate, free FRED MCP Connector account is required;
+no FRED API key is needed. Catalog inclusion is not approval for sensitive data.
 
 [NEPA Applications](docs/servers/nepa_applications.md) is an additional
 workflow-specific product composing all 15 NEPA components and exposing all
@@ -80,6 +88,7 @@ should not be merged back unless they also apply to cloud.gov.
 │   ├── README.md                  # cloud.gov architecture and migration gate
 │   ├── cdc_places.yaml            # internal remote component
 │   ├── cdc_places_vmcp.yaml       # user-facing vMCP product
+│   ├── fred*.yaml                 # external FRED component and vMCP
 │   ├── nih_reporter*.yaml         # NIH RePORTER component and vMCP
 │   ├── nih_clinicaltrials*.yaml   # ClinicalTrials.gov component and vMCP
 │   ├── ncbi_eutils*.yaml          # NCBI E-Utils component and vMCP
@@ -108,6 +117,8 @@ should not be merged back unless they also apply to cloud.gov.
 
 ## Contributing
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md). A cloud.gov addition is not complete
-until its app, C2C policy, component entry, vMCP, gateway tool calls, and a real
-external client connection are all verified.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). An internal cloud.gov addition is not
+complete until its app, C2C policy, component entry, vMCP, gateway tool calls,
+and a real external client connection are all verified. External services
+require boundary review and live upstream authorization, isolation, tool-call,
+and external-client verification instead of internal app/C2C checks.
