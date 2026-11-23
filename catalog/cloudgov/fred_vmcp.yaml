@@ -15,7 +15,8 @@ description: |
   Free; requires a separate FRED MCP Connector account and upstream sign-in.
   An existing FRED user account will not work; no FRED API key is required.
   Authenticate to Obot and separately authorize access to FRED when prompted.
-  Gateway OAuth compatibility and per-user isolation remain unverified.
+  All live acceptance checks, including gateway OAuth compatibility and per-user
+  isolation, passed according to human testing reported on 2026-11-23.
 
   Search series, inspect metadata, retrieve observations, create graphs with
   up to five series, and generate CSV or JSON download links. Try "What is the
@@ -24,7 +25,7 @@ description: |
   Economic statistics are revised; verify sources, definitions, units, dates,
   and as-of dates. AI analysis can contain mistakes. FRED provides data, not
   financial, investment, legal, or policy advice. Hub integration is a pilot;
-  not authorized for production use. Live verification is pending.
+  not authorized for production use. Live tested (human-reported, 2026-11-23).
 components:
   - id: fred
     name: FRED

@@ -14,7 +14,7 @@ only `catalog/cloudgov/*.yaml`.
 
 | Product | Runtime | Component | Product definition | Status |
 |---|---|---|---|---|
-| FRED | External provider HTTPS; outside hub boundary | [`fred.yaml`](catalog/cloudgov/fred.yaml) | [`fred_vmcp.yaml`](catalog/cloudgov/fred_vmcp.yaml) | Live connectivity/OAuth verification blocked |
+| FRED | External provider HTTPS; outside hub boundary | [`fred.yaml`](catalog/cloudgov/fred.yaml) | [`fred_vmcp.yaml`](catalog/cloudgov/fred_vmcp.yaml) | Live tested (human-reported, 2026-11-23) |
 | CDC PLACES | Internal cloud.gov app | [`cdc_places.yaml`](catalog/cloudgov/cdc_places.yaml) | [`cdc_places_vmcp.yaml`](catalog/cloudgov/cdc_places_vmcp.yaml) | Live tested |
 | NIH RePORTER | Internal cloud.gov app | [`nih_reporter.yaml`](catalog/cloudgov/nih_reporter.yaml) | [`nih_reporter_vmcp.yaml`](catalog/cloudgov/nih_reporter_vmcp.yaml) | Live verification pending |
 | ClinicalTrials.gov | Internal cloud.gov app | [`nih_clinicaltrials.yaml`](catalog/cloudgov/nih_clinicaltrials.yaml) | [`nih_clinicaltrials_vmcp.yaml`](catalog/cloudgov/nih_clinicaltrials_vmcp.yaml) | Live verification pending |

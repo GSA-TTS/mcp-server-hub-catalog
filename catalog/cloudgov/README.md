@@ -112,7 +112,8 @@ HTTPS egress, live MCP initialization and authorization discovery, upstream
 OAuth with per-user isolation and revocation checks, `tools/list`, real
 `tools/call`, external-client access, and unauthenticated rejection. Do not
 invent a provider `/health` path. No deployment or network policy is changed by
-this listing. Live verification is blocked; see the durable
+this listing. All live acceptance checks passed according to human testing
+reported on 2026-11-23; no raw test outputs were supplied to the AI agent. See the durable
 [acceptance record](../../docs/servers/fred.md) and
 [proposed decision](../../docs/decisions/0002-fred-external-remote.md).
 
