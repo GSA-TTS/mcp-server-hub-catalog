@@ -70,11 +70,13 @@ them can disrupt reconciliation, saved configuration, and client connections.
 ### 4. Document and validate
 
 Add or update `docs/servers/<name>.md`, the active table in `README.md`, and an
-icon under `icons/` when needed.
+icon under `icons/`. Logos are required, not optional; see
+[Required Catalog Logos](#required-catalog-logos).
 
 The migration gate requires:
 
 - valid YAML and unique keys;
+- a normalized logo and matching `icon` references on the component and vMCP;
 - no legacy `env`, `remoteConfig.headers`, or
   `multiUserConfig.userDefinedHeaders` fields;
 - internal-only routing and the expected C2C policy;
@@ -119,6 +121,37 @@ version-pinned, and compatible with `linux/amd64`.
 
 Do not add new products to AWS unless required to maintain pilot parity. New
 services target cloud.gov on `main`.
+
+## Required Catalog Logos
+
+Every new catalog component and user-facing product must include a logo,
+including external providers and aggregate vMCPs. Use a maintainer-provided or
+appropriately licensed source; if none is available, obtain one before submitting
+the listing rather than silently omitting the logo.
+
+Normalize the source with `scripts/make_icon.py` to a centered, transparent-padded
+**128x128 PNG**, preserving aspect ratio. Save the normalized image as
+`icons/<service>.png`; preserve raw source files unless the maintainer requests
+otherwise. Run the script in an environment with an approved, pinned Pillow
+version installed:
+
+```bash
+python scripts/make_icon.py <source-image> icons/<service>.png
+```
+
+Set the same top-level field on both the component and paired vMCP:
+
+```yaml
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/<service>.png
+```
+
+Standalone products must also set `icon`. Before opening a PR, verify that the
+image is a readable 128x128 PNG, the referenced local file exists and is included
+in the change (or already tracked), and every new manifest has the correct
+`icon` URL. Include results in the verification transcript. The `main` URL for a
+new image will become available after merge; inspect the branch-local image
+before then. This requirement also applies to the AWS pilot when maintaining
+its catalog entries.
 
 ## Field Conventions
 
