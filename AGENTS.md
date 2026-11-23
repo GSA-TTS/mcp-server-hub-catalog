@@ -32,6 +32,19 @@ disagree on deployment architecture, `catalog/cloudgov/README.md` wins.
 - Keep component/vMCP identifiers stable.
 - Do not create unrestricted aggregate vMCPs without a concrete workflow.
 
+## Required Catalog Logos
+
+- Every new catalog component and user-facing product must have a logo; this
+  includes external services and aggregate vMCPs. Do not submit a logo-less
+  listing. If no appropriate logo is available, ask the maintainer for one.
+- Normalize logos to centered, transparent-padded 128x128 PNGs under
+  `icons/<service>.png` using `scripts/make_icon.py`. Preserve aspect ratio and
+  use a maintainer-provided or appropriately licensed source.
+- Set top-level `icon` on both the component and its paired vMCP to the same
+  repository-hosted URL. Standalone products also require their own `icon`.
+- Verify PNG format, dimensions, local file existence, and icon references
+  before creating a PR. Include the logo verification results in the PR.
+
 ## AWS Branch Rules
 
 - Preserve root containerized entries and existing behavior.

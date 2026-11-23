@@ -1,6 +1,7 @@
 type: vmcp
 entryKey: fred
 displayName: FRED
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/fred.png
 description: |
   Search, analyze, and chart FRED economic data using the official FRED MCP
   Connector operated by the Federal Reserve Bank of St. Louis.

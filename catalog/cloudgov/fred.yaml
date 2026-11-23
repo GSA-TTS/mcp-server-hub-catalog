@@ -46,6 +46,7 @@ metadata:
   categories: Economics, Research, Government
   allow-multiple: "false"
 repoURL: https://fred.stlouisfed.org
+icon: https://raw.githubusercontent.com/GSA-TTS/mcp-server-hub-catalog/main/icons/fred.png
 runtime: remote
 remoteConfig:
   fixedURL: https://mcp.stlouisfed.org
