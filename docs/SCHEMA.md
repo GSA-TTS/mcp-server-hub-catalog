@@ -39,6 +39,19 @@ network policy.
 |-------|------|-------------|
 | `fixedURL` | string (URL) | The fixed MCP endpoint the gateway connects to (e.g. `https://<app>.app.cloud.gov/mcp` or `http://<app>.apps.internal:8080/mcp`). |
 
+For provider-hosted remote services with per-user authorization, use
+`serverUserType: singleUser`. This declares user-specific connections; it does
+not prove gateway OAuth compatibility or token isolation. Use Obot's upstream
+authorization flow rather than collecting provider passwords or manually
+configuring authorization headers. Omit `config` when the provider requires
+no user-supplied configuration or API key.
+
+Use the exact provider URL; not every MCP endpoint ends in `/mcp`. FRED uses
+`https://mcp.stlouisfed.org`. Clearly disclose external operation and boundary
+crossing in both component and product descriptions. See the
+[external-service architecture](../catalog/cloudgov/README.md) and
+[FRED acceptance record](servers/fred.md).
+
 ### `containerizedConfig` (required when `runtime: containerized`)
 
 A `containerized` server is hosted **by the gateway itself**: the gateway pulls

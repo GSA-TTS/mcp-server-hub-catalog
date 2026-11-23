@@ -1,0 +1,44 @@
+type: vmcp
+entryKey: fred
+displayName: FRED
+description: |
+  Search, analyze, and chart FRED economic data using the official FRED MCP
+  Connector operated by the Federal Reserve Bank of St. Louis.
+
+  External service: https://mcp.stlouisfed.org is outside the GSA hub boundary,
+  not hosted or operated by GSA. Tool requests and arguments are sent to the
+  provider over public HTTPS. Do not send PII, CUI, credentials, or nonpublic
+  government information without authorization. Catalog inclusion is not
+  approval of the external service for sensitive data or production use.
+
+  Free; requires a separate FRED MCP Connector account and upstream sign-in.
+  An existing FRED user account will not work; no FRED API key is required.
+  Authenticate to Obot and separately authorize access to FRED when prompted.
+  Gateway OAuth compatibility and per-user isolation remain unverified.
+
+  Search series, inspect metadata, retrieve observations, create graphs with
+  up to five series, and generate CSV or JSON download links. Try "What is the
+  latest unemployment rate?" or "Compare CPI and PCE inflation."
+
+  Economic statistics are revised; verify sources, definitions, units, dates,
+  and as-of dates. AI analysis can contain mistakes. FRED provides data, not
+  financial, investment, legal, or policy advice. Hub integration is a pilot;
+  not authorized for production use. Live verification is pending.
+components:
+  - id: fred
+    name: FRED
+    mcpServerCatalogEntryKey: obot-fred
+profiles:
+  - name: everyone
+    subjects:
+      - type: selector
+        id: "*"
+    vmcpPermissions:
+      allowedComponents:
+        fred:
+          allowedTools:
+            - fred-search-series
+            - fred-get-series-metadata
+            - fred-get-series-observations
+            - fred-download-series-observations-link
+            - fred-graph-series

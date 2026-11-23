@@ -13,7 +13,8 @@ Treat each migrated service as a pair in this directory:
 - a launchable `type: vmcp` describing the user-facing product.
 
 Users launch the vMCP. The component entry tells Obot how to reach the internal
-application and can be composed by one or more vMCPs.
+application (or an explicitly documented external provider) and can be composed
+by one or more vMCPs. The following diagram describes internal applications:
 
 ```text
 MCP client
@@ -67,6 +68,8 @@ See the [product documentation](../../docs/servers/nepa_applications.md) and
 
 ## Migration Gate
 
+This gate applies to internally hosted applications, not external providers.
+
 Each migrated service must have:
 
 - an `apps.internal` route and no public application route;
@@ -75,6 +78,43 @@ Each migrated service must have:
 - successful `/health`, `tools/list`, and real `tools/call` verification; and
 - a successful connection from a real external MCP client using the exact vMCP
   URL.
+
+## External Provider Exception: FRED
+
+The [FRED component](fred.yaml) and [FRED product](fred_vmcp.yaml) list the
+official Federal Reserve Bank of St. Louis connector at
+`https://mcp.stlouisfed.org`. The directory name identifies the gateway catalog,
+not the upstream hosting location. FRED is **outside the GSA hub boundary**:
+
+```text
+MCP client -- authenticated HTTPS --> Obot FRED vMCP
+                                           |
+                                           | public HTTPS; crosses hub boundary
+                                           v
+                                External FRED MCP Connector
+```
+
+The upstream hop has no GSA `apps.internal` route or C2C policy. The provider
+controls upstream accounts, authorization, operation, and data handling. The
+component uses `singleUser` for separate FRED MCP Connector authorizations;
+no API key or shared credentials are configured. Obot authentication and the
+provider's sign-in are separate. OAuth compatibility and per-user isolation
+must be established live, not inferred from the manifest.
+
+Both catalog descriptions disclose the boundary. Use public research inputs
+only; do not send sensitive or nonpublic government information without
+authorization. Catalog inclusion does not establish production or sensitive-data
+approval. The vMCP explicitly allowlists five tools for authenticated users;
+future tools require review.
+
+External-service acceptance requires reviewed boundary/data flows and permitted
+HTTPS egress, live MCP initialization and authorization discovery, upstream
+OAuth with per-user isolation and revocation checks, `tools/list`, real
+`tools/call`, external-client access, and unauthenticated rejection. Do not
+invent a provider `/health` path. No deployment or network policy is changed by
+this listing. Live verification is blocked; see the durable
+[acceptance record](../../docs/servers/fred.md) and
+[proposed decision](../../docs/decisions/0002-fred-external-remote.md).
 
 ## Legacy AWS Catalog
 
