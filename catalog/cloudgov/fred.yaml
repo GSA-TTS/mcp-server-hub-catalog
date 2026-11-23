@@ -28,7 +28,8 @@ description: |
   needs its own authorization, but you can reuse the same connector account.
   No FRED API key is required. Do not enter account credentials into catalog
   configuration. Obot authentication does not replace upstream FRED sign-in.
-  Gateway OAuth compatibility and per-user isolation are not yet live verified.
+  All live acceptance checks, including gateway OAuth compatibility and per-user
+  isolation, passed according to human testing reported on 2026-11-23.
 
   ## Examples
   - "What is the latest unemployment rate?"

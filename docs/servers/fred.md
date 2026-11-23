@@ -3,7 +3,7 @@ title: "FRED MCP Connector"
 description: "Official externally operated FRED connector listing and hub acceptance gate"
 status: draft
 tier: 2
-last_updated: "2026-11-13"
+last_updated: "2026-11-23"
 related_files:
   - catalog/cloudgov/fred.yaml
   - catalog/cloudgov/fred_vmcp.yaml
@@ -14,9 +14,9 @@ related_files:
 # FRED MCP Connector
 
 > **Status:** Hub integration pilot; not authorized for production use.
-> Live connectivity, upstream OAuth, and per-user isolation verification are
-> **BLOCKED / pending**. The provider's existing deployment is not evidence
-> that the Obot integration works.
+> **Live tested (human-reported, 2026-11-23):** The maintainer reported that all
+> live acceptance checks passed. The AI agent did not execute these tests or
+> receive raw test outputs; see the verification record below.
 
 ## Provider and boundary
 
@@ -99,10 +99,30 @@ Example prompts:
 
 ## Live acceptance gate and verification record
 
-This gate is the durable, repository-local change-tracking record for blocked
-FRED acceptance work. Owner: repository maintainers. Trigger: approved gateway
-test access, a FRED MCP Connector test account, and permitted upstream egress.
-Capture actual results, without credentials or sensitive response metadata:
+This is the durable, repository-local record for FRED acceptance. On 2026-11-23,
+the requesting maintainer reported live testing through the catalog, working
+tools, and that **all checks passed**. The table records that human report,
+not an AI-executed verification transcript. Raw test outputs, client identity,
+and detailed test inputs were not supplied to the AI agent.
+
+| Acceptance check | Result reported on 2026-11-23 |
+|---|---|
+| Catalog synchronization and FRED launch | PASS (human-reported) |
+| Permitted HTTPS egress, MCP initialization, authentication discovery, and upstream OAuth through Obot | PASS (human-reported) |
+| Live `tools/list` matches the five-tool allowlist; no additional tools exposed | PASS (human-reported) |
+| Real calls covering search, metadata, observations, download link, and graph | PASS (human-reported) |
+| Real external-client connection using the gateway-issued URL | PASS (human-reported) |
+| Unauthenticated rejection, two-user authorization isolation, and upstream revocation/reauthorization | PASS (human-reported) |
+
+All previously blocked acceptance steps are recorded as passed on this basis.
+This does not grant production or sensitive-data authorization, accept the
+proposed ADR, or establish that every client or future upstream release works.
+
+### Repeatable acceptance procedure
+
+For future validation, repository maintainers need approved gateway test access,
+a FRED MCP Connector test account, and permitted upstream egress. Capture actual
+results without credentials or sensitive response metadata:
 
 1. Synchronize the catalog and launch FRED successfully.
 2. Verify permitted HTTPS egress, MCP initialization, authentication discovery,
@@ -117,14 +137,17 @@ Capture actual results, without credentials or sensitive response metadata:
    authorizations, and upstream revocation/reauthorization behavior. Do not
    assume a scoped Obot API key bypasses FRED authorization.
 
+### Earlier agent-side attempts (2026-11-13)
+
 On 2026-11-13, `git fetch origin main` succeeded. Fetching the assumed provider
 documentation URL `https://fred.stlouisfed.org/mcp` failed with a transport error;
 its path remains unconfirmed. A TLS-verified request to
 `https://mcp.stlouisfed.org/.well-known/oauth-protected-resource` failed to connect
 (curl exit 7). No discovery response, tool inventory, or OAuth result was
 observed. Descriptions and tool names come from the user-supplied website and
-directory text. Re-run this gate when the trigger conditions are met; do not
-mark the product live tested based on static validation.
+directory text. These earlier environment failures are preserved as history;
+they are not the current status of the maintainer-tested hub integration.
+Static validation alone does not prove live behavior.
 
 ## Rollback and review
 
